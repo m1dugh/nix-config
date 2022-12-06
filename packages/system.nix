@@ -18,6 +18,8 @@ in
   };
 
   environment.systemPackages = with pkgs; [
+    feh
+    xss-lock
     nvidia-offload
     # dev
     git

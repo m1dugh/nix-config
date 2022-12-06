@@ -13,6 +13,10 @@
     group = "midugh";
     extraGroups = [ "wheel" "networkmanager" "docker" ]; # Enable ‘sudo’ for the user.
       packages = with pkgs; [
+        krb5
+        sshfs
+        git-lfs
+        imagemagick
         firefox
         brave
         discord
