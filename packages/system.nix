@@ -28,11 +28,13 @@ in
     alacritty
     gcc
     gnumake
+    gdb
 
     # utils
     wget
     curl
     xorg.xkill
+    htop
   ];
   environment.shells = with pkgs; [zsh];
 }
