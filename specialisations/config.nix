@@ -2,6 +2,6 @@
 
 {
   imports = [
-    ./external-display.nix
+   ./external-display.nix
   ];
 }

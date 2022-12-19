@@ -8,7 +8,7 @@
         xkbVariant = "altgr-intl";
         xkbOptions = "nodeadkeys";
         displayManager.defaultSession = "xfce+i3";
-        videoDrivers = ["modesetting"];
+        videoDrivers = ["nvidia"];
         desktopManager = {
             xterm.enable = false;
             xfce = {
@@ -23,8 +23,8 @@
             package = pkgs.i3-gaps;
             extraPackages = with pkgs; [
                 dmenu
-                i3lock
-                i3status
+                    i3lock
+                    i3status
             ];
         };
 

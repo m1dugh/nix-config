@@ -2,16 +2,24 @@
 
 {
     virtualisation.docker.enable = true;
+    virtualisation.virtualbox.host.enable = true;
+    virtualisation.virtualbox.host.enableExtensionPack = true;
+    users.extraGroups.vboxusers.members = ["midugh"];
 # Enable sound.
     sound.enable = true;
     hardware = {
         bluetooth.enable = true;
         pulseaudio.enable = true;
         opengl.enable = true;
-        nvidia.prime = {
-            offload.enable = true;
-            intelBusId = "PCI:0:2:0";
-            nvidiaBusId = "PCI:1:0:0";
+        nvidia = {
+            prime = {
+                sync.enable = true;
+                offload.enable = false;
+                intelBusId = "PCI:0:2:0";
+                nvidiaBusId = "PCI:1:0:0";
+            };
+            powerManagement.enable = false;
         };
+
     };
 }

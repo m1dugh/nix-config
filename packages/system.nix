@@ -20,7 +20,7 @@ in
   environment.systemPackages = with pkgs; [
     feh
     xss-lock
-    nvidia-offload
+    # nvidia-offload
     # dev
     git
     vim

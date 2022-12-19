@@ -22,6 +22,7 @@
         discord
         playerctl
         gparted
+        virt-manager
       ];
   };
 }

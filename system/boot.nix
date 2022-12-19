@@ -1,6 +1,8 @@
 { config, ... }:
 
 {
+
+    boot.kernelModules = ["kvm-intel"];
     boot.loader = {
         efi = {
             canTouchEfiVariables = true;
