@@ -23,6 +23,7 @@
         playerctl
         gparted
         virt-manager
+        teams
       ];
   };
 }
