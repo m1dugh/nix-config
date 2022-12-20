@@ -7,6 +7,5 @@
         ./users/config.nix
         ./packages/config.nix
         ./system/config.nix
-        # ./specialisations/config.nix
     ];
 }
