@@ -20,10 +20,10 @@
         lib = nixpkgs.lib;
     in {
         nixosConfigurations = {
-            midugh-nixos = lib.nixosSystem {
+            midugh = lib.nixosSystem {
                 inherit system;
                 modules = [
-                    ./config.nix
+                    ./configuration.nix
                 ];
             };
         };
