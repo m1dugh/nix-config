@@ -25,4 +25,23 @@
             teams
         ];
     };
+
+    programs.git = {
+        enable = true;
+        userName = "m1dugh";
+        userEmail = "romain.le-miere@epita.fr";
+    };
+
+    programs.zsh = {
+        enable = true;
+        oh-my-zsh = {
+            enable = true;
+            plugins = [
+                "git"
+            ];
+            theme = "robbyrussel";
+        };
+    };
+    programs.home-manager.enable = true;
+
 }
