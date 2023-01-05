@@ -1,5 +1,11 @@
 
-{ config, pkgs, ... }:
+{
+    system,
+    config,
+    home-manager,
+    pkgs,
+    ...
+}:
 
 {
   programs.zsh.enable = true;
