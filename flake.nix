@@ -32,21 +32,6 @@
                 inherit (self) inputs;
                 inherit system pkgs username home-manager;
             }
-            # midugh = lib.nixosSystem {
-            #    inherit pkgs;
-            #    inherit (nixpkgs) lib;
-            #    inherit system;
-            #    modules = [
-            #        ./configuration.nix
-            #        home-manager.nixosModules.home-manager {
-            #            home-manager.useGlobalPkgs = true;
-            #            home-manager.useUserPackages = true;
-            #            home-manager.users.${username} = {
-            #                imports = [ ./users/midugh.nix ];
-            #            };
-            #        }
-            #    ];
-            # };
         );
     };
 }
