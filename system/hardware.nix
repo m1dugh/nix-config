@@ -1,7 +1,13 @@
 { config, ... }:
 
 {
-    virtualisation.docker.enable = true;
+    virtualisation.docker = {
+        enable = true;
+        daemon.settings = {
+            features.buildkit = true;
+        };
+    };
+
     virtualisation.virtualbox.host.enable = true;
     virtualisation.virtualbox.host.enableExtensionPack = true;
     users.extraGroups.vboxusers.members = ["midugh"];

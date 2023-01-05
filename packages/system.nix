@@ -18,6 +18,7 @@ in
   };
 
   environment.systemPackages = with pkgs; [
+    docker-compose
     feh
     xss-lock
     # nvidia-offload
@@ -29,12 +30,14 @@ in
     gcc
     gnumake
     gdb
+    python39
 
     # utils
     wget
     curl
     xorg.xkill
     htop
+    pciutils
   ];
   environment.shells = with pkgs; [zsh];
 }
