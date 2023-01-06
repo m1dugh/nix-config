@@ -26,7 +26,7 @@
     networking.networkmanager.enable = true;
     networking.extraHosts = 
         ''
-        midugh-raspberrypi.home raspi
+        midugh-raspberrypi raspi
         '';
 
     services.xserver = {
