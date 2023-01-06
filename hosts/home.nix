@@ -44,4 +44,9 @@
     };
     programs.home-manager.enable = true;
 
+    xfconf.settings = {
+        xfce4-session = {
+            "general/LockCommand" = "${pkgs.i3lock}/bin/i3lock";
+        };
+    };
 }

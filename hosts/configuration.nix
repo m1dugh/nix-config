@@ -35,6 +35,25 @@
         xkbVariant = "altgr-intl";
         xkbOptions = "nodeadkeys";
 
+        displayManager.defaultSession = "xfce+i3";
+        desktopManager = {
+            xterm.enable = false;
+            xfce = {
+                enable = true;
+                noDesktop = true;
+                enableXfwm = false;
+            };
+        };
+        windowManager.i3 = {
+            enable = true;
+            package = pkgs.i3-gaps;
+            extraPackages = with pkgs; [
+                dmenu
+                i3lock
+                i3status
+            ];
+        };
+
         libinput = {
             enable = true;
             mouse.naturalScrolling = false;

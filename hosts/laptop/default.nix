@@ -49,26 +49,7 @@
     };
 
     services.xserver = {
-        enable = true;
-        displayManager.defaultSession = "xfce+i3";
         videoDrivers = ["nvidia"];
-        desktopManager = {
-            xterm.enable = false;
-            xfce = {
-                enable = true;
-                noDesktop = true;
-                enableXfwm = false;
-            };
-        };
-        windowManager.i3 = {
-            enable = true;
-            package = pkgs.i3-gaps;
-            extraPackages = with pkgs; [
-                dmenu
-                i3lock
-                i3status
-            ];
-        };
         libinput.touchpad.accelSpeed = "-0.2";
     };
 
