@@ -65,8 +65,8 @@ in {
             };
 
             fonts = {
-                names = ["FiraSans"];
-# style = "";
+                names = ["DejaVu Sans Mono"];
+                style = "Bold Semi-Condensed";
                 size = 11.0;
             };
 
@@ -97,6 +97,11 @@ in {
                 statusCommand = "${pkgs.i3status}/bin/i3status";
                 position = "top";
                 trayOutput = "primary";
+                fonts = {
+                    names = ["FiraSans" "pango"];
+                    style = "Bold Semi-Condensed";
+                    size = 11.0;
+                };
             }
             ];
 
