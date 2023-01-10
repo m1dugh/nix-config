@@ -1,0 +1,39 @@
+* {
+    background-color: #202020;
+    foreground-color: #ff5c33;
+    text-color: @foreground-color;
+    border-color: @foreground-color;
+    height: 50%;
+}
+
+window {
+    border: 2;
+    border-radius: 8;
+}
+
+mainbox {
+    padding: 8;
+}
+
+inputbar {
+    spacing: 4;
+}
+
+listview {
+    cycle: false;
+}
+
+element selected {
+    text-color: @background-color;
+    background-color: @foreground-color;
+    border-radius: 3;
+}
+
+element-text, element-icon {
+    background-color: inherit;
+    text-color: inherit;
+}
+
+inputbar prompt {
+    enable: false;
+}

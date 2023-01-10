@@ -1,16 +1,17 @@
 {
     config,
-        lib,
-        pkgs,
-        home-manager,
-        username,
-        ...
+    lib,
+    pkgs,
+    home-manager,
+    username,
+    ...
 }:
 
 let
     config-root = "../../configs";
     i3-mod = "Mod4";
     wallpaper = ./wallpaper.jpg;
+    dmenu_command = "rofi -modi drun,run -show drun";
 in {
     home = {
         username = "${username}";
@@ -39,8 +40,11 @@ in {
             "gdbinit".source = ./. + "${config-root}/gdbinit";
             ".config/i3status/config".source = ./. + "${config-root}/i3status-config";
             ".config/alacritty/alacritty.yml".source = ./. + "${config-root}/alacritty.yml";
+            ".config/rofi/themes" = {
+                source = ./. + "${config-root}/rofi";
+                recursive = true;
+            };
         };
-
     };
 
     services.screen-locker = {
@@ -83,6 +87,9 @@ in {
                 "${modifier}+Control+Shift+Left" = "move workspace to output left";
                 "${modifier}+Control+Shift+Up" = "move workspace to output up";
                 "${modifier}+Control+Shift+Down" = "move workspace to output down";
+
+                "${modifier}+Shift+BackSpace" = "exec $lock_command";
+                "${modifier}+d" = ''exec "${dmenu_command}"'';
             };
 
             bars = [
@@ -110,7 +117,17 @@ in {
         };
         extraConfig = ''
             for_window [class="^.*"] border pixel 2
+            set $lock_command i3lock
             '';
+    };
+
+    programs.rofi = {
+        enable = true;
+        terminal = "${pkgs.alacritty}/bin/alacritty";
+        extraConfig = {
+            modi = "calc,drun,ssh";
+        };
+        theme = "themes/custom";
     };
 
     programs.git = {
