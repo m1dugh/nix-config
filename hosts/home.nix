@@ -10,7 +10,7 @@
 let
     config-root = "../../configs";
     i3-mod = "Mod4";
-    wallpaper = "../wallpapers/alpine-521.jpg";
+    wallpaper = ./wallpaper.jpg;
 in {
     home = {
         username = "${username}";
