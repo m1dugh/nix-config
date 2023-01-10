@@ -15,14 +15,18 @@
 
         packages = with pkgs; [
             git-lfs
-            imagemagick
-            firefox
-            brave
-            discord
             playerctl
             gparted
             virt-manager
+
+            discord
             teams
+
+            brave
+            firefox
+            
+            imagemagick
+            feh
         ];
     };
 
