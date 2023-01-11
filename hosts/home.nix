@@ -38,9 +38,15 @@ in {
         file = {
             ".vimrc".source = ./. + "${config-root}/vimrc";
             "gdbinit".source = ./. + "${config-root}/gdbinit";
-            ".config/i3status/config".source = ./. + "${config-root}/i3status-config";
-            ".config/alacritty/alacritty.yml".source = ./. + "${config-root}/alacritty.yml";
-            ".config/rofi/themes" = {
+            ".config/i3status/"= {
+                recursive = true;
+                source = ./. + "${config-root}/i3status";
+            };
+            ".config/alacritty/"={
+                recursive = true;
+                source = ./. + "${config-root}/alacritty";
+            };
+            ".config/rofi/" = {
                 source = ./. + "${config-root}/rofi";
                 recursive = true;
             };
@@ -132,7 +138,7 @@ in {
         extraConfig = {
             modi = "calc,drun,ssh";
         };
-        theme = "themes/custom";
+        theme = "themes/midugh-custom";
     };
 
     programs.git = {
@@ -150,6 +156,17 @@ in {
             ];
             theme = "robbyrussell";
         };
+        initExtra = ''
+            # Function to test whether the current shell is a nix-shell
+            function is_shell () {
+                if [ -n "$name" ];then
+                    echo "You are currently in nested shell ($name) !";
+                    return 0;
+                else;
+                    return 1;
+                fi
+            }
+            '';
     };
 
     programs.home-manager.enable = true;
