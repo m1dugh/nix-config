@@ -124,7 +124,6 @@ in {
             }
             ];
 
-
         };
         extraConfig = ''
             for_window [class="^.*"] border pixel 2
