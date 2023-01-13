@@ -33,6 +33,7 @@ in {
             imagemagick
             feh
             xss-lock
+            picom
         ];
 
         file = {
@@ -114,11 +115,6 @@ in {
             startup = [
             {
                 command = "${pkgs.feh}/bin/feh --bg-scale ${wallpaper}";
-                always = true;
-                notification = false;
-            }
-            {
-                command = "kill `${pkgs.procps}/bin/pidof xfce4-screensaver`";
                 always = true;
                 notification = false;
             }
