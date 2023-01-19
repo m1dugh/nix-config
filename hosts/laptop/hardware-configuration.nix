@@ -15,6 +15,16 @@
         options ec_sys write_support=1
     '';
     boot.extraModulePackages = [ ];
+    boot.kernelParams = [
+        "acpi_rev_override=1"
+        "acpi_osi=Linux"
+        "nouveau.modeset=0"
+        "pcie_aspm=force"
+        "drm.vblankoffdelay=1"
+        "scsi_mod.use_blk_mq=1"
+        "nouveau.runpm=0"
+        "mem_sleep_default=deep"
+    ];
 
     fileSystems."/" =
     { device = "/dev/disk/by-uuid/b8a3a5df-a55e-4ebb-b346-556d8e0e921f";

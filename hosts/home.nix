@@ -38,6 +38,10 @@ in {
 
         file = {
             ".vimrc".source = ./. + "${config-root}/vimrc";
+            ".config/nvim" = {
+                recursive = true;
+                source = ./. + "${config-root}/nvim";
+            };
             "gdbinit".source = ./. + "${config-root}/gdbinit";
             ".config/i3status/"= {
                 recursive = true;
@@ -165,6 +169,12 @@ in {
     };
 
     programs.home-manager.enable = true;
+
+    programs.neovim = {
+        enable = true;
+        viAlias = true;
+        vimAlias = true;
+    };
 
     xfconf.settings = {
         xfce4-session = {
