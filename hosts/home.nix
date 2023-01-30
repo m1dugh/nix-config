@@ -10,7 +10,7 @@
 let
     config-root = "../../configs";
     i3-mod = "Mod4";
-    wallpaper = ./wallpaper.jpg;
+    wallpaper = ./wallpapers/wallpaper.jpg;
     dmenu_command = "rofi -modi drun,run -show drun";
 in {
     home = {
@@ -26,6 +26,7 @@ in {
 
             discord
             teams
+            slack
 
             brave
             firefox
@@ -91,7 +92,7 @@ in {
                 "XF86AudioMicMute" = "exec --no-startup-id pactl set-sink-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status";
                 "XF86AudioPlay" = "exec --no-startup-id playerctl play-pause";
                 "XF86AudioNext" = "exec --no-startup-id playerctl next";
-                "XF86AudioPrev" = "exec --no-startup-id playerctl prev";
+                "XF86AudioPrev" = "exec --no-startup-id playerctl previous";
 
 # Workspaces moves
                 "${modifier}+Control+Shift+Right" = "move workspace to output right";
