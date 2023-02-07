@@ -145,6 +145,13 @@ in {
         enable = true;
         userName = "m1dugh";
         userEmail = "romain.le-miere@epita.fr";
+
+        extraConfig = {
+            init.defaultBranch = "master";
+            pull.rebase = true;
+            core.editor = "nvim";
+            push.autoSetupRemote = true;
+        };
     };
 
     programs.zsh = {
