@@ -13,13 +13,14 @@
     boot.kernelModules = [ "kvm-intel" "ec_sys" ];
     boot.extraModprobeConfig = ''
         options ec_sys write_support=1
+        options nvidia NVreg_DynamicPowerManagement=0x02
     '';
     boot.extraModulePackages = [ ];
     boot.kernelParams = [
         "acpi_rev_override=1"
         "acpi_osi=Linux"
         "nouveau.modeset=0"
-        "pcie_aspm=force"
+        "pcie_aspm=off"
         "drm.vblankoffdelay=1"
         "scsi_mod.use_blk_mq=1"
         "nouveau.runpm=0"

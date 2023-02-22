@@ -11,7 +11,8 @@ let
     config-root = "../../configs";
     i3-mod = "Mod4";
     wallpaper = ./wallpapers/wallpaper.jpg;
-    dmenu_command = "rofi -modi drun,run -show drun";
+    dmenu_command = "${pkgs.rofi}/bin/rofi -modi drun,run -show drun";
+    lock_command = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock";
 in {
     home = {
         username = "${username}";
@@ -60,7 +61,7 @@ in {
     };
 
     services.screen-locker = {
-        lockCmd = "${pkgs.i3lock}/bin/i3lock";
+        lockCmd = "${lock_command}";
     };
 
     xsession.windowManager.i3 = {
@@ -100,7 +101,7 @@ in {
                 "${modifier}+Control+Shift+Up" = "move workspace to output up";
                 "${modifier}+Control+Shift+Down" = "move workspace to output down";
 
-                "${modifier}+Shift+BackSpace" = "exec $lock_command";
+                "${modifier}+l" = "exec ${lock_command}";
                 "${modifier}+d" = ''exec "${dmenu_command}"'';
             };
 
@@ -128,7 +129,6 @@ in {
         };
         extraConfig = ''
             for_window [class="^.*"] border pixel 2
-            set $lock_command i3lock
             '';
     };
 
@@ -186,7 +186,7 @@ in {
 
     xfconf.settings = {
         xfce4-session = {
-            "general/LockCommand" = "${pkgs.i3lock}/bin/i3lock";
+            "general/LockCommand" = "${lock_command}";
         };
     };
 }

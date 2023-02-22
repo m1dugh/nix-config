@@ -49,7 +49,7 @@
         windowManager.i3 = {
             enable = true;
             extraPackages = with pkgs; [
-                i3lock
+                betterlockscreen
                 i3status
             ];
         };
@@ -64,6 +64,14 @@
 
     services.printing.enable = true;
     services.blueman.enable = true;
+
+    # GPG keys setup.
+    services.pcscd.enable = true;
+    programs.gnupg.agent = {
+        enable = true;
+        pinentryFlavor = "curses";
+        enableSSHSupport = true;
+    };
 
     nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -86,6 +94,8 @@
         xorg.xkill
         htop
         pciutils
+
+        pinentry-curses
     ];
 
     fonts.fonts = with pkgs; [
@@ -99,7 +109,7 @@
     environment.shells = with pkgs; [zsh];
 
     environment.variables = {
-        TERMINAL = "ALACRITTY";
+        TERMINAL = "alacritty";
         EDITOR = "vim";
         VISUAL = "vim";
     };
