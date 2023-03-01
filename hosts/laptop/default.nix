@@ -48,9 +48,25 @@
 
     };
 
+    environment.systemPackages = with pkgs; [
+
+        # Dev dependencies
+        go
+
+        rustc
+        cargo
+        
+        nodejs
+        yarn
+
+        gcc
+        gnumake
+        gdb
+        clang
+    ];
+
     services.xserver = {
         videoDrivers = ["nvidia"];
         libinput.touchpad.accelSpeed = "-0.2";
     };
-
 }

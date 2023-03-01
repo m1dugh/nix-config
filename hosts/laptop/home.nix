@@ -9,6 +9,8 @@
         packages = with pkgs; [
             krb5
             sshfs
+
+            poetry
         ];
     };
 

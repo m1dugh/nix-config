@@ -10,7 +10,7 @@
 let
     config-root = "../../configs";
     i3-mod = "Mod4";
-    wallpaper = ./wallpapers/wallpaper.jpg;
+    wallpaper = ../wallpapers/wallpaper.jpg;
     dmenu_command = "${pkgs.rofi}/bin/rofi -modi drun,run -show drun";
     lock_command = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock";
 in {

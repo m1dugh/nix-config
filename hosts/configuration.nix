@@ -82,20 +82,17 @@
         git
         vim
         zsh
-        alacritty
 
         alacritty
-        gcc
-        gnumake
-        python310
+
+        python3
+        poetry
 
         wget
         curl
         xorg.xkill
         htop
         pciutils
-
-        pinentry-curses
     ];
 
     fonts.fonts = with pkgs; [
