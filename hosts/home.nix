@@ -69,7 +69,7 @@ in {
         package = pkgs.i3-gaps;
 
         config = {
-            modifier = i3-mod;
+            modifier = "${i3-mod}";
             terminal = "${pkgs.alacritty}/bin/alacritty";
 
             gaps = {
@@ -103,6 +103,7 @@ in {
 
                 "${modifier}+l" = "exec ${lock_command}";
                 "${modifier}+d" = ''exec "${dmenu_command}"'';
+                "${modifier}+r" = "mode resize";
             };
 
             bars = [

@@ -11,6 +11,9 @@
             sshfs
 
             poetry
+
+            # LspServer
+            rust-analyzer
         ];
     };
 

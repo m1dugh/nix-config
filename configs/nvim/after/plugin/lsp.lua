@@ -2,6 +2,11 @@ local lsp = require('lsp-zero')
 
 lsp.preset('recommended')
 
+lsp.ensure_installed({
+    'rust_analyzer',
+    'gopls'
+})
+
 local cmp = require('cmp')
 local cmp_select = {behaviour = cmp.SelectBehavior.Select}
 local cmp_mappings = lsp.defaults.cmp_mappings({
