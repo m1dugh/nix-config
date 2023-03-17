@@ -85,7 +85,7 @@
 
         alacritty
 
-        python3
+        python311
         poetry
 
         wget
