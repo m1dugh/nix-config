@@ -63,6 +63,8 @@
         gnumake
         gdb
         clang
+
+        kubernetes
     ];
 
     services.xserver = {
