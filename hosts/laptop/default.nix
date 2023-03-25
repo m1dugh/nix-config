@@ -67,6 +67,16 @@
         kubernetes
     ];
 
+    services.printing = {
+        enable = true;
+    };
+
+    services.avahi = {
+        enable = true;
+        nssmdns = true;
+        openFirewall = true;
+    };
+
     services.xserver = {
         videoDrivers = ["nvidia"];
         libinput.touchpad.accelSpeed = "-0.2";
