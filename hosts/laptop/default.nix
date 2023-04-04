@@ -72,7 +72,7 @@
     };
 
     services.avahi = {
-        enable = true;
+        enable = false;
         nssmdns = true;
         openFirewall = true;
     };
@@ -81,4 +81,6 @@
         videoDrivers = ["nvidia"];
         libinput.touchpad.accelSpeed = "-0.2";
     };
+
+    networking.resolvconf.dnsExtensionMechanism = false;
 }

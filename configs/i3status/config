@@ -43,6 +43,7 @@ battery all {
 
 cpu_temperature global {
     format = "T: %degrees °C"
+    path = "/sys/bus/platform/devices/coretemp.0/hwmon/hwmon5/temp1_input"
 }
 
 disk "/" {
