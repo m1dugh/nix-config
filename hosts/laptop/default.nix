@@ -65,6 +65,7 @@
         clang
 
         kubernetes
+        kubectx
     ];
 
     services.printing = {

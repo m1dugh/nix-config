@@ -14,6 +14,7 @@
 
             # LspServer
             rust-analyzer
+            clang-tools
         ];
     };
 

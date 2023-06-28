@@ -4,7 +4,8 @@ lsp.preset('recommended')
 
 lsp.ensure_installed({
     'rust_analyzer',
-    'gopls'
+    'gopls',
+    'clangd'
 })
 
 local cmp = require('cmp')

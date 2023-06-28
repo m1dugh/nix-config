@@ -39,6 +39,7 @@ battery all {
         status_bat = "🔋 BAT"
         status_unk = "? UNK"
         status_full = "☻ FULL"
+        integer_battery_capacity = true
 }
 
 cpu_temperature global {
