@@ -66,9 +66,14 @@
 
         kubernetes
         kubectx
+        globalprotect-openconnect
     ];
 
     services.printing = {
+        enable = true;
+    };
+
+    services.globalprotect = {
         enable = true;
     };
 
