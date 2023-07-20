@@ -11,80 +11,20 @@
     # time.timeZone = "Europe/Paris";
     time.timeZone = "Asia/Tokyo";
 
-    virtualisation.docker = {
-        enable = true;
-        daemon.settings = {
-            features.buildkit = true;
-        };
-    };
-
-    sound.enable = true;
-    hardware = {
-        bluetooth.enable = true;
-        pulseaudio.enable = true;
-    };
-
     networking.networkmanager.enable = true;
     networking.extraHosts = 
         ''
         midugh-raspberrypi raspi
         '';
 
-    services.xserver = {
-        enable = true;
-        layout = "us";
-        xkbVariant = "altgr-intl";
-        xkbOptions = "nodeadkeys";
-
-        displayManager.defaultSession = "xfce+i3";
-        desktopManager = {
-            xterm.enable = false;
-            xfce = {
-                enable = true;
-                noDesktop = true;
-                enableXfwm = false;
-                enableScreensaver = false;
-            };
-        };
-        
-        windowManager.i3 = {
-            enable = true;
-            extraPackages = with pkgs; [
-                betterlockscreen
-                i3status
-            ];
-        };
-
-        libinput = {
-            enable = true;
-            mouse.naturalScrolling = false;
-            touchpad.naturalScrolling = false;
-        };
-    };
-
-
-    services.printing.enable = true;
-    services.blueman.enable = true;
-
-    # GPG keys setup.
-    services.pcscd.enable = true;
-    programs.gnupg.agent = {
-        enable = true;
-        pinentryFlavor = "curses";
-        enableSSHSupport = true;
-    };
-
     nix.settings.experimental-features = ["nix-command" "flakes"];
 
     nixpkgs.config.pulseaudio = true;
 
     environment.systemPackages = with pkgs; [
-        docker-compose
         git
         vim
         zsh
-
-        alacritty
 
         python311
         poetry
@@ -118,5 +58,5 @@
         shell = pkgs.zsh;
     };
 
-    system.stateVersion = "22.11";
+    system.stateVersion = "23.05";
 }
