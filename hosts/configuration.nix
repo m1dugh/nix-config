@@ -8,8 +8,7 @@
 {
     nixpkgs.config.allowUnfree = true;
 
-    # time.timeZone = "Europe/Paris";
-    time.timeZone = "Asia/Tokyo";
+    time.timeZone = "Europe/Paris";
 
     networking.networkmanager.enable = true;
     networking.extraHosts = 
