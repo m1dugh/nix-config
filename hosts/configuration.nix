@@ -35,6 +35,8 @@
         pciutils
     ];
 
+    programs.zsh.enable = true;
+
     fonts.fonts = with pkgs; [
         fira-code
         fira-code-symbols
@@ -57,5 +59,5 @@
         shell = pkgs.zsh;
     };
 
-    system.stateVersion = "23.05";
+    system.stateVersion = "23.11";
 }

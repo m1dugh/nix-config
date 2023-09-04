@@ -8,6 +8,10 @@
 
     imports = [(import ./hardware-configuration.nix)];
 
+    security.pki.certificateFiles = [
+        ../../certs/le-maker.fr.pem
+    ];
+
     boot.kernelModules = ["kvm-intel"];
     boot.loader = {
         efi.canTouchEfiVariables = true;
