@@ -3,8 +3,9 @@
     pkgs,
     ...
 }:
-
-{
+let
+    lock_command = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock";
+in {
 
     imports = [(import ./hardware-configuration.nix)];
 
@@ -140,6 +141,10 @@
         enableSSHSupport = true;
     };
 
+    programs.xss-lock = {
+        enable = true;
+        lockerCommand = "${lock_command}";
+    };
 
     networking.resolvconf.dnsExtensionMechanism = false;
 }

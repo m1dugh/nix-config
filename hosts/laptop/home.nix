@@ -34,7 +34,6 @@ in {
 
             imagemagick
             feh
-            xss-lock
             picom
         ];
 
@@ -140,8 +139,11 @@ in {
     };
 
     services.screen-locker = {
+        enable = true;
         lockCmd = "${lock_command}";
     };
+
+    services.ssh-agent.enable = true;
 
     programs.rofi = {
         enable = true;
@@ -151,7 +153,6 @@ in {
         };
         theme = "themes/midugh-custom";
     };
-
 
     xfconf.settings = {
         xfce4-session = {
