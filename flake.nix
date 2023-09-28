@@ -15,7 +15,7 @@
         nixpkgs,
         home-manager,
         ...
-    } @ inputs: 
+    }: 
     
     let
         system = "x86_64-linux";
@@ -26,11 +26,22 @@
         };
         lib = nixpkgs.lib;
     in {
+
+        packages.${system}.home-manager = home-manager.defaultPackage.${system};
+
         nixosConfigurations = (
             import ./hosts {
                 inherit (nixpkgs) lib;
                 inherit (self) inputs;
                 inherit system pkgs username home-manager;
+            }
+        );
+
+        homeConfigurations = (
+            import ./homes {
+                inherit (nixpkgs) lib;
+                inherit (self) inputs;
+                inherit system pkgs home-manager;
             }
         );
     };
