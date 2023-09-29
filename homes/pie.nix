@@ -14,6 +14,7 @@ in {
   home.stateVersion = "23.05";
 
   home.packages = with pkgs; [
+    go
     rofi
     picom
     alacritty
@@ -32,13 +33,16 @@ in {
 
   programs.zsh = {
     enable = true;
+    enableAutosuggestions = true;
+    syntaxHighlighting.enable = true;
+
     oh-my-zsh = {
       enable = true;
       plugins = [
         "git"
       ];
 
-      theme = "robbyrussel";
+      theme = "robbyrussell";
     };
   };
 
@@ -58,6 +62,15 @@ in {
     ".config/nvim" = {
       recursive = true;
       source = ./. + "${configRoot}/nvim";
+    };
+
+    ".config/alacritty" = {
+        recursive = true;
+        source = ./. + "${configRoot}/alacritty";
+    };
+    ".config/rofi" = {
+        recursive = true;
+        source = ./. + "${configRoot}/rofi";
     };
   };
 }
