@@ -11,8 +11,8 @@ let
     i3-mod = "Mod4";
     dmenu_command = "${pkgs.rofi}/bin/rofi -modi drun,run -show drun";
     lock_command = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock";
-    wallpaper = "./wallpapers/prologin-2023_wallpaper.png";
-    lockscreen = "./wallpapers/archwave.png";
+    wallpaper = ../wallpapers/prologin-2023_wallpaper.png;
+    lockscreen = ../wallpapers/archwave.png;
 in {
 
   manual.manpages.enable = false;
@@ -21,6 +21,7 @@ in {
   home.stateVersion = "23.05";
 
   home.packages = with pkgs; [
+    cargo
     betterlockscreen
     go
     picom
@@ -111,8 +112,13 @@ in {
                 trayOutput = "primary";
             }];
 
-            startup = [{
+            startup = [
+            {
+                command = "${pkgs.picom}/bin/picom";
+            }
+            {
                 command = "${pkgs.feh}/bin/feh --bg-scale ${wallpaper}";
+                always = true;
                 notification = true;
             }
             {
