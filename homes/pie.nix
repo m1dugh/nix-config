@@ -15,6 +15,8 @@ let
     lockscreen = ../wallpapers/archwave.png;
 in {
 
+  fonts.fontconfig.enable = true;
+
   manual.manpages.enable = false;
   home.username = "romain.le-miere";
   home.homeDirectory = "/home/romain.le-miere";
@@ -28,10 +30,58 @@ in {
     alacritty
     i3-gaps
     imagemagick
+
+    # fonts
+    font-awesome_6
+    material-symbols
   ];
 
   programs.i3status-rust = {
     enable = true;
+    bars.default = {
+        blocks = [
+            {
+                block = "cpu";
+                interval = 1;
+            }
+            {
+                block = "memory";
+                interval = 1;
+            }
+            {
+                block = "disk_space";
+                path = "/";
+                info_type = "available";
+            }
+            {
+                block = "load";
+                interval = 1;
+                format = " $icon $1m ";
+            }
+            {
+                block = "sound";
+                click = [{
+                    button = "left";
+                    cmd = "pavucontrol";
+                }];
+            }
+            {
+                block = "time";
+                interval = 1;
+            }
+        ];
+
+        settings = {
+            theme = {
+                theme = "solarized-dark";
+                overrides = {
+                    separator = "";
+                };
+            };
+        };
+        icons = "awesome6";
+        theme = "gruvbox-dark";
+    };
   };
 
   programs.rofi = {
@@ -110,6 +160,12 @@ in {
                 statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.config/i3status-rust/config-default.toml";
                 position = "top";
                 trayOutput = "primary";
+
+                fonts = {
+                    names = ["FiraSans" "Pango"];
+                    style = "Bold Semi-Condensed";
+                    size = 13.0;
+                };
             }];
 
             startup = [
