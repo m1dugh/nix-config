@@ -9,7 +9,7 @@
 let
     configRoot = "../../configs";
     i3-mod = "Mod4";
-    dmenu_command = "${pkgs.rofi}/bin/rofi -show drun";
+    dmenu_command = "${pkgs.rofi}/bin/rofi -modi drun,run -show drun";
     lock_command = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock";
     wallpaper = "./wallpapers/prologin-2023_wallpaper.png";
     lockscreen = "./wallpapers/archwave.png";
@@ -28,6 +28,10 @@ in {
     i3-gaps
     imagemagick
   ];
+
+  programs.i3status-rust = {
+    enable = true;
+  };
 
   programs.rofi = {
     enable = true;
@@ -100,6 +104,12 @@ in {
                 "${modifier}+r" = "mode resize";
                 "${modifier}+BackSpace" = ''exec "pkill -u $USER"'';
             };
+
+            bars = [{
+                statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.config/i3status-rust/config-default.toml";
+                position = "top";
+                trayOutput = "primary";
+            }];
 
             startup = [{
                 command = "${pkgs.feh}/bin/feh --bg-scale ${wallpaper}";
