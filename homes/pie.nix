@@ -3,9 +3,16 @@
   pkgs,
   home-manager,
   username,
+  lib,
   ...
 }@inputs:
-let configRoot = "../../configs";
+let
+    configRoot = "../../configs";
+    i3-mod = "Mod4";
+    dmenu_command = "${pkgs.rofi}/bin/rofi -show drun";
+    lock_command = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock";
+    wallpaper = "./wallpapers/prologin-2023_wallpaper.png";
+    lockscreen = "./wallpapers/archwave.png";
 in {
 
   manual.manpages.enable = false;
@@ -14,11 +21,23 @@ in {
   home.stateVersion = "23.05";
 
   home.packages = with pkgs; [
+    betterlockscreen
     go
-    rofi
     picom
     alacritty
+    i3-gaps
+    imagemagick
   ];
+
+  programs.rofi = {
+    enable = true;
+    terminal = "${pkgs.alacritty}/bin/alacritty";
+    extraConfig = {
+        modi = "calc,drun,ssh";
+    };
+
+    theme = "themes/midugh-custom";
+  };
 
   programs.neovim = {
     enable = true;
@@ -55,6 +74,47 @@ in {
 
   programs.alacritty = {
     enable = true;
+  };
+
+  xsession = {
+    enable = true;
+    windowManager.i3 = {
+        enable = true;
+        package = pkgs.i3-gaps;
+
+        config = {
+            modifier = "${i3-mod}";
+            terminal = "${pkgs.alacritty}/bin/alacritty";
+
+            gaps = {
+                inner = 10;
+                outer = 5;
+            };
+
+            keybindings =
+            let
+            inherit (config.xsession.windowManager.i3.config) modifier;
+            in lib.mkOptionDefault {
+                "${modifier}+d" = ''exec "${dmenu_command}"'';
+                "${modifier}+l" = ''exec "${lock_command}"'';
+                "${modifier}+r" = "mode resize";
+                "${modifier}+BackSpace" = ''exec "pkill -u $USER"'';
+            };
+
+            startup = [{
+                command = "${pkgs.feh}/bin/feh --bg-scale ${wallpaper}";
+                notification = true;
+            }
+            {
+                command = "${pkgs.betterlockscreen} -u ${lockscreen}";
+            }];
+        };
+
+        extraConfig = ''
+            for_window [class="^.*"] border pixel 2
+        '';
+
+    };
   };
 
   home.file = {
