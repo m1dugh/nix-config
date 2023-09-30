@@ -66,8 +66,9 @@ in {
                 }];
             }
             {
-                block = "time";
+                block = "custom";
                 interval = 1;
+                command = ''date "+%a %d/%m %H:%M:%S"'';
             }
         ];
 
@@ -176,9 +177,6 @@ in {
                 command = "${pkgs.feh}/bin/feh --bg-scale ${wallpaper}";
                 always = true;
                 notification = true;
-            }
-            {
-                command = "${pkgs.betterlockscreen} -u ${lockscreen}";
             }];
         };
 
