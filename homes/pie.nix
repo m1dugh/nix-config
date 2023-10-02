@@ -177,6 +177,10 @@ in {
                 command = "${pkgs.feh}/bin/feh --bg-scale ${wallpaper}";
                 always = true;
                 notification = true;
+            }
+            {
+                command = ''${pkgs.xorg.setxkbmap}/bin/setxkbmap -option "caps:swapescape"'';
+                always = true;
             }];
         };
 
