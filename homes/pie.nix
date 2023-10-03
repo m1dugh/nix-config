@@ -23,9 +23,15 @@ in {
   home.stateVersion = "23.05";
 
   home.packages = with pkgs; [
+    # rust
     cargo
-    betterlockscreen
+    rust-analyzer
+
+    # go
     go
+
+    # desktop packages
+    betterlockscreen
     picom
     alacritty
     i3-gaps
@@ -34,6 +40,7 @@ in {
     # fonts
     font-awesome_6
     material-symbols
+
   ];
 
   programs.i3status-rust = {
@@ -172,6 +179,7 @@ in {
             startup = [
             {
                 command = "${pkgs.picom}/bin/picom";
+                always = true;
             }
             {
                 command = "${pkgs.feh}/bin/feh --bg-scale ${wallpaper}";
