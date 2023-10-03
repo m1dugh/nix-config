@@ -215,4 +215,43 @@ in {
         source = ./. + "${configRoot}/rofi";
     };
   };
+
+  programs.git = {
+    enable = true;
+    aliases = {
+      poule = "pull";
+      poutch = "push";
+    };
+
+    extraConfig = {
+      init.defaultBranch = "master";
+      user = {
+        name = "romain.le-miere";
+        email = "romain.le-miere@epita.fr";
+      };
+      color = {
+        ui = "auto";
+        branch = "auto";
+        diff = "auto";
+        interactive = "auto";
+        status = "auto";
+      };
+
+      commit.verbose = true;
+      pull.rebase = true;
+      branch.autosetuprebase = "always";
+      push.default = "simple";
+      rebase = {
+        autoSquash = true;
+        autoStash = true;
+      };
+
+      sendemail = {
+        smptencryption = "tls";
+        smtpserver = "smtp.office365.com";
+        smtpserverport = 587;
+        smtpuser = "firstname.lastname@epita.fr";
+      };
+    };
+  };
 }
