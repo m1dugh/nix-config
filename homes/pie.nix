@@ -36,6 +36,7 @@ in {
     alacritty
     i3-gaps
     imagemagick
+    flameshot
 
     # fonts
     font-awesome_6
@@ -162,6 +163,7 @@ in {
                 "${modifier}+l" = ''exec "${lock_command}"'';
                 "${modifier}+r" = "mode resize";
                 "${modifier}+BackSpace" = ''exec "pkill -u $USER"'';
+                "Print" = "exec ${pkgs.flameshot}/bin/flameshot gui";
             };
 
             bars = [{
