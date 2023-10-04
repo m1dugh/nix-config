@@ -22,6 +22,14 @@ in {
   home.homeDirectory = "/home/romain.le-miere";
   home.stateVersion = "23.05";
 
+  home.keyboard = {
+    layout = "us";
+    variant = "altgr-intl";
+    options = [
+        "nodeadkeys"
+    ];
+  };
+
   home.packages = with pkgs; [
     # rust
     cargo
