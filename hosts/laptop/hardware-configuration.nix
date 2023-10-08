@@ -29,6 +29,10 @@
 
     boot.loader.timeout = 0;
 
+    boot.binfmt.emulatedSystems = [
+        "aarch64-linux"
+    ];
+
     fileSystems."/" = {
         device = "/dev/disk/by-uuid/b8a3a5df-a55e-4ebb-b346-556d8e0e921f";
         fsType = "ext4";
