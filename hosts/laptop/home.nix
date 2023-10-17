@@ -109,7 +109,7 @@ in {
                 fonts = {
                     names = ["FiraSans" "Pango"];
                     style = "Bold Semi-Condensed";
-                    size = 13.0;
+                    size = 14.0;
                 };
             }];
 
@@ -180,12 +180,17 @@ in {
         bars.default = {
             blocks = [
                 {
+                    block = "battery";
+                    format = " $icon $percentage $time ";
+                }
+                {
                     block = "cpu";
                     interval = 1;
                 }
                 {
                     block = "memory";
                     interval = 1;
+                    format = " $icon $mem_used.eng(prefix:Mi)/$mem_total.eng(prefix:Mi)($mem_used_percents.eng(w:2)) ";
                 }
                 {
                     block = "disk_space";
@@ -214,9 +219,6 @@ in {
             settings = {
                 theme = {
                     theme = "solarized-dark";
-                    overrides = {
-                        separator = "";
-                    };
                 };
             };
             icons = "awesome6";
