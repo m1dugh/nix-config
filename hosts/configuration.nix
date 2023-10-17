@@ -37,12 +37,15 @@
 
     programs.zsh.enable = true;
 
-    fonts.fonts = with pkgs; [
+    fonts.packages = with pkgs; [
         fira-code
         fira-code-symbols
         noto-fonts
         noto-fonts-emoji
         liberation_ttf
+
+        font-awesome_6
+        material-symbols
     ];
 
     environment.shells = with pkgs; [zsh];

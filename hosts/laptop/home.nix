@@ -101,18 +101,17 @@ in {
                 "${modifier}+r" = "mode resize";
             };
 
-            bars = [
-            {
-                statusCommand = "${pkgs.i3status}/bin/i3status";
+            bars = [{
+                statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.config/i3status-rust/config-default.toml";
                 position = "top";
                 trayOutput = "primary";
+
                 fonts = {
-                    names = ["FiraSans" "pango"];
+                    names = ["FiraSans" "Pango"];
                     style = "Bold Semi-Condensed";
-                    size = 11.0;
+                    size = 13.0;
                 };
-            }
-            ];
+            }];
 
             startup = [
             {
@@ -162,4 +161,112 @@ in {
             "commands/custom/Print" = "${pkgs.flameshot}/bin/flameshot gui";
         };
     };
+
+    programs.git = {
+        enable = true;
+        userName = "m1dugh";
+        userEmail = "romain.le-miere@epita.fr";
+
+        extraConfig = {
+            init.defaultBranch = "master";
+            pull.rebase = true;
+            core.editor = "nvim";
+            push.autoSetupRemote = true;
+        };
+    };
+
+      programs.i3status-rust = {
+        enable = true;
+        bars.default = {
+            blocks = [
+                {
+                    block = "cpu";
+                    interval = 1;
+                }
+                {
+                    block = "memory";
+                    interval = 1;
+                }
+                {
+                    block = "disk_space";
+                    path = "/";
+                    info_type = "available";
+                }
+                {
+                    block = "load";
+                    interval = 1;
+                    format = " $icon $1m ";
+                }
+                {
+                    block = "sound";
+                    click = [{
+                        button = "left";
+                        cmd = "pavucontrol";
+                    }];
+                }
+                {
+                    block = "custom";
+                    interval = 1;
+                    command = ''date "+%a %d/%m %H:%M:%S"'';
+                }
+            ];
+
+            settings = {
+                theme = {
+                    theme = "solarized-dark";
+                    overrides = {
+                        separator = "";
+                    };
+                };
+            };
+            icons = "awesome6";
+            theme = "gruvbox-dark";
+        };
+      };
+
+    programs.zsh = {
+        enable = true;
+        enableAutosuggestions = true;
+        syntaxHighlighting.enable = true;
+        oh-my-zsh = {
+            enable = true;
+            plugins = [
+                "git"
+            ];
+            theme = "robbyrussell";
+        };
+
+        history = 
+        let history_size = 100000;
+        in {
+            size = history_size;
+            save = history_size;
+        };
+
+        initExtra = ''
+            if (( $+commands[kubectl] )); then
+                # If the completion file doesn't exist yet, we need to autoload it and
+                # bind it to `kubectl`. Otherwise, compinit will have already done that.
+                if [[ ! -f "$ZSH_CACHE_DIR/completions/_kubectl" ]]; then
+                  typeset -g -A _comps
+                  autoload -Uz _kubectl
+                  _comps[kubectl]=_kubectl
+                fi
+
+                kubectl completion zsh 2> /dev/null >| "$ZSH_CACHE_DIR/completions/_kubectl" &|
+            fi
+            '';
+        shellAliases = {
+            k = "kubectl";
+        };
+    };
+
+    programs.home-manager.enable = true;
+
+    programs.neovim = {
+        enable = true;
+        viAlias = true;
+        vimAlias = true;
+    };
+
 }

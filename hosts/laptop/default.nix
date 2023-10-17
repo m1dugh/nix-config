@@ -17,7 +17,6 @@ in {
     boot.loader = {
         efi.canTouchEfiVariables = true;
         grub = {
-            version = 2;
             useOSProber = true;
             efiSupport = true;
             device = "nodev";
@@ -86,7 +85,7 @@ in {
         enable = true;
         layout = "us";
         xkbVariant = "altgr-intl";
-        xkbOptions = "nodeadkeys";
+        xkbOptions = "nodeadkeys,caps:swapescape";
 
         displayManager.defaultSession = "xfce+i3";
         desktopManager = {
