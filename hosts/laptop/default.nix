@@ -4,10 +4,16 @@
     ...
 }:
 let
-    lock_command = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock";
+    lockCommand = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock";
+    screenshotCommand = "${pkgs.flameshot}/bin/flameshot gui";
 in {
 
-    imports = [(import ./hardware-configuration.nix)];
+    imports = [
+        ./hardware-configuration.nix
+        (import ../../modules/xfce {
+            inherit lockCommand screenshotCommand;
+        })
+    ];
 
     security.pki.certificateFiles = [
         ../../certs/le-maker.fr.pem
@@ -80,40 +86,15 @@ in {
         globalprotect-openconnect
         alacritty
     ];
-
-    services.xserver = {
+    
+    services.xserver.libinput = {
         enable = true;
-        layout = "us";
-        xkbVariant = "altgr-intl";
-        xkbOptions = "nodeadkeys,caps:swapescape";
-
-        displayManager.defaultSession = "xfce+i3";
-        desktopManager = {
-            xterm.enable = false;
-            xfce = {
-                enable = true;
-                noDesktop = true;
-                enableXfwm = false;
-                enableScreensaver = false;
-            };
-        };
-        
-        windowManager.i3 = {
-            enable = true;
-            extraPackages = with pkgs; [
-                betterlockscreen
-                i3status
-            ];
-        };
-
-        libinput = {
-            enable = true;
-            mouse.naturalScrolling = false;
-            touchpad.naturalScrolling = false;
-            touchpad.accelSpeed = "-0.2";
-        };
-        videoDrivers = ["nvidia"];
+        mouse.naturalScrolling = false;
+        touchpad.naturalScrolling = false;
+        touchpad.accelSpeed = "-0.2";
     };
+
+    services.xserver.videoDrivers = ["nvidia"];
 
     services.blueman.enable = true;
 
@@ -142,7 +123,7 @@ in {
 
     programs.xss-lock = {
         enable = true;
-        lockerCommand = "${lock_command}";
+        lockerCommand = "${lockCommand}";
     };
 
     networking.resolvconf.dnsExtensionMechanism = false;
