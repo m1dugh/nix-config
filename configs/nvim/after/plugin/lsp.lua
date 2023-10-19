@@ -1,3 +1,21 @@
+local cmp = require('cmp')
+cmp.setup({
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'buffer' },
+    },
+
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+    },
+
+    mapping = cmp.mapping.preset.insert({
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<CR>'] = cmp.mapping.confirm({select = true}),
+    })
+})
+
 require('mason').setup({
     ui = {
         border = 'rounded',
@@ -8,8 +26,11 @@ require('mason').setup({
 require('mason-lspconfig').setup({
     ensure_installed = {
         'bashls',
+        'nil_ls',
     }
 })
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local lspconfig = require('lspconfig')
 
@@ -19,7 +40,6 @@ local handlers = {
 
 local servers = {
     clangd = {
-        handlers = handlers,
         cmd = {
             "clangd",
             "--log=info",
@@ -34,7 +54,6 @@ local servers = {
     },
 
     rust_analyzer = {
-        handlers = handlers,
         filetypes = {
             "rust"
         },
@@ -44,23 +63,25 @@ local servers = {
     },
 }
 
+local function setup_lsp_server(server_name, config)
+    config.handlers = handlers;
+    config.capabilities = capabilities;
+    lspconfig[server_name].setup(config)
+end
+
 require('mason-lspconfig').setup_handlers({
     function (server_name)
-        lspconfig[server_name].setup(servers[server_name] or {
-            handlers = handlers,
+        local server_config = servers[server_name] or {
             on_attach = function()
             end,
-        })
+        }
+        setup_lsp_server(server_name, server_config)
     end
 })
 
 for server_name, config in pairs(servers) do
-    lspconfig[server_name].setup(config)
+    setup_lsp_server(server_name, config)
 end
-
-vim.api.nvim_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-vim.o.completeopt = "longest,menuone,noselect"
-vim.keymap.set('i', '<C-space>', '<C-x><C-o>')
 
 local function lsp_settings()
     vim.diagnostic.config({
@@ -72,14 +93,6 @@ local function lsp_settings()
         signs = true,
     })
 
-    --[[ vim.api.nvim_create_autocmd('CursorHold,CursorHoldI', {
-        callback = function(event)
-            vim.diagnostic.open_float(nil, {
-                focus = false,
-            })
-        end
-    }) ]]--
-
 end
 
 lsp_settings()
@@ -87,8 +100,8 @@ lsp_settings()
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', {}),
     callback = function(event)
-        vim.api.nvim_buf_set_option(event.buf, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
         local opts = { buffer = event.buf }
+        vim.bo[event.buf].omnifunc = nil
         vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
         vim.keymap.set('n', 'K', function(opts) vim.lsp.buf.hover() end, opts)
