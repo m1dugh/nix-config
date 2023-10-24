@@ -1,5 +1,4 @@
 {
-    config,
     pkgs,
     username,
     ... 
@@ -13,7 +12,7 @@
     networking.networkmanager.enable = true;
     networking.extraHosts = 
         ''
-        midugh-raspberrypi raspi
+        192.168.2.5 grafana.cluster.local cluster.local
         '';
 
     nix.settings.experimental-features = ["nix-command" "flakes"];

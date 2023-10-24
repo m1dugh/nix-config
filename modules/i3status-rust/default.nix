@@ -1,4 +1,9 @@
 {
+    netDevice ? null,
+    battery ? false,
+}:
+{
+    lib,
     ...
 }:
 {
@@ -6,10 +11,15 @@
         enable = true;
         bars.default = {
             blocks = [
-            {
+            (if netDevice != null then {
+                block = "net";
+                device = netDevice;
+                format = " $ip ";
+            } else null)
+            (if battery then ({
                 block = "battery";
                 format = " $icon $percentage $time ";
-            }
+            }) else null)
             {
                 block = "cpu";
                 interval = 1;

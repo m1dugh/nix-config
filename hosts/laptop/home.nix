@@ -20,7 +20,10 @@ in {
             statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.config/i3status-rust/config-default.toml";
         })
         ../../modules/alacritty
-        ../../modules/i3status-rust
+        (import ../../modules/i3status-rust {
+            battery = true;
+            netDevice = "enp60s0";
+        })
         (import ../../modules/rofi {
             inherit terminal;
         })
