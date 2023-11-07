@@ -35,7 +35,7 @@
 
                 kubectl completion zsh 2> /dev/null >| "$ZSH_CACHE_DIR/completions/_kubectl" &|
             fi
-            '' else null);
+            '' else "");
         shellAliases = (if withKubernetes then {
             k = "kubectl";
         } else {});

@@ -6,7 +6,7 @@
 }:
 let
     dmenuCommand = "${pkgs.rofi}/bin/rofi -modi drun,run -show drun";
-    lockscreen = ../wallpapers/archwave.png;
+    lockscreen = ../wallpapers/cisco.png;
     lockCommand = "i3lock -i ${lockscreen}";
     wallpaper = ../wallpapers/prologin-2023_wallpaper.png;
     terminal = "${pkgs.alacritty}/bin/alacritty";
