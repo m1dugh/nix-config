@@ -11,15 +11,15 @@
         enable = true;
         bars.default = {
             blocks = [
-            (if netDevice != null then {
+            (lib.mkIf (netDevice != null) {
                 block = "net";
                 device = netDevice;
                 format = " $ip ";
-            } else null)
-            (if battery then ({
+            })
+            (lib.mkIf battery {
                 block = "battery";
                 format = " $icon $percentage $time ";
-            }) else null)
+            })
             {
                 block = "cpu";
                 interval = 1;

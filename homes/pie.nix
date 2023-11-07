@@ -59,7 +59,8 @@ in {
             i3pkg = pkgs.i3-gaps;
             inherit lockCommand dmenuCommand terminal statusCommand wallpaper;
         })
-        ../modules/i3status-rust
+        (import ../modules/i3status-rust {
+        })
         (import ../modules/git {
             extraConfig = {
                 sendemail = {
