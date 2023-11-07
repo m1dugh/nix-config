@@ -9,6 +9,16 @@ return require('packer').startup(function(use)
         requires = { {'nvim-lua/plenary.nvim'} }
     }
 
+    use {
+        "hrsh7th/nvim-cmp",
+        requires = {
+            "saadparwaiz1/cmp_luasnip",
+            "hrsh7th/cmp-nvim-lua",
+            "hrsh7th/cmp-nvim-lsp",
+            "L3MON4D3/LuaSnip",
+        },
+    }
+
     use({
         'rose-pine/neovim',
         as = 'rose-pine',
@@ -17,17 +27,7 @@ return require('packer').startup(function(use)
         end
     })
 
-    use {
-        'L3MON4D3/LuaSnip',
-        after = 'nvim-cmp',
-    }
-
     use('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
-
-    use {
-        'hrsh7th/nvim-cmp',
-        'hrsh7th/cmp-nvim-lsp',
-    }
 
     use {
         'williamboman/mason.nvim',
