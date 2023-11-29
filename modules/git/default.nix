@@ -1,39 +1,67 @@
 {
-    userName ? null,
-    userEmail ? null,
-    extraConfig ? null,
-    editor ? "nvim",
-}:
-{
     lib,
+    config,
     ...
 }:
-{
-    programs.git = {
-        enable = true;
-        userName = userName;
-        userEmail = userEmail;
+with lib;
+let cfg = config.midugh.git;
+in {
+    options.midugh.git = {
+        enable = mkEnableOption "git default config";
 
-        extraConfig = {
-            init.defaultBranch = "master";
-            pull.rebase = true;
-            core.editor = editor;
-            push.autoSetupRemote = true;
+        username = mkOption {
+            type = types.nullOr types.str;
+            default = null;
+            description = "git username";
+        };
 
-            color = {
-                ui = "auto";
-                branch = "auto";
-                diff = "auto";
-                interactive = "auto";
-                status = "auto";
-            };
+        email = mkOption {
+            type = types.nullOr types.str;
+            default = null;
+            description = "git email";
+        };
 
-            commit.verbose = true;
-            branch.autosetuprebase = "always";
-            push.default = "simple";
-            rebase = {
-                autoSquash = true;
-                autoStash = true;
+        editor = mkOption {
+            type = types.nullOr types.str;
+            default = "vi";
+            description = "The default editor for git";
+        };
+
+        defaultBranch = mkOption {
+            type = types.str;
+            default = "master";
+            description = "The default branch for git";
+            example = "main";
+        };
+    };
+
+    config = mkIf cfg.enable {
+        programs.git = {
+            enable = true;
+            userName = cfg.username;
+            userEmail = cfg.email;
+
+            extraConfig = {
+                init.defaultBranch = cfg.defaultBranch;
+                pull.rebase = true;
+                core.editor = cfg.editor;
+                push.autoSetupRemote = true;
+
+                color = {
+                    ui = "auto";
+                    branch = "auto";
+                    diff = "auto";
+                    interactive = "auto";
+                    status = "auto";
+                };
+
+                commit.verbose = true;
+                branch.autosetuprebase = "always";
+                push.default = "simple";
+                rebase = {
+                    autoSquash = true;
+                    autoStash = true;
+                };
             };
         };
     };
