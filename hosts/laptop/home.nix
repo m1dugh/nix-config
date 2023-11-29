@@ -11,14 +11,9 @@ let
 in {
     imports = [
         ../../modules/nvim
-        (import ../../modules/zsh {
-            withKubernetes = true;  
-        })
-        (import ../../modules/i3 {
-            inherit lockCommand dmenuCommand wallpaper terminal;
-            i3pkg = pkgs.i3-gaps;
-            statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.config/i3status-rust/config-default.toml";
-        })
+        ../../modules/zsh
+        ../../modules/git 
+        ../../modules/i3
         ../../modules/alacritty
         (import ../../modules/i3status-rust {
             battery = true;
@@ -27,11 +22,24 @@ in {
         (import ../../modules/rofi {
             inherit terminal;
         })
-        (import ../../modules/git {
-            userName = "m1dugh";
-            userEmail = "romain.le-miere@epita.fr";
-        })
     ];
+
+    midugh.i3 = {
+        enable = true;
+        inherit lockCommand dmenuCommand wallpaper terminal;
+    };
+
+    midugh.nvim.enable = true;
+    midugh.zsh = {
+        enable = true;
+        withKubernetes = true;
+    };
+    midugh.git = {
+        enable = true;
+        editor = "nvim";
+        username = "m1dugh";
+        email = "romain.le-miere@epita.fr";
+    };
     home = {
         packages = with pkgs; [
             krb5
