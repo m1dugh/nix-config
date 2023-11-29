@@ -26,7 +26,6 @@
         };
         lib = nixpkgs.lib;
     in {
-
         packages.${system}.home-manager = home-manager.defaultPackage.${system};
 
         nixosConfigurations = (

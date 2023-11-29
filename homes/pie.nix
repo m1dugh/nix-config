@@ -36,42 +36,47 @@ in {
 # go
         go
 
-# desktop packages
-        betterlockscreen
-        i3-gaps
-        imagemagick
-
 # fonts
         font-awesome_6
         material-symbols
     ];
 
     imports = [
+        ../modules/nvim
+        ../modules/i3
+        ../modules/zsh
+        ../modules/git
+        ../modules/alacritty
         (import ../modules/rofi {
             inherit terminal;
         })
         ../modules/nvim
-        (import ../modules/zsh {
-            withKubernetes = false;
-        })
-        ../modules/alacritty
-        (import ../modules/i3 {
-            i3pkg = pkgs.i3-gaps;
-            inherit lockCommand dmenuCommand terminal statusCommand wallpaper;
-        })
         (import ../modules/i3status-rust {
         })
-        (import ../modules/git {
-            extraConfig = {
-                sendemail = {
-                    smptencryption = "tls";
-                    smtpserver = "smtp.office365.com";
-                    smtpserverport = 587;
-                    smtpuser = "firstname.lastname@epita.fr";
-                };
-            };
-        })
     ];
+
+    midugh.git = {
+        enable = true;
+        extraConfig = {
+            sendemail = {
+                smptencryption = "tls";
+                smtpserver = "smtp.office365.com";
+                smtpserverport = 587;
+                smtpuser = "firstname.lastname@epita.fr";
+            };
+        };
+    };
+    
+    midugh.i3 = {
+        enable = true;
+        inherit lockCommand dmenuCommand wallpaper terminal;
+    };
+
+    midugh.nvim.enable = true;
+    midugh.zsh = {
+        enable = true;
+        withKubernetes = true;
+    };
 
     programs.home-manager.enable = true;
 

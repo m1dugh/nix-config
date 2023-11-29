@@ -11,9 +11,9 @@ let
 in {
     imports = [
         ../../modules/nvim
-        ../../modules/zsh
-        ../../modules/git 
         ../../modules/i3
+        ../../modules/zsh
+        ../../modules/git
         ../../modules/alacritty
         (import ../../modules/i3status-rust {
             battery = true;
