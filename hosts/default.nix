@@ -1,6 +1,6 @@
 {
-    lib,
     inputs,
+    lib,
     system,
     username,
     home-manager,

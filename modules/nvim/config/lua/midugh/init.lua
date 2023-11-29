@@ -12,6 +12,7 @@ set.ignorecase = true
 set.smartcase = true
 set.autoread = true
 set.updatetime = 1000
+set.mouse = 
 
 vim.keymap.set("n", "+", function () vim.cmd("m -2") end)
 vim.keymap.set("n", "-", function () vim.cmd("m +1") end)

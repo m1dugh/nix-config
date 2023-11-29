@@ -85,6 +85,10 @@ in {
 
         globalprotect-openconnect
         alacritty
+
+        btrfs-progs
+
+        criterion
     ];
     
     services.xserver.libinput = {

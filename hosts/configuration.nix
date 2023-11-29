@@ -10,10 +10,6 @@
     time.timeZone = "Europe/Paris";
 
     networking.networkmanager.enable = true;
-    networking.extraHosts = 
-        ''
-        192.168.2.5 grafana.cluster.local cluster.local
-        '';
 
     nix.settings.experimental-features = ["nix-command" "flakes"];
 
