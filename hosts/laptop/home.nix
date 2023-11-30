@@ -26,7 +26,7 @@ in {
 
     midugh.i3 = {
         enable = true;
-        inherit lockCommand dmenuCommand wallpaper terminal;
+        inherit lockCommand dmenuCommand wallpaper terminal screenshotCommand;
     };
 
     midugh.nvim.enable = true;

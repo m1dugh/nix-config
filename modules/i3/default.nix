@@ -16,7 +16,7 @@ in {
             example = "Mod1";
         };
 
-        screenShotCommand = mkOption {
+        screenshotCommand = mkOption {
             type = types.nullOr types.str;
             default = null;
             description = "The command for screenshot";
@@ -116,7 +116,7 @@ in {
                     "${modifier}+d" = ''exec "${cfg.dmenuCommand}"'';
                     "${modifier}+r" = "mode resize";
                     "${modifier}+BackSpace" = ''exec "pkill -u $USER"'';
-                    "Print" = if (cfg.statusCommand != null) then "exec ${cfg.statusCommand}" else null;
+                    "Print" = if (cfg.screenshotCommand != null) then "exec ${cfg.screenshotCommand}" else null;
                 };
 
                 bars = [{
