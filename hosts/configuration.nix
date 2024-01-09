@@ -28,7 +28,13 @@
         xorg.xkill
         htop
         pciutils
+
+        # Documentation
+        man-pages
+        man-pages-posix
     ];
+
+    documentation.dev.enable = true;
 
     programs.zsh.enable = true;
 

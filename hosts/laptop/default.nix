@@ -1,5 +1,5 @@
 {
-    config,
+    username,
     pkgs,
     ...
 }:
@@ -31,7 +31,8 @@ in {
 
     virtualisation.virtualbox.host.enable = true;
     virtualisation.virtualbox.host.enableExtensionPack = true;
-    users.extraGroups.vboxusers.members = ["midugh"];
+    users.extraGroups.vboxusers.members = [ username ];
+    users.extraGroups.wireshark.members = [ username ];
 
     hardware = {
         opengl.enable = true;
@@ -78,6 +79,7 @@ in {
         clang
 
         kubernetes
+        krew
         docker-compose
         kubectx
         kubernetes-helm
@@ -89,6 +91,8 @@ in {
         btrfs-progs
 
         criterion
+
+        wireshark
     ];
     
     services.xserver.libinput = {
