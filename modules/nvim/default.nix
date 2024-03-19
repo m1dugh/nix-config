@@ -22,6 +22,10 @@ in {
             source = ./config;
         };
 
+        home.packages = with pkgs; [
+            ripgrep
+        ];
+
         programs.neovim = {
             enable = true;
             viAlias = cfg.useAliases;
