@@ -46,7 +46,6 @@ in {
         ../modules/i3
         ../modules/zsh
         ../modules/git
-        ../modules/alacritty
         (import ../modules/rofi {
             inherit terminal;
         })
@@ -57,14 +56,19 @@ in {
 
     midugh.git = {
         enable = true;
-        extraConfig = {
-            sendemail = {
-                smptencryption = "tls";
-                smtpserver = "smtp.office365.com";
-                smtpserverport = 587;
-                smtpuser = "firstname.lastname@epita.fr";
-            };
-        };
+#        extraConfig = {
+#            sendemail = {
+#                smptencryption = "tls";
+#                smtpserver = "smtp.office365.com";
+#                smtpserverport = 587;
+#                smtpuser = "firstname.lastname@epita.fr";
+#            };
+#        };
+    };
+
+    home.file.".config/alacritty" = {
+        recursive = true;
+        source = ../modules/alacritty/config;
     };
     
     midugh.i3 = {
