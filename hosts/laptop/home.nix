@@ -52,7 +52,7 @@ in {
             clang-tools
 
             discord
-            teams
+            # teams
             slack
 
             brave

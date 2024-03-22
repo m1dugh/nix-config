@@ -6,6 +6,7 @@
 
 {
     nixpkgs.config.allowUnfree = true;
+    nixpkgs.config.allowUnsupportedSystem = true;
 
     time.timeZone = "Europe/Paris";
 

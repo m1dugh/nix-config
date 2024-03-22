@@ -16,7 +16,11 @@
     ];
 
     services.xserver = {
-        inherit layout xkbVariant xkbOptions;
+        xkb = {
+            inherit layout;
+            options = xkbOptions;
+            variant = xkbVariant;
+        };
         enable = true;
 
         displayManager.defaultSession = defaultSession;

@@ -31,7 +31,24 @@ in {
 
     virtualisation.virtualbox.host.enable = true;
     virtualisation.virtualbox.host.enableExtensionPack = true;
+    virtualisation.libvirtd = {
+        enable = true;
+        qemu = {
+            package = pkgs.qemu_kvm;
+            runAsRoot = true;
+            swtpm.enable = true;
+            ovmf = {
+                enable = true;
+                packages = [(pkgs.OVMF.override {
+                        secureBoot = true;
+                        tpmSupport = true;
+                        }).fd];
+            };
+        };
+    };
+
     users.extraGroups.vboxusers.members = [ username ];
+    users.extraGroups.libvirtd.members = [ username ];
     users.extraGroups.wireshark.members = [ username ];
 
     hardware = {
