@@ -27,7 +27,7 @@
             inherit system;
         };
         in {
-            gdb = pkgs-unstable.gdb;
+            gdb_14 = pkgs-unstable.gdb;
         };
         pkgs = import nixpkgs {
             inherit system;
