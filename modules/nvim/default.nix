@@ -30,8 +30,9 @@ in {
             enable = true;
             viAlias = cfg.useAliases;
             vimAlias = cfg.useAliases;
-            plugins = [
-                pkgs.vimPlugins.packer-nvim
+            plugins = with pkgs; [
+                vimPlugins.packer-nvim
+                vimPlugins.nvim-dap
             ];
         };
     };
