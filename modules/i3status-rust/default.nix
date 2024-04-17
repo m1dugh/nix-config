@@ -1,22 +1,35 @@
 {
-    netDevice ? null,
-    battery ? false,
-}:
-{
+    config,
     lib,
     ...
 }:
-{
-    programs.i3status-rust = {
+with lib;
+let cfg = config.midugh.i3status-rust;
+in {
+    options.midugh.i3status-rust = {
+        enable = mkEnableOption "i3status rust";
+
+        network-devices = mkOption {
+            type = types.listOf types.str;
+            description = "The list of network devices to display.";
+            default = [];
+            example = [ "wlan0" ];
+        };
+
+        show-battery = mkEnableOption "show the battery level";
+    };
+
+    config.programs.i3status-rust = lib.mkIf cfg.enable {
         enable = true;
         bars.default = {
-            blocks = [
-            (lib.mkIf (netDevice != null) {
+            blocks = 
+            (builtins.map (device: {
                 block = "net";
-                device = netDevice;
-                format = " $ip ";
-            })
-            (lib.mkIf battery {
+                inherit device;
+                format = " ${device}: $ip ";
+            }) cfg.network-devices)
+            ++ [
+            (lib.mkIf cfg.show-battery {
                 block = "battery";
                 format = " $icon $percentage $time ";
             })

@@ -33,6 +33,7 @@ in {
             enable = true;
             enableAutosuggestions = true;
             syntaxHighlighting.enable = true;
+
             oh-my-zsh = {
                 enable = true;
                 plugins = [
@@ -58,6 +59,12 @@ in {
 
                     kubectl completion zsh 2> /dev/null >| "$ZSH_CACHE_DIR/completions/_kubectl" &|
                 fi
+
+                # autoload -Uz vcs_info
+                # precmd() { vcs_info }
+                # zstyle ':vcs_info:git:*' formats '%b '
+                # setopt PROMPT_SUBST
+                # PROMPT='%(?:%{%}➜ :%{%}➜ ) %{%}%c%{%} $(git_prompt_info)'
                 '');
             shellAliases = (mkIf cfg.withKubernetes {
                 k = "kubectl";

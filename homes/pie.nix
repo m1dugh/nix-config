@@ -41,21 +41,20 @@ in {
         material-symbols
     ];
 
-    imports = [
-        ../modules/nvim
-        ../modules/i3
-        ../modules/zsh
-        ../modules/git
-        (import ../modules/rofi {
-            inherit terminal;
-        })
-        ../modules/nvim
-        (import ../modules/i3status-rust {
-        })
-    ];
+    midugh.i3status-rust = {
+        enable = true;
+        network-devices = [
+            "eth0"
+        ];
+    };
+
+    midugh.rofi.enable = true;
+    midugh.alacritty.enable = true;
 
     midugh.git = {
         enable = true;
+        username = "romain.le-miere";
+        email = "romain.le-miere@epita.fr";
 #        extraConfig = {
 #            sendemail = {
 #                smptencryption = "tls";
@@ -66,11 +65,6 @@ in {
 #        };
     };
 
-    home.file.".config/alacritty" = {
-        recursive = true;
-        source = ../modules/alacritty/config;
-    };
-    
     midugh.i3 = {
         enable = true;
         inherit lockCommand dmenuCommand wallpaper terminal;
@@ -87,7 +81,7 @@ in {
     programs.bash = {
         enable = true;
         bashrcExtra = ''
-            export SHELL=zsh;
+            exec zsh
         '';
     };
 }

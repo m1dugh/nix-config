@@ -1,9 +1,7 @@
 {
-    lib,
-    inputs,
-    system,
     home-manager,
     pkgs,
+    modules,
     ...
 }:
 let username = "romain.le-miere";
@@ -14,8 +12,9 @@ in {
         extraSpecialArgs = {
             inherit username;
         };
+
         modules = [
             ./pie.nix
-        ];
+        ] ++ modules;
     };
 }

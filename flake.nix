@@ -37,8 +37,23 @@
                 overlay
             ];
         };
-    in {
+        inherit (nixpkgs) lib;
+        generateModules = modules: lib.attrsets.genAttrs modules (name: import (./modules + "/${name}"));
+    in 
+    rec {
         packages.${system}.home-manager = home-manager.defaultPackage.${system};
+
+        nixosModules = generateModules ["xfce"];
+
+        homeManagerModules = generateModules [
+            "alacritty"
+            "git"
+            "i3"
+            "i3status-rust"
+            "nvim"
+            "rofi"
+            "zsh"
+        ];
 
         nixosConfigurations = (
             import ./hosts {
@@ -53,6 +68,7 @@
                 inherit (nixpkgs) lib;
                 inherit (self) inputs;
                 inherit system pkgs home-manager;
+                modules = lib.attrsets.attrValues homeManagerModules;
             }
         );
     };

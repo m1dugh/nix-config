@@ -1,12 +1,24 @@
 {
+    lib,
+    config,
     ...
 }:
-{
-    home.file.".config/alacritty" = {
-        recursive = true;
-        source = ./config;
+with lib;
+let cfg = config.midugh.alacritty;
+in {
+    options.midugh.alacritty = {
+        enable = mkEnableOption "alacritty";
     };
-    programs.alacritty = {
-        enable = true;
+
+    config = mkIf cfg.enable {
+
+        home.file.".config/alacritty" = {
+            recursive = true;
+            source = ./config;
+        };
+
+        programs.alacritty = {
+            enable = true;
+        };
     };
 }
