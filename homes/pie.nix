@@ -70,7 +70,10 @@ in {
         inherit lockCommand dmenuCommand wallpaper terminal;
     };
 
-    midugh.nvim.enable = true;
+    midugh.nvim = {
+        enable = true;
+        debuggers = {};
+    };
     midugh.zsh = {
         enable = true;
         withKubernetes = true;

@@ -19,13 +19,15 @@ in {
         };
 
         debuggers = mkOption {
+            description = "Configurations for debuggers";
             type = types.attrsOf  debuggerType;
-            default = {
+            example = {
                 gdb = {
                     enable = true;
                     package = pkgs.gdb_14;
                 };
             };
+            default = {};
         };
     };
 
