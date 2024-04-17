@@ -26,7 +26,8 @@ in {
             (builtins.map (device: {
                 block = "net";
                 inherit device;
-                format = " ${device}: $ip ";
+                format = " $ip ";
+                format_alt = " ${device}: $ip ";
             }) cfg.network-devices)
             ++ [
             (lib.mkIf cfg.show-battery {
