@@ -16,6 +16,7 @@ in {
 
     midugh.i3status-rust = {
         enable = true;
+        show-battery = true;
         network-devices = [
             "enp60s0"
             "wlp61s0"
