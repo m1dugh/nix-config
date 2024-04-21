@@ -9,6 +9,12 @@
             url = "github:nix-community/home-manager/release-23.11";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+
+        systems.url = "github:nix-systems/default-linux";
+        flake-utils = {
+            url = "github:numtide/flake-utils";
+            inputs.systems.follows = "systems";
+        };
     };
 
     outputs = {
@@ -16,6 +22,7 @@
         nixpkgs,
         nixpkgs-unstable,
         home-manager,
+        flake-utils,
         ...
     }: 
     
@@ -76,5 +83,7 @@
                 modules = lib.attrsets.attrValues homeManagerModules;
             }
         );
+
+        formatter = flake-utils.lib.eachDefaultSystemMap (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
     };
 }
