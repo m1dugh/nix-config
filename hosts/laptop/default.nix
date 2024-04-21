@@ -10,10 +10,11 @@ in {
 
     imports = [
         ./hardware-configuration.nix
-        (import ../../modules/xfce {
-            inherit lockCommand screenshotCommand;
-        })
     ];
+
+    midugh.xfce = {
+        enable = true;
+    };
 
     security.pki.certificateFiles = [
         ../../certs/le-maker.fr.pem

@@ -5,6 +5,7 @@
     username,
     home-manager,
     pkgs,
+    modules,
     ...
 }:
 
@@ -19,11 +20,16 @@
             home-manager.nixosModules.home-manager {
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
-                home-manager.extraSpecialArgs = { inherit username; };
+                home-manager.extraSpecialArgs = {
+                    inherit username;
+                };
                 home-manager.users.${username} = {
-                    imports = [(import ./home.nix)] ++ [(import ./laptop/home.nix)];
+                    imports = [
+                        ./home.nix
+                        ./laptop/home.nix
+                    ] ++ modules.homeManager;
                 };
             }
-        ];
+        ] ++ modules.nixos;
     };
 }

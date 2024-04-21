@@ -55,11 +55,16 @@
             "zsh"
         ];
 
-        nixosConfigurations = (
+        nixosConfigurations = 
+        let modules = {
+            homeManager = lib.attrsets.attrValues homeManagerModules;
+            nixos = lib.attrsets.attrValues nixosModules;
+        };
+        in (
             import ./hosts {
                 inherit (nixpkgs) lib;
                 inherit (self) inputs;
-                inherit system pkgs username home-manager;
+                inherit system pkgs username home-manager modules;
             }
         );
 

@@ -9,25 +9,21 @@ let
     terminal = "${pkgs.alacritty}/bin/alacritty";
     screenshotCommand = "${pkgs.flameshot}/bin/flameshot gui";
 in {
-    imports = [
-        ../../modules/nvim
-        ../../modules/i3
-        ../../modules/zsh
-        ../../modules/git
-        ../../modules/alacritty
-        (import ../../modules/i3status-rust {
-            battery = true;
-            netDevice = "enp60s0";
-        })
-        (import ../../modules/rofi {
-            inherit terminal;
-        })
-    ];
-
     midugh.i3 = {
         enable = true;
         inherit lockCommand dmenuCommand wallpaper terminal screenshotCommand;
     };
+
+    midugh.i3status-rust = {
+        enable = true;
+        network-devices = [
+            "enp60s0"
+            "wlp61s0"
+        ];
+    };
+
+    midugh.rofi.enable = true;
+    midugh.alacritty.enable = true;
 
     midugh.nvim.enable = true;
     midugh.zsh = {
@@ -40,27 +36,26 @@ in {
         username = "m1dugh";
         email = "romain.le-miere@epita.fr";
     };
-    home = {
-        packages = with pkgs; [
-            krb5
-            sshfs
 
-            poetry
+    home.packages = with pkgs; [
+        krb5
+        sshfs
 
-            # LspServer
-            rust-analyzer
-            clang-tools
+        poetry
 
-            discord
-            # teams
-            slack
+        # LspServer
+        rust-analyzer
+        clang-tools
 
-            brave
-            firefox
+        discord
+        # teams
+        slack
 
-            imagemagick
-        ];
-    };
+        brave
+        firefox
+
+        imagemagick
+    ];
 
     xfconf.settings = {
         xfce4-session = {
