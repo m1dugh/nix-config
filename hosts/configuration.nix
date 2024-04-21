@@ -1,68 +1,67 @@
-{
-    pkgs,
-    username,
-    ... 
+{ pkgs
+, username
+, ...
 }:
 
 {
-    nixpkgs.config.allowUnfree = true;
-    nixpkgs.config.allowUnsupportedSystem = true;
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnsupportedSystem = true;
 
-    time.timeZone = "Europe/Paris";
+  time.timeZone = "Europe/Paris";
 
-    networking.networkmanager.enable = true;
+  networking.networkmanager.enable = true;
 
-    nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-    nixpkgs.config.pulseaudio = true;
+  nixpkgs.config.pulseaudio = true;
 
-    environment.systemPackages = with pkgs; [
-        git
-        vim
-        zsh
+  environment.systemPackages = with pkgs; [
+    git
+    vim
+    zsh
 
-        python311
-        poetry
+    python311
+    poetry
 
-        wget
-        curl
-        xorg.xkill
-        htop
-        pciutils
+    wget
+    curl
+    xorg.xkill
+    htop
+    pciutils
 
-        # Documentation
-        man-pages
-        man-pages-posix
-    ];
+    # Documentation
+    man-pages
+    man-pages-posix
+  ];
 
-    documentation.dev.enable = true;
+  documentation.dev.enable = true;
 
-    programs.zsh.enable = true;
+  programs.zsh.enable = true;
 
-    fonts.packages = with pkgs; [
-        fira-code
-        fira-code-symbols
-        noto-fonts
-        noto-fonts-emoji
-        liberation_ttf
+  fonts.packages = with pkgs; [
+    fira-code
+    fira-code-symbols
+    noto-fonts
+    noto-fonts-emoji
+    liberation_ttf
 
-        font-awesome_6
-        material-symbols
-    ];
+    font-awesome_6
+    material-symbols
+  ];
 
-    environment.shells = with pkgs; [zsh];
+  environment.shells = with pkgs; [ zsh ];
 
-    environment.variables = {
-        TERMINAL = "alacritty";
-        EDITOR = "vim";
-        VISUAL = "vim";
-    };
+  environment.variables = {
+    TERMINAL = "alacritty";
+    EDITOR = "vim";
+    VISUAL = "vim";
+  };
 
-    users.users.${username} = {
-        isNormalUser = true;
-        extraGroups = ["wheel" "docker" "networkmanager" "kvm"];
-        shell = pkgs.zsh;
-    };
+  users.users.${username} = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "docker" "networkmanager" "kvm" ];
+    shell = pkgs.zsh;
+  };
 
-    system.stateVersion = "23.11";
+  system.stateVersion = "23.11";
 }

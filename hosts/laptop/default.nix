@@ -1,156 +1,158 @@
-{
-    username,
-    pkgs,
-    ...
+{ username
+, pkgs
+, ...
 }:
 let
-    lockCommand = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock";
-    screenshotCommand = "${pkgs.flameshot}/bin/flameshot gui";
-in {
+  lockCommand = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock";
+  screenshotCommand = "${pkgs.flameshot}/bin/flameshot gui";
+in
+{
 
-    imports = [
-        ./hardware-configuration.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
-    midugh.xfce = {
+  midugh.xfce = {
+    enable = true;
+  };
+
+  security.pki.certificateFiles = [
+    ../../certs/le-maker.fr.pem
+  ];
+
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.loader = {
+    efi.canTouchEfiVariables = true;
+    grub = {
+      useOSProber = true;
+      efiSupport = true;
+      device = "nodev";
+    };
+  };
+
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.enableExtensionPack = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;
+      ovmf = {
         enable = true;
+        packages = [
+          (pkgs.OVMF.override {
+            secureBoot = true;
+            tpmSupport = true;
+          }).fd
+        ];
+      };
+    };
+  };
+
+  users.extraGroups.vboxusers.members = [ username ];
+  users.extraGroups.libvirtd.members = [ username ];
+  users.extraGroups.wireshark.members = [ username ];
+
+  hardware = {
+    opengl.enable = true;
+    nvidia = {
+      prime = {
+        sync.enable = true;
+        offload.enable = false;
+        intelBusId = "PCI:0:2:0";
+        nvidiaBusId = "PCI:1:0:0";
+      };
+      powerManagement.enable = true;
     };
 
-    security.pki.certificateFiles = [
-        ../../certs/le-maker.fr.pem
-    ];
+  };
 
-    boot.kernelModules = ["kvm-intel"];
-    boot.loader = {
-        efi.canTouchEfiVariables = true;
-        grub = {
-            useOSProber = true;
-            efiSupport = true;
-            device = "nodev";
-        };
+  virtualisation.docker = {
+    enable = true;
+    daemon.settings = {
+      features.buildkit = true;
     };
+  };
 
-    virtualisation.virtualbox.host.enable = true;
-    virtualisation.virtualbox.host.enableExtensionPack = true;
-    virtualisation.libvirtd = {
-        enable = true;
-        qemu = {
-            package = pkgs.qemu_kvm;
-            runAsRoot = true;
-            swtpm.enable = true;
-            ovmf = {
-                enable = true;
-                packages = [(pkgs.OVMF.override {
-                        secureBoot = true;
-                        tpmSupport = true;
-                        }).fd];
-            };
-        };
-    };
-
-    users.extraGroups.vboxusers.members = [ username ];
-    users.extraGroups.libvirtd.members = [ username ];
-    users.extraGroups.wireshark.members = [ username ];
-
-    hardware = {
-        opengl.enable = true;
-        nvidia = {
-            prime = {
-                sync.enable = true;
-                offload.enable = false;
-                intelBusId = "PCI:0:2:0";
-                nvidiaBusId = "PCI:1:0:0";
-            };
-            powerManagement.enable = true;
-        };
-
-    };
-
-    virtualisation.docker = {
-        enable = true;
-        daemon.settings = {
-            features.buildkit = true;
-        };
-    };
-
-    sound.enable = true;
-    hardware = {
-        bluetooth.enable = true;
-        pulseaudio.enable = true;
-    };
+  sound.enable = true;
+  hardware = {
+    bluetooth.enable = true;
+    pulseaudio.enable = true;
+  };
 
 
-    environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; [
 
-        # Dev dependencies
-        go
+    # Dev dependencies
+    go
 
-        rustc
-        cargo
-        
-        nodejs
-        yarn
+    rustc
+    cargo
 
-        gcc
-        gnumake
-        gdb
-        clang
+    nodejs
+    yarn
 
-        kubernetes
-        krew
-        docker-compose
-        kubectx
-        kubernetes-helm
-        terraform
+    gcc
+    gnumake
+    gdb
+    clang
 
-        globalprotect-openconnect
-        alacritty
+    kubernetes
+    krew
+    docker-compose
+    kubectx
+    kubernetes-helm
+    terraform
 
-        btrfs-progs
+    globalprotect-openconnect
+    alacritty
 
-        criterion
+    btrfs-progs
 
-        wireshark
-    ];
-    
-    services.xserver.libinput = {
-        enable = true;
-        mouse.naturalScrolling = false;
-        touchpad.naturalScrolling = false;
-        touchpad.accelSpeed = "-0.2";
-    };
+    criterion
 
-    services.xserver.videoDrivers = ["nvidia"];
+    wireshark
+  ];
 
-    services.blueman.enable = true;
+  services.xserver.libinput = {
+    enable = true;
+    mouse.naturalScrolling = false;
+    touchpad.naturalScrolling = false;
+    touchpad.accelSpeed = "-0.2";
+  };
 
-    services.printing = {
-        enable = true;
-    };
+  services.xserver.videoDrivers = [ "nvidia" ];
 
-    services.globalprotect = {
-        enable = true;
-    };
+  services.blueman.enable = true;
 
-    services.avahi = {
-        enable = false;
-        nssmdns = true;
-        openFirewall = true;
-    };
+  services.printing = {
+    enable = true;
+  };
+
+  services.globalprotect = {
+    enable = true;
+  };
+
+  services.avahi = {
+    enable = false;
+    nssmdns = true;
+    openFirewall = true;
+  };
 
 
-    # GPG keys setup.
-    services.pcscd.enable = true;
-    programs.gnupg.agent = {
-        enable = true;
-        pinentryFlavor = "curses";
-        enableSSHSupport = true;
-    };
+  # GPG keys setup.
+  services.pcscd.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryFlavor = "curses";
+    enableSSHSupport = true;
+  };
 
-    programs.xss-lock = {
-        enable = true;
-        lockerCommand = "${lockCommand}";
-    };
+  programs.xss-lock = {
+    enable = true;
+    lockerCommand = "${lockCommand}";
+  };
 
-    networking.resolvconf.dnsExtensionMechanism = false;
+  networking.resolvconf.dnsExtensionMechanism = false;
 }

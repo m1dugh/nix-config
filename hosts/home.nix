@@ -1,21 +1,20 @@
-{
-    pkgs,
-    username,
-    ...
+{ pkgs
+, username
+, ...
 }:
 {
-    home = {
-        username = "${username}";
-        homeDirectory = "/home/${username}";
+  home = {
+    username = "${username}";
+    homeDirectory = "/home/${username}";
 
-        packages = with pkgs; [
-            git-lfs
-            playerctl
-            gparted
-            virt-manager
-        ];
+    packages = with pkgs; [
+      git-lfs
+      playerctl
+      gparted
+      virt-manager
+    ];
 
-        stateVersion = "23.11";
-    };
+    stateVersion = "23.11";
+  };
 
 }
