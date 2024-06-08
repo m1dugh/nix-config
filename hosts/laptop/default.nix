@@ -1,4 +1,5 @@
 { username
+, options
 , pkgs
 , ...
 }:
@@ -148,6 +149,8 @@ in
     pinentryFlavor = "curses";
     enableSSHSupport = true;
   };
+
+  programs.nix-ld.libraries = options.programs.nix-ld.libraries.default ++ (with pkgs; [ ]);
 
   programs.xss-lock = {
     enable = true;

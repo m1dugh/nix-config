@@ -1,0 +1,102 @@
+# Purification
+# by Matthieu Cneude
+# https://github.com/Phantas0s/purification
+
+# Based on:
+
+# Purity
+# by Kevin Lanni
+# https://github.com/therealklanni/purity
+# MIT License
+
+# prompt:
+# %F => color dict
+# %f => reset color
+# %~ => current path
+# %* => time
+# %n => username
+# %m => shortname host
+# %(?..) => prompt conditional - %(condition.true.false)
+
+git_prompt_status()
+(
+    lines=$(command git status --porcelain 2> /dev/null | wc -l)
+    if [ $# -ne 0 ]; then
+        return
+    fi
+    if [ "$lines" -gt 0 ]; then
+        echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
+    fi
+)
+
+prompt_git_branch() {
+    autoload -Uz vcs_info 
+    precmd_vcs_info() { vcs_info }
+    precmd_functions+=( precmd_vcs_info )
+    setopt prompt_subst
+    zstyle ':vcs_info:git:*' formats '%b'
+}
+
+prompt_git_info() {
+    [ ! -z "$vcs_info_msg_0_" ] && echo "$ZSH_THEME_GIT_PROMPT_PREFIX$vcs_info_msg_0_$ZSH_THEME_GIT_PROMPT_SUFFIX"
+}
+
+prompt_purity_precmd() {
+    # Pass a line before each prompt
+    print -P ''
+}
+
+prompt_k8s_info()
+{
+    local cluster namespace
+    if ! command -v kubectl 2> /dev/null 1>&2 ; then
+        return;
+    fi
+
+    cluster=$(command kubectl config current-context)
+    if [ $? -ne 0 ]; then
+        return;
+    fi
+    namespace=$(command kubectl config get-contexts --no-headers | grep -E '^\*' | sed -E 's/\s+/,/g' | cut -d ',' -f 5)
+    echo "$ZSH_THEME_K8S_PROMPT_PREFIX$cluster:$namespace$ZSH_THEME_K8S_PROMPT_SUFFIX"
+
+}
+
+prompt_prefix()
+(
+    LAST_RET_CODE=$?
+    val=""
+    if [ $LAST_RET_CODE -ne 0 ]; then
+        val="%F{red}[$LAST_RET_CODE]%f"
+    else
+        val="%F{green}✅%f"
+    fi
+    echo "$val"
+)
+
+prompt_suffix()
+(
+    val="%F{blue}lvl:($SHLVL)%f"
+    val="$val %F{green}>%f"
+    echo "$val "
+)
+
+prompt_purification_setup() {
+    # Display git branch
+
+    autoload -Uz add-zsh-hook
+    add-zsh-hook precmd prompt_purity_precmd
+
+    ZSH_THEME_GIT_PROMPT_PREFIX='%F{blue}git:(%f%F{red}'
+    ZSH_THEME_GIT_PROMPT_SUFFIX='%f%F{blue})%f'
+    ZSH_THEME_GIT_PROMPT_DIRTY="%F{red}λ%f:"
+
+    ZSH_THEME_K8S_PROMPT_PREFIX='%F{blue}k8s:(%f%F{red}'
+    ZSH_THEME_K8S_PROMPT_SUFFIX='%f%F{blue})%f'
+
+    prompt_git_branch
+    PROMPT=$'$(prompt_prefix) %F{cyan}%~ %f%B $(prompt_git_info) $(git_prompt_status)\n$(prompt_suffix)'
+    RPROMPT=$'$(prompt_k8s_info)'
+}
+
+prompt_purification_setup

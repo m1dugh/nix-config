@@ -38,6 +38,10 @@
 
   programs.zsh.enable = true;
 
+  programs.nix-ld = {
+    enable = true;
+  };
+
   fonts.packages = with pkgs; [
     fira-code
     fira-code-symbols

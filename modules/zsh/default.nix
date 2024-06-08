@@ -14,10 +14,10 @@ in {
       description = "The size of the history";
     };
 
-    theme = mkOption {
-      type = types.str;
-      default = "robbyrussell";
-      description = "The OhMyZsh theme";
+    viMode = mkOption {
+        type = types.bool;
+        default = true;
+        description = "Whether to enable vim mode";
     };
 
     withKubernetes = mkOption {
@@ -33,20 +33,13 @@ in {
       enableAutosuggestions = true;
       syntaxHighlighting.enable = true;
 
-      oh-my-zsh = {
-        enable = true;
-        plugins = [
-          "git"
-        ];
-        theme = cfg.theme;
-      };
-
       history = {
         size = cfg.historySize;
         save = cfg.historySize;
       };
 
-      initExtra = (strings.optionalString cfg.withKubernetes ''
+      initExtra = strings.concatStringsSep "\n" [
+      (strings.optionalString cfg.withKubernetes ''
         if (( $+commands[kubectl] )); then
             # If the completion file doesn't exist yet, we need to autoload it and
             # bind it to `kubectl`. Otherwise, compinit will have already done that.
@@ -58,16 +51,41 @@ in {
 
             kubectl completion zsh 2> /dev/null >| "$ZSH_CACHE_DIR/completions/_kubectl" &|
         fi
+      '')
 
-        # autoload -Uz vcs_info
-        # precmd() { vcs_info }
-        # zstyle ':vcs_info:git:*' formats '%b '
-        # setopt PROMPT_SUBST
-        # PROMPT='%(?:%{%}➜ :%{%}➜ ) %{%}%c%{%} $(git_prompt_info)'
-      '');
-      shellAliases = (mkIf cfg.withKubernetes {
-        k = "kubectl";
-      });
+      (strings.optionalString cfg.viMode ''
+       bindkey -v
+       export KEYTIMEOUT=1
+       zmodload zsh/complist
+       bindkey -M menuselect 'h' vi-backward-char
+       bindkey -M menuselect 'k' vi-up-line-or-history
+       bindkey -M menuselect 'l' vi-forward-char
+       bindkey -M menuselect 'j' vi-down-line-or-history
+      '')
+
+      ''
+      fpath=(${./prompt} $fpath)
+      autoload -Uz prompt_custom_setup && prompt_custom_setup
+      ''
+      ];
+      shellAliases = lib.mkMerge 
+      [
+          (mkIf cfg.withKubernetes { k = "kubectl"; })
+          {
+            ga = "git add";
+            gp = "git push";
+            gcmsg = "git commit -m";
+            gcam = "git commit -am";
+            gl = "git pull";
+            gpr = "git pull --rebase";
+            gst = "git status";
+            gd = "git diff";
+            gco = "git checkout";
+            gsw = "git switch";
+            gcb = "git checkout -b";
+            glo = "git log --oneline";
+          }
+      ];
     };
   };
 }
