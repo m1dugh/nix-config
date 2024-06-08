@@ -21,12 +21,11 @@
 git_prompt_status()
 (
     lines=$(command git status --porcelain 2> /dev/null | wc -l)
-    if [ $# -ne 0 ]; then
+    if [ $? -ne 0 ] || [ "$lines" -le 0 ]; then
         return
     fi
-    if [ "$lines" -gt 0 ]; then
-        echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
-    fi
+
+    echo " $ZSH_THEME_GIT_PROMPT_DIRTY"
 )
 
 prompt_git_branch() {
@@ -38,7 +37,7 @@ prompt_git_branch() {
 }
 
 prompt_git_info() {
-    [ ! -z "$vcs_info_msg_0_" ] && echo "$ZSH_THEME_GIT_PROMPT_PREFIX$vcs_info_msg_0_$ZSH_THEME_GIT_PROMPT_SUFFIX"
+    [ ! -z "$vcs_info_msg_0_" ] && echo " $ZSH_THEME_GIT_PROMPT_PREFIX$vcs_info_msg_0_$ZSH_THEME_GIT_PROMPT_SUFFIX"
 }
 
 prompt_purity_precmd() {
@@ -58,7 +57,7 @@ prompt_k8s_info()
         return;
     fi
     namespace=$(command kubectl config get-contexts --no-headers | grep -E '^\*' | sed -E 's/\s+/,/g' | cut -d ',' -f 5)
-    echo "$ZSH_THEME_K8S_PROMPT_PREFIX$cluster:$namespace$ZSH_THEME_K8S_PROMPT_SUFFIX"
+    echo "$ZSH_THEME_K8S_PROMPT_PREFIX$cluster/$namespace$ZSH_THEME_K8S_PROMPT_SUFFIX"
 
 }
 
@@ -74,11 +73,20 @@ prompt_prefix()
     echo "$val"
 )
 
+prompt_host()
+(
+    echo "%F{red}[%n@%m]%f"
+)
+
+prompt_level()
+(
+    echo " %F{blue}lvl($SHLVL)%f"
+)
+
 prompt_suffix()
 (
-    val="%F{blue}lvl:($SHLVL)%f"
-    val="$val %F{green}>%f"
-    echo "$val "
+    val="%F{green}>%f"
+    echo "$val"
 )
 
 prompt_purification_setup() {
@@ -89,14 +97,13 @@ prompt_purification_setup() {
 
     ZSH_THEME_GIT_PROMPT_PREFIX='%F{blue}git:(%f%F{red}'
     ZSH_THEME_GIT_PROMPT_SUFFIX='%f%F{blue})%f'
-    ZSH_THEME_GIT_PROMPT_DIRTY="%F{red}λ%f:"
+    ZSH_THEME_GIT_PROMPT_DIRTY="%F{yellow}λ%f"
 
-    ZSH_THEME_K8S_PROMPT_PREFIX='%F{blue}k8s:(%f%F{red}'
-    ZSH_THEME_K8S_PROMPT_SUFFIX='%f%F{blue})%f'
+    ZSH_THEME_K8S_PROMPT_PREFIX='%F{magenta}k8s:(%f%F{blue}'
+    ZSH_THEME_K8S_PROMPT_SUFFIX='%f%F{magenta})%f'
 
     prompt_git_branch
-    PROMPT=$'$(prompt_prefix) %F{cyan}%~ %f%B $(prompt_git_info) $(git_prompt_status)\n$(prompt_suffix)'
-    RPROMPT=$'$(prompt_k8s_info)'
+    PROMPT=$'$(prompt_prefix)$(prompt_level)%B $(prompt_k8s_info)%b $(prompt_host)\n %F{cyan}%~%f%B$(prompt_git_info)$(git_prompt_status)%b '
 }
 
 prompt_purification_setup
