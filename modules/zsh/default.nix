@@ -76,6 +76,7 @@ in {
       [
           (mkIf cfg.withKubernetes { k = "kubectl"; })
           {
+            ls = "ls --color=auto";
             ga = "git add";
             gp = "git push";
             gcmsg = "git commit -m";
