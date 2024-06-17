@@ -76,7 +76,7 @@ in
   };
   midugh.zsh = {
     enable = true;
-    withKubernetes = true;
+    withKubernetes = false;
   };
 
   programs.home-manager.enable = true;
