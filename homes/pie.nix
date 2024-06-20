@@ -84,7 +84,7 @@ in
   programs.bash = {
     enable = true;
     bashrcExtra = ''
-      exec zsh
+      # exec zsh
     '';
   };
 }
