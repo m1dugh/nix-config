@@ -66,6 +66,4 @@
     extraGroups = [ "wheel" "docker" "networkmanager" "kvm" ];
     shell = pkgs.zsh;
   };
-
-  system.stateVersion = "23.11";
 }

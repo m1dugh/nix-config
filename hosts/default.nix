@@ -8,10 +8,13 @@
 , ...
 }:
 
-{
+let stateVersion = "24.05";
+in {
   midugh-laptop = lib.nixosSystem {
     inherit system;
-    specialArgs = { inherit username inputs pkgs; };
+    specialArgs = { 
+        inherit username inputs pkgs stateVersion; 
+    };
     modules = [
       ./laptop
       ./configuration.nix
@@ -21,7 +24,7 @@
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.extraSpecialArgs = {
-          inherit username;
+          inherit username stateVersion;
         };
         home-manager.users.${username} = {
           imports = [

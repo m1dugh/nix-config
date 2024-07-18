@@ -72,6 +72,11 @@ in {
       betterlockscreen
     ];
 
+    services.displayManager = {
+        inherit (cfg) defaultSession;
+    };
+
+
     services.xserver = {
       xkb = {
         inherit (cfg.keyboard) layout variant options;
@@ -79,7 +84,6 @@ in {
 
       enable = true;
 
-      displayManager.defaultSession = cfg.defaultSession;
       desktopManager = {
         xterm.enable = false;
         xfce = {

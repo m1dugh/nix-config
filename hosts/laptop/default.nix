@@ -1,6 +1,7 @@
 { username
 , options
 , pkgs
+, stateVersion
 , ...
 }:
 let
@@ -117,7 +118,7 @@ in
     wireshark
   ];
 
-  services.xserver.libinput = {
+  services.libinput = {
     enable = true;
     mouse.naturalScrolling = false;
     touchpad.naturalScrolling = false;
@@ -138,7 +139,7 @@ in
 
   services.avahi = {
     enable = false;
-    nssmdns = true;
+    nssmdns4 = true;
     openFirewall = true;
   };
 
@@ -147,7 +148,7 @@ in
   services.pcscd.enable = true;
   programs.gnupg.agent = {
     enable = true;
-    pinentryFlavor = "curses";
+    pinentryPackage = pkgs.pinentry-curses;
     enableSSHSupport = true;
   };
 
@@ -158,5 +159,6 @@ in
     lockerCommand = "${lockCommand}";
   };
 
+    system.stateVersion = stateVersion;
   networking.resolvconf.dnsExtensionMechanism = false;
 }

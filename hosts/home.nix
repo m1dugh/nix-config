@@ -13,8 +13,5 @@
       gparted
       virt-manager
     ];
-
-    stateVersion = "23.11";
   };
-
 }

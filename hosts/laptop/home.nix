@@ -1,4 +1,5 @@
 { pkgs
+, stateVersion
 , ...
 }:
 let
@@ -38,7 +39,9 @@ in
     email = "romain.le-miere@epita.fr";
   };
 
-  home.packages = with pkgs; [
+  home = {
+  inherit stateVersion;
+  packages = with pkgs; [
     krb5
     sshfs
 
@@ -57,6 +60,7 @@ in
 
     imagemagick
   ];
+  };
 
   xfconf.settings = {
     xfce4-session = {
