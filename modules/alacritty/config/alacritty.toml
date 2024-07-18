@@ -1,0 +1,11 @@
+[shell]
+program = "/usr/bin/env"
+args = ["zsh"]
+
+[window]
+decorations = "None"
+opacity = 0.95
+
+[font]
+normal = { family = "monospace", style = "Regular" }
+size = 10
