@@ -18,7 +18,7 @@ in
   };
 
   security.pki.certificateFiles = [
-    ../../certs/le-maker.fr.pem
+    # ../../certs/le-maker.fr.pem
   ];
 
   boot.kernelModules = [ "kvm-intel" ];
@@ -54,6 +54,7 @@ in
   users.extraGroups.vboxusers.members = [ username ];
   users.extraGroups.libvirtd.members = [ username ];
   users.extraGroups.wireshark.members = [ username ];
+  users.extraGroups.dialout.members = [ username ];
 
   hardware = {
     opengl.enable = true;
