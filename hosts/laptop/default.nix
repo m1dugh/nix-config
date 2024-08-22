@@ -3,17 +3,24 @@
 , options
 , pkgs
 , stateVersion
+, lib
 , ...
 }:
 let
   lockCommand = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock";
 in
 {
+
+  imports = [
+    ./hardware-configuration.nix
+  ];
+
   networking.hostName = "midugh-laptop";
   users.groups.${username} = {
     members = [ username ];
     gid = 1000;
   };
+
   users.users.${username} = {
     isNormalUser = true;
     extraGroups = [
@@ -37,10 +44,6 @@ in
     ];
   };
 
-  imports = [
-    ./hardware-configuration.nix
-  ];
-
   xdg.mime.defaultApplications = {
     "x-scheme-handler/http" = "brave.desktop";
     "x-scheme-handler/https" = "brave.desktop";
@@ -53,14 +56,13 @@ in
     "application/x-extension-xht" = "brave.desktop";
   };
 
-  midugh.xfce = {
-    enable = true;
-  };
-
   boot.loader = {
     efi.canTouchEfiVariables = true;
     systemd-boot.enable = true;
+    timeout = 0;
   };
+
+  boot.plymouth.enable = true;
 
   virtualisation.virtualbox.host = {
     enable = false;
@@ -89,20 +91,6 @@ in
   users.extraGroups.libvirtd.members = [ username ];
   users.extraGroups.wireshark.members = [ username ];
   users.extraGroups.dialout.members = [ username ];
-
-  hardware = {
-    opengl.enable = true;
-    nvidia = {
-      prime = {
-        sync.enable = true;
-        offload.enable = false;
-        intelBusId = "PCI:0:2:0";
-        nvidiaBusId = "PCI:1:0:0";
-      };
-      powerManagement.enable = true;
-    };
-
-  };
 
   virtualisation.docker = {
     enable = true;
@@ -172,7 +160,42 @@ in
     touchpad.accelSpeed = "-0.2";
   };
 
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.displayManager = 
+  let
+      sessions = 
+      let
+          swaySession = pkgs.writeText "sway.desktop" ''
+              [Desktop Entry]
+              Name=Sway
+              Comment=Wayland window manager
+              Exec=sway
+              Type=Application
+          '';
+      in pkgs.stdenv.mkDerivation {
+          src = ./.;
+          providedSessions = [
+              "sway"
+          ];
+          name = "ly-sessions";
+          configurePhase = ''
+              mkdir -p $out/share/wayland-sessions/
+          '';
+          installPhase = ''
+              cp ${swaySession} $out/share/wayland-sessions/sway.desktop
+          '';
+      };
+  in {
+      enable = true;
+      sessionPackages = lib.lists.singleton sessions;
+  };
+
+  services.xserver = {
+    enable = true;
+    videoDrivers = [ "nouveau" ];
+    displayManager.gdm = {
+        enable = true;
+    };
+  };
 
   services.blueman.enable = true;
 
@@ -205,6 +228,8 @@ in
     enable = true;
     lockerCommand = "${lockCommand}";
   };
+
+  programs.sway.enable = true;
 
   system.stateVersion = stateVersion;
   networking.resolvconf.dnsExtensionMechanism = false;

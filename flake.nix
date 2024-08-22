@@ -62,13 +62,16 @@
         "nvim"
         "rofi"
         "zsh"
+        "sway"
       ];
 
       nixosConfigurations =
         let
           modules = {
             homeManager = lib.attrsets.attrValues homeManagerModules;
-            nixos = lib.attrsets.attrValues nixosModules;
+            nixos = lib.attrsets.attrValues nixosModules ++ [
+            "${nixpkgs-unstable}/nixos/modules/services/display-managers/ly.nix"
+            ];
           };
         in
         (

@@ -10,28 +10,14 @@ let
   screenshotCommand = "${pkgs.flameshot}/bin/flameshot gui";
 in
 {
-  midugh.i3 = {
-    enable = true;
-    inherit lockCommand dmenuCommand wallpaper terminal screenshotCommand;
-  };
-
-  midugh.i3status-rust = {
-    enable = true;
-    show-battery = true;
-    network-devices = [
-      "enp60s0"
-      "wlp61s0"
-    ];
-  };
-
-  midugh.rofi.enable = true;
-  midugh.alacritty.enable = true;
-
   midugh.nvim.enable = true;
   midugh.zsh = {
     enable = true;
     withKubernetes = true;
   };
+
+  midugh.sway.enable = true;
+
   midugh.git = {
     enable = true;
     editor = "nvim";
@@ -60,15 +46,6 @@ in
 
       imagemagick
     ];
-  };
-
-  xfconf.settings = {
-    xfce4-session = {
-      "general/LockCommand" = "${lockCommand}";
-    };
-    xfce4-keyboard-shortcuts = {
-      "commands/custom/Print" = screenshotCommand;
-    };
   };
 
   services.ssh-agent.enable = true;
