@@ -1,4 +1,5 @@
 { username
+, config
 , options
 , pkgs
 , stateVersion
@@ -6,9 +7,33 @@
 }:
 let
   lockCommand = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock";
-  screenshotCommand = "${pkgs.flameshot}/bin/flameshot gui";
 in
 {
+    users.groups.${username} = {
+        members = [ username ];
+        gid = 1000;
+    };
+    users.users.${username} = {
+        isNormalUser = true;
+        extraGroups = [
+            "wheel"
+            "docker"
+            "networkmanager"
+            "kvm"
+            config.users.groups.users.name
+        ];
+        shell = pkgs.zsh;
+        uid = 1000;
+    };
+
+    users.users."guest" = {
+        isNormalUser = true;
+        shell = pkgs.zsh;
+        uid = 5000;
+        extraGroups = [
+            config.users.groups.users.name
+        ];
+    };
 
   imports = [
     ./hardware-configuration.nix
@@ -107,6 +132,9 @@ in
     kubectx
     kubernetes-helm
     terraform
+    sops
+    wireguard-tools
+    age
 
     globalprotect-openconnect
     alacritty
@@ -116,6 +144,17 @@ in
     criterion
 
     wireshark
+
+    libreoffice-qt6-fresh
+    gimp
+    burpsuite
+    bruno
+    git-lfs
+    arandr
+    openssl
+    yq
+    jq
+    bear
   ];
 
   services.libinput = {

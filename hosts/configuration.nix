@@ -1,19 +1,19 @@
 { pkgs
-, username
 , ...
 }:
 
 {
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowUnsupportedSystem = true;
+    nixpkgs.config = {
+        allowUnfree = true;
+        allowUnsupportedSystem = true;
+        pulseaudio = true;
+    };
 
   time.timeZone = "Europe/Paris";
 
   networking.networkmanager.enable = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  nixpkgs.config.pulseaudio = true;
 
   environment.systemPackages = with pkgs; [
     git
@@ -61,9 +61,4 @@
     VISUAL = "vim";
   };
 
-  users.users.${username} = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "networkmanager" "kvm" ];
-    shell = pkgs.zsh;
-  };
 }
