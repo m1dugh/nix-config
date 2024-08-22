@@ -9,6 +9,7 @@ let
   lockCommand = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock";
 in
 {
+    networking.hostName = "midugh-laptop";
     users.groups.${username} = {
         members = [ username ];
         gid = 1000;
@@ -43,22 +44,16 @@ in
     enable = true;
   };
 
-  security.pki.certificateFiles = [
-    # ../../certs/le-maker.fr.pem
-  ];
-
-  boot.kernelModules = [ "kvm-intel" ];
   boot.loader = {
     efi.canTouchEfiVariables = true;
-    grub = {
-      useOSProber = true;
-      efiSupport = true;
-      device = "nodev";
-    };
+    systemd-boot.enable = true;
   };
 
-  virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.host.enableExtensionPack = true;
+  virtualisation.virtualbox.host = {
+	  enable = false;
+	  enableExtensionPack = true;
+  };
+
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
