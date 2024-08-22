@@ -41,6 +41,18 @@ in
     ./hardware-configuration.nix
   ];
 
+  xdg.mime.defaultApplications = {
+    "x-scheme-handler/http" = "brave.desktop";
+    "x-scheme-handler/https" = "brave.desktop";
+    "text/html" = "brave.desktop";
+    "application/x-extension-htm" = "brave.desktop";
+    "application/x-extension-html" = "brave.desktop";
+    "application/x-extension-shtml" = "brave.desktop";
+    "application/xhtml+xml" = "brave.desktop";
+    "application/x-extension-xhtml" = "brave.desktop";
+    "application/x-extension-xht" = "brave.desktop";
+  };
+
   midugh.xfce = {
     enable = true;
   };
