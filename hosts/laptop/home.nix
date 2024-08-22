@@ -40,26 +40,26 @@ in
   };
 
   home = {
-  inherit stateVersion;
-  packages = with pkgs; [
-    krb5
-    sshfs
+    inherit stateVersion;
+    packages = with pkgs; [
+      krb5
+      sshfs
 
-    poetry
+      poetry
 
-    # LspServer
-    rust-analyzer
-    clang-tools
+      # LspServer
+      rust-analyzer
+      clang-tools
 
-    discord
-    # teams
-    slack
+      discord
+      # teams
+      slack
 
-    brave
-    firefox
+      brave
+      firefox
 
-    imagemagick
-  ];
+      imagemagick
+    ];
   };
 
   xfconf.settings = {

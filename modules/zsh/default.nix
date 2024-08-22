@@ -15,9 +15,9 @@ in {
     };
 
     viMode = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Whether to enable vim mode";
+      type = types.bool;
+      default = true;
+      description = "Whether to enable vim mode";
     };
 
     withKubernetes = mkOption {
@@ -39,34 +39,34 @@ in {
       };
 
       initExtra = strings.concatStringsSep "\n" [
-      ''
-      ZSH_CACHE_DIR=''${ZSH_CACHE_DIR:-~/.config/zsh/}
-      ''
-      (strings.optionalString cfg.withKubernetes ''
-        source <(kubectl completion zsh)
-      '')
+        ''
+          ZSH_CACHE_DIR=''${ZSH_CACHE_DIR:-~/.config/zsh/}
+        ''
+        (strings.optionalString cfg.withKubernetes ''
+          source <(kubectl completion zsh)
+        '')
 
-      ''
-      zmodload zsh/complist
-      bindkey '^E' autosuggest-accept
-      bindkey '^[[1;5C' forward-word
-      bindkey '^[[1;5D' backward-word
-      fpath=(${./prompt} $fpath)
-      autoload -Uz prompt_custom_setup && prompt_custom_setup
-      ''
+        ''
+          zmodload zsh/complist
+          bindkey '^E' autosuggest-accept
+          bindkey '^[[1;5C' forward-word
+          bindkey '^[[1;5D' backward-word
+          fpath=(${./prompt} $fpath)
+          autoload -Uz prompt_custom_setup && prompt_custom_setup
+        ''
 
-      (strings.optionalString cfg.viMode ''
-       bindkey -v
-       export KEYTIMEOUT=1
-       bindkey -M menuselect 'h' vi-backward-char
-       bindkey -M menuselect 'k' vi-up-line-or-history
-       bindkey -M menuselect 'l' vi-forward-char
-       bindkey -M menuselect 'j' vi-down-line-or-history
-      '')
+        (strings.optionalString cfg.viMode ''
+          bindkey -v
+          export KEYTIMEOUT=1
+          bindkey -M menuselect 'h' vi-backward-char
+          bindkey -M menuselect 'k' vi-up-line-or-history
+          bindkey -M menuselect 'l' vi-forward-char
+          bindkey -M menuselect 'j' vi-down-line-or-history
+        '')
 
       ];
-      shellAliases = lib.mkMerge 
-      [
+      shellAliases = lib.mkMerge
+        [
           (mkIf cfg.withKubernetes { k = "kubectl"; })
           {
             ls = "ls --color=auto";
@@ -83,7 +83,7 @@ in {
             gcb = "git checkout -b";
             glo = "git log --oneline";
           }
-      ];
+        ];
     };
   };
 }

@@ -52,11 +52,14 @@ prompt_k8s_info()
         return;
     fi
 
-    cluster=$(command kubectl config current-context)
+    cluster=$(command kubectl config current-context 2> /dev/null)
     if [ $? -ne 0 ]; then
         return;
     fi
-    namespace=$(command kubectl config get-contexts --no-headers | grep -E '^\*' | sed -E 's/\s+/,/g' | cut -d ',' -f 5)
+    namespace=$(command kubectl config get-contexts --no-headers 2> /dev/null | grep -E '^\*' | sed -E 's/\s+/,/g' | cut -d ',' -f 5)
+    if [ $? -ne 0 ]; then
+        return;
+    fi
     echo "$ZSH_THEME_K8S_PROMPT_PREFIX$cluster/$namespace$ZSH_THEME_K8S_PROMPT_SUFFIX"
 
 }

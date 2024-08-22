@@ -9,32 +9,33 @@ let
   lockCommand = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock";
 in
 {
-    networking.hostName = "midugh-laptop";
-    users.groups.${username} = {
-        members = [ username ];
-        gid = 1000;
-    };
-    users.users.${username} = {
-        isNormalUser = true;
-        extraGroups = [
-            "wheel"
-            "docker"
-            "networkmanager"
-            "kvm"
-            config.users.groups.users.name
-        ];
-        shell = pkgs.zsh;
-        uid = 1000;
-    };
+  networking.hostName = "midugh-laptop";
+  users.groups.${username} = {
+    members = [ username ];
+    gid = 1000;
+  };
+  users.users.${username} = {
+    isNormalUser = true;
+    extraGroups = [
+      "wheel"
+      "docker"
+      "networkmanager"
+      "kvm"
+      config.users.groups.users.name
+    ];
+    shell = pkgs.zsh;
+    uid = 1000;
+    group = config.users.groups.${username}.name;
+  };
 
-    users.users."guest" = {
-        isNormalUser = true;
-        shell = pkgs.zsh;
-        uid = 5000;
-        extraGroups = [
-            config.users.groups.users.name
-        ];
-    };
+  users.users."guest" = {
+    isNormalUser = true;
+    shell = pkgs.zsh;
+    uid = 5000;
+    extraGroups = [
+      config.users.groups.users.name
+    ];
+  };
 
   imports = [
     ./hardware-configuration.nix
@@ -50,8 +51,8 @@ in
   };
 
   virtualisation.virtualbox.host = {
-	  enable = false;
-	  enableExtensionPack = true;
+    enable = false;
+    enableExtensionPack = true;
   };
 
   virtualisation.libvirtd = {
@@ -193,6 +194,6 @@ in
     lockerCommand = "${lockCommand}";
   };
 
-    system.stateVersion = stateVersion;
+  system.stateVersion = stateVersion;
   networking.resolvconf.dnsExtensionMechanism = false;
 }

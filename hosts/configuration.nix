@@ -3,11 +3,11 @@
 }:
 
 {
-    nixpkgs.config = {
-        allowUnfree = true;
-        allowUnsupportedSystem = true;
-        pulseaudio = true;
-    };
+  nixpkgs.config = {
+    allowUnfree = true;
+    allowUnsupportedSystem = true;
+    pulseaudio = true;
+  };
 
   time.timeZone = "Europe/Paris";
 

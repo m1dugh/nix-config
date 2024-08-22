@@ -9,7 +9,7 @@
   ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "usbhid" "nvme" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = ["dm-snapshot" ];
+  boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" "ec_sys" ];
   boot.extraModprobeConfig = ''
     options ec_sys write_support=1
@@ -32,27 +32,29 @@
   ];
 
   boot.initrd.luks.devices.crypted = {
-	device = "/dev/disk/by-uuid/63640f50-26db-4e09-82ee-92e18b93e62e";
+    device = "/dev/disk/by-uuid/63640f50-26db-4e09-82ee-92e18b93e62e";
   };
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/4a010770-8fa6-4e11-ab70-530791fac16b";
+    {
+      device = "/dev/disk/by-uuid/4a010770-8fa6-4e11-ab70-530791fac16b";
       fsType = "ext4";
     };
   fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/27e78500-e9d5-4a36-a881-be9f90fcafce";
+    {
+      device = "/dev/disk/by-uuid/27e78500-e9d5-4a36-a881-be9f90fcafce";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/B362-9D39";
+    {
+      device = "/dev/disk/by-uuid/B362-9D39";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/2b179543-e2ba-4957-bef5-8dec53849431"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/2b179543-e2ba-4957-bef5-8dec53849431"; }];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

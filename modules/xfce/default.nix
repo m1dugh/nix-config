@@ -73,7 +73,7 @@ in {
     ];
 
     services.displayManager = {
-        inherit (cfg) defaultSession;
+      inherit (cfg) defaultSession;
     };
 
 

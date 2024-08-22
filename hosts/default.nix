@@ -12,8 +12,8 @@ let stateVersion = "24.05";
 in {
   midugh-laptop = lib.nixosSystem {
     inherit system;
-    specialArgs = { 
-        inherit username inputs pkgs stateVersion; 
+    specialArgs = {
+      inherit username inputs pkgs stateVersion;
     };
     modules = [
       ./laptop
