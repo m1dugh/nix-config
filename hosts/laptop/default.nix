@@ -160,40 +160,42 @@ in
     touchpad.accelSpeed = "-0.2";
   };
 
-  services.displayManager = 
-  let
-      sessions = 
-      let
+  services.displayManager =
+    let
+      sessions =
+        let
           swaySession = pkgs.writeText "sway.desktop" ''
-              [Desktop Entry]
-              Name=Sway
-              Comment=Wayland window manager
-              Exec=sway
-              Type=Application
+            [Desktop Entry]
+            Name=Sway
+            Comment=Wayland window manager
+            Exec=sway
+            Type=Application
           '';
-      in pkgs.stdenv.mkDerivation {
+        in
+        pkgs.stdenv.mkDerivation {
           src = ./.;
           providedSessions = [
-              "sway"
+            "sway"
           ];
           name = "ly-sessions";
           configurePhase = ''
-              mkdir -p $out/share/wayland-sessions/
+            mkdir -p $out/share/wayland-sessions/
           '';
           installPhase = ''
-              cp ${swaySession} $out/share/wayland-sessions/sway.desktop
+            cp ${swaySession} $out/share/wayland-sessions/sway.desktop
           '';
-      };
-  in {
+        };
+    in
+    {
       enable = true;
       sessionPackages = lib.lists.singleton sessions;
-  };
+    };
 
   services.xserver = {
     enable = true;
     videoDrivers = [ "nouveau" ];
     displayManager.gdm = {
-        enable = true;
+      enable = true;
     };
   };
 

@@ -84,14 +84,14 @@
 
   hardware = {
     opengl = {
-        extraPackages = with pkgs; [
-            mesa
-            mesa.drivers
-        ];
-        enable = true;
+      extraPackages = with pkgs; [
+        mesa
+        mesa.drivers
+      ];
+      enable = true;
     };
     nvidia = {
-        open = true;
+      open = true;
       prime = {
         sync.enable = true;
         offload.enable = false;
