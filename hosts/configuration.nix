@@ -26,6 +26,7 @@
     wget
     curl
     xorg.xkill
+    killall
     htop
     pciutils
 

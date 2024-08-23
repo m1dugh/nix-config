@@ -1,4 +1,5 @@
 { config
+, rootPath
 , lib
 , pkgs
 , ...
@@ -11,6 +12,11 @@ in
 {
   options.midugh.sway = {
     enable = mkEnableOption "sway config";
+    wallpaper = mkOption {
+        type = types.nullOr types.path;
+        default = rootPath + "/wallpapers/wallpaper.jpg";
+        description = "The path to the wall paper";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -21,12 +27,12 @@ in
 
     home.file.".config/swaylock/config" = {
         text = ''
-        image=${../../wallpapers/300SL.png}
+        image=${rootPath + "/wallpapers/300SL.png"}
         '';
     };
 
     midugh.rofi.enable = true;
-    midugh.i3status-rust.enable = true;
+    midugh.waybar.enable = true;
 
     wayland.windowManager.sway = {
       enable = true;
@@ -39,6 +45,10 @@ in
           names = [ "DejaVu Sans Mono" ];
           style = "Bold Semi-Condensed";
           size = 11.0;
+        };
+
+        output."*" = attrsets.filterAttrs (n: v: v != null) {
+            background = strings.optionalString (cfg.wallpaper != null) "${cfg.wallpaper} fill";
         };
 
         input."*" = {
@@ -62,25 +72,28 @@ in
           "${modifier}+d" = ''exec "${menu}"'';
           "${modifier}+r" = "mode resize";
           "${modifier}+Tab" = ''exec "${lib.getExe pkgs.swaylock}"'';
+          "${modifier}+Shift+r" = "reload";
         };
+          bars = [];
 
-        bars = [{
-          statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.config/i3status-rust/config-default.toml";
-          position = "top";
-          trayOutput = "primary";
-
-          fonts = {
-            names = [ "FiraSans" "Pango" ];
-            style = "Bold Semi-Condensed";
-            size = 14.0;
-          };
-        }];
+          startup = [{
+            command =
+            let
+                script = pkgs.writeShellScriptBin "reload-waybar" ''
+                ${lib.getExe pkgs.killall} waybar
+                ${lib.getExe pkgs.waybar}
+                '';
+            in ''
+            ${lib.getExe script}
+            '';
+            always = true;
+          }];
       };
+
 
       extraConfig = ''
         set $opacity 0.9
-        for_window [class=".*"] opacity $opacity
-        for_window [app_id=".*"] opacity $opacity
+        for_window [app_id="Alacritty"] opacity $opacity
 
         default_border none
         for_window [class="^.*"] border pixel 2

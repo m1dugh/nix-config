@@ -29,12 +29,10 @@
     let
       system = "x86_64-linux";
       username = "midugh";
+      pkgs-unstable = import nixpkgs-unstable {
+        inherit system;
+      };
       overlay = final: prev:
-        let
-          pkgs-unstable = import nixpkgs-unstable {
-            inherit system;
-          };
-        in
         {
           gdb_14 = pkgs-unstable.gdb;
         };
@@ -63,6 +61,7 @@
         "rofi"
         "zsh"
         "sway"
+        "waybar"
       ];
 
       nixosConfigurations =
@@ -78,7 +77,13 @@
           import ./hosts {
             inherit (nixpkgs) lib;
             inherit (self) inputs;
-            inherit system pkgs username home-manager modules;
+            inherit
+                system
+                pkgs
+                pkgs-unstable
+                username
+                home-manager
+                modules;
           }
         );
 
@@ -86,7 +91,7 @@
         import ./homes {
           inherit (nixpkgs) lib;
           inherit (self) inputs;
-          inherit system pkgs home-manager;
+          inherit system pkgs pkgs-unstable home-manager;
           modules = lib.attrsets.attrValues homeManagerModules;
         }
       );

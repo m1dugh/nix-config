@@ -4,17 +4,22 @@
 , username
 , home-manager
 , pkgs
+, pkgs-unstable
 , modules
 , ...
 }:
-
-let stateVersion = "24.05";
+let
+    defaultSpecialArgs = {
+        inherit username;
+        stateVersion = "24.05";
+        rootPath = ../.;
+    };
 in {
   midugh-laptop = lib.nixosSystem {
     inherit system;
     specialArgs = {
-      inherit username inputs pkgs stateVersion;
-    };
+      inherit inputs pkgs pkgs-unstable;
+    } // defaultSpecialArgs;
     modules = [
       ./laptop
       ./configuration.nix
@@ -23,9 +28,7 @@ in {
       {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
-        home-manager.extraSpecialArgs = {
-          inherit username stateVersion;
-        };
+        home-manager.extraSpecialArgs = defaultSpecialArgs;
         home-manager.users.${username} = {
           imports = [
             ./home.nix

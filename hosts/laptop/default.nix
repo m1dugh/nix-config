@@ -153,6 +153,8 @@ in
     yq
     jq
     bear
+
+    networkmanagerapplet
   ];
 
   services.libinput = {
