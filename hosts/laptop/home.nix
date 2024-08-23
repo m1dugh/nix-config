@@ -17,8 +17,8 @@ in
   };
 
   midugh.sway = {
-      enable = true;
-      enableNetworkManager = true;
+    enable = true;
+    enableNetworkManager = true;
   };
 
   midugh.git = {

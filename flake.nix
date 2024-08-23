@@ -54,19 +54,19 @@
       defaultArgs = {
         inherit (self) inputs;
         inherit
-            system
-            username
-            home-manager
-            pkgs-unstable;
+          system
+          username
+          home-manager
+          pkgs-unstable;
         lib = customLib;
         pkgs = customPackages;
       };
     in
     rec {
-        # TODO: use flake-utils
-        packages.${system} = {
-            home-manager = home-manager.defaultPackage.${system};
-        } // (import ./pkgs defaultArgs);
+      # TODO: use flake-utils
+      packages.${system} = {
+        home-manager = home-manager.defaultPackage.${system};
+      } // (import ./pkgs defaultArgs);
 
       nixosModules = generateModules [ "xfce" ];
 
@@ -99,7 +99,7 @@
 
       homeConfigurations = (
         import ./homes (defaultArgs // {
-            modules = lib.attrsets.attrValues homeManagerModules;
+          modules = lib.attrsets.attrValues homeManagerModules;
         })
       );
 

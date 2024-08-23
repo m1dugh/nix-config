@@ -14,8 +14,8 @@ let
     exec = "multimc";
   };
   javaLibs = (
-          (lists.singleton pkgs.libGL)
-          ++ (lists.optional withWayland pkgs.glfw-wayland-minecraft)
+    (lists.singleton pkgs.libGL)
+    ++ (lists.optional withWayland pkgs.glfw-wayland-minecraft)
   );
 in
 pkgs.stdenv.mkDerivation rec {
@@ -33,11 +33,12 @@ pkgs.stdenv.mkDerivation rec {
       url = "https://files.multimc.org/downloads/mmc-develop-${distro}${arch}.tar.gz";
     };
 
-  installPhase = 
-  let
-    copyLib = pkg: "ln -sf ${pkg}/lib/* $out/lib";
-    extraLibs = strings.concatStringsSep "\n" (map copyLib javaLibs);
-  in ''
+  installPhase =
+    let
+      copyLib = pkg: "ln -sf ${pkg}/lib/* $out/lib";
+      extraLibs = strings.concatStringsSep "\n" (map copyLib javaLibs);
+    in
+    ''
       runHook preInstall
 
       mkdir -p $out/bin/
@@ -50,10 +51,10 @@ pkgs.stdenv.mkDerivation rec {
        ${extraLibs}
 
        runHook postInstall
-  '';
+    '';
 
   libraryPath = with pkgs; [
-      libsForQt5.qt5.qtbase
+    libsForQt5.qt5.qtbase
   ];
 
   propagatedBuildInputs = libraryPath;
