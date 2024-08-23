@@ -1,5 +1,6 @@
 { pkgs
 , lib
+, withWayland ? true
 , ...
 }:
 with lib;
@@ -12,6 +13,10 @@ let
     categories = [ "Game" ];
     exec = "multimc";
   };
+  javaLibs = (
+          (lists.singleton pkgs.libGL)
+          ++ (lists.optional withWayland pkgs.glfw-wayland-minecraft)
+  );
 in
 pkgs.stdenv.mkDerivation rec {
   name = "multimc";
@@ -28,40 +33,51 @@ pkgs.stdenv.mkDerivation rec {
       url = "https://files.multimc.org/downloads/mmc-develop-${distro}${arch}.tar.gz";
     };
 
-  installPhase = ''
-    runHook preInstall
+  installPhase = 
+  let
+    copyLib = pkg: "ln -sf ${pkg}/lib/* $out/lib";
+    extraLibs = strings.concatStringsSep "\n" (map copyLib javaLibs);
+  in ''
+      runHook preInstall
 
-    mkdir -p $out/bin/
-    cp -R $src/bin/* $out/bin/
+      mkdir -p $out/bin/
+      cp -R $src/bin/* $out/bin/
 
-     mkdir -p $out/share/applications
-     ln -s ${desktop}/share/applications/* $out/share/applications
+       mkdir -p $out/share/applications
+       ln -s ${desktop}/share/applications/* $out/share/applications
 
-    runHook postInstall
+       mkdir -p $out/lib/
+       ${extraLibs}
+
+       runHook postInstall
   '';
 
-  buildInputs = with pkgs; [
-    libsForQt5.wrapQtAppsHook
-    makeWrapper
+  libraryPath = with pkgs; [
+      libsForQt5.qt5.qtbase
   ];
+
+  propagatedBuildInputs = libraryPath;
 
   propagatedNativeBuildInputs = with pkgs; [
     temurin-jre-bin
-  ];
+  ] ++ javaLibs;
 
   nativeBuildInputs = with pkgs; [
+    makeWrapper
+    libsForQt5.wrapQtAppsHook
     autoPatchelfHook
-    libsForQt5.qt5.qtbase
   ];
 
   qtWrapperArgs = [
-    ''--prefix LD_LIBRARY_PATH : "$out/lib:${lib.makeLibraryPath buildInputs}"''
+    ''--prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath libraryPath}"''
     "--set-default QT_QPA_PLATFORM xcb"
   ];
 
   postFixup = ''
     makeShellWrapper "$out/bin/MultiMC" "$out/bin/multimc" \
         --prefix PATH : ${pkgs.temurin-jre-bin}/bin \
+        --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath javaLibs} \
+        --set JAVA_TOOL_OPTIONS -Djava.library.path=test \
         --add-flags '--dir $HOME/.multimc'
   '';
 

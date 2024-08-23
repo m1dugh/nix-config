@@ -158,7 +158,7 @@ in
     glib
 
     # Games
-    multimc
+    prismlauncher
   ];
 
   services.libinput = {

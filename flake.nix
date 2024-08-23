@@ -49,7 +49,7 @@
         inherit lib pkgs;
       };
       generateModules = modules: lib.attrsets.genAttrs modules (name: import (./modules + "/${name}"));
-      customPackages = pkgs // localLib.pkgs;
+      customPackages = pkgs // localLib.pkgs // self.packages.${system};
       customLib = lib // localLib.lib;
       defaultArgs = {
         inherit (self) inputs;
