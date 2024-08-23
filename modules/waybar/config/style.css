@@ -1,0 +1,9 @@
+* {
+    border: none;
+    color: white;
+}
+
+window#waybar {
+    background: transparent;
+    background-color: rgba(0, 0, 0, 0.8);
+}
