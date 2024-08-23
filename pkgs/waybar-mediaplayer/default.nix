@@ -47,10 +47,9 @@ in pkgs.stdenv.mkDerivation rec {
 
     postFixup = ''
         wrapPythonPrograms
-        autoPatchelfHook
     '';
 
-    metadata = {
+    meta = {
         maintainers = with lib.maintainers; [
             m1dugh
         ];
