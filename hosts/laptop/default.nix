@@ -156,6 +156,9 @@ in
 
     networkmanagerapplet
     glib
+
+    # Games
+    multimc
   ];
 
   services.libinput = {
