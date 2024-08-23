@@ -36,19 +36,37 @@
         {
           gdb_14 = pkgs-unstable.gdb;
         };
-      pkgs = import nixpkgs {
+      pkgs = (import nixpkgs {
         inherit system;
         config.allowUnfree = true;
         config.allowUnsupportedSystem = true;
         overlays = [
           overlay
         ];
-      };
+      });
       inherit (nixpkgs) lib;
+      localLib = import ./lib {
+        inherit lib pkgs;
+      };
       generateModules = modules: lib.attrsets.genAttrs modules (name: import (./modules + "/${name}"));
+      customPackages = pkgs // localLib.pkgs;
+      customLib = lib // localLib.lib;
+      defaultArgs = {
+        inherit (self) inputs;
+        inherit
+            system
+            username
+            home-manager
+            pkgs-unstable;
+        lib = customLib;
+        pkgs = customPackages;
+      };
     in
     rec {
-      packages.${system}.home-manager = home-manager.defaultPackage.${system};
+        # TODO: use flake-utils
+        packages.${system} = {
+            home-manager = home-manager.defaultPackage.${system};
+        } // (import ./pkgs defaultArgs);
 
       nixosModules = generateModules [ "xfce" ];
 
@@ -74,26 +92,15 @@
           };
         in
         (
-          import ./hosts {
-            inherit (nixpkgs) lib;
-            inherit (self) inputs;
-            inherit
-              system
-              pkgs
-              pkgs-unstable
-              username
-              home-manager
-              modules;
-          }
+          import ./hosts (defaultArgs // {
+            inherit modules;
+          })
         );
 
       homeConfigurations = (
-        import ./homes {
-          inherit (nixpkgs) lib;
-          inherit (self) inputs;
-          inherit system pkgs pkgs-unstable home-manager;
-          modules = lib.attrsets.attrValues homeManagerModules;
-        }
+        import ./homes (defaultArgs // {
+            modules = lib.attrsets.attrValues homeManagerModules;
+        })
       );
 
       formatter = flake-utils.lib.eachDefaultSystemMap (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);

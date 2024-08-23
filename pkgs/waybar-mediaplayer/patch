@@ -1,0 +1,12 @@
+--- ./result/bin/waybar-mediaplayer	1970-01-01 01:00:01.000000000 +0100
++++ waybar-mediaplayer	2024-08-23 19:08:30.113549784 +0200
+@@ -346,8 +346,7 @@
+         try:
+             secs = int(timing2[0]) * 60.0 + float(timing2[1])
+         except ValueError:
+-            logger.debug(f"ERROR: ValueError while converting timing2={
+-                         timing2} to seconds")
++            logger.debug(f"ERROR: ValueError while converting timing2={timing2} to seconds")
+             continue
+         # get lyrics text
+         text = m.group(2).strip()
