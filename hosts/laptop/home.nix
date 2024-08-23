@@ -16,7 +16,10 @@ in
     withKubernetes = true;
   };
 
-  midugh.sway.enable = true;
+  midugh.sway = {
+      enable = true;
+      enableNetworkManager = true;
+  };
 
   midugh.git = {
     enable = true;

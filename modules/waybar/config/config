@@ -2,7 +2,7 @@
     "layer": "top",
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
-    "modules-right": ["battery", "pulseaudio", "disk", "memory", "temperature", "cpu", "clock"],
+    "modules-right": ["battery", "pulseaudio", "disk", "memory", "temperature", "cpu", "clock", "tray"],
     "sway/window": {
         "max-length": 50
     },
@@ -15,6 +15,10 @@
         "path": "/",
         "interval": 30,
         "format": "{percentage_used}% "
+    },
+
+    "tray": {
+        "icon-size": 21
     },
 
     "pulseaudio": {

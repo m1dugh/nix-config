@@ -17,9 +17,22 @@ in
       default = rootPath + "/wallpapers/wallpaper.jpg";
       description = "The path to the wall paper";
     };
+
+    enableNetworkManager = mkEnableOption "network manager applet";
   };
 
   config = mkIf cfg.enable {
+
+    gtk = {
+        enable = true;
+        gtk3.extraConfig = {
+            gtk-application-prefer-dark-theme = true;
+        };
+        theme = {
+            package = pkgs.gnome.gnome-themes-extra;
+            name = "Adwaita-dark";
+        };
+    };
 
     home.packages = with pkgs; [
       alacritty
@@ -88,7 +101,11 @@ in
               ${lib.getExe script}
             '';
           always = true;
-        }];
+        }
+        (mkIf cfg.enableNetworkManager {
+            command = "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator";
+            always = true;
+        })];
       };
 
 

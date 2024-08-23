@@ -155,6 +155,7 @@ in
     bear
 
     networkmanagerapplet
+    glib
   ];
 
   services.libinput = {
