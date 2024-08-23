@@ -13,9 +13,9 @@ in
   options.midugh.sway = {
     enable = mkEnableOption "sway config";
     wallpaper = mkOption {
-        type = types.nullOr types.path;
-        default = rootPath + "/wallpapers/wallpaper.jpg";
-        description = "The path to the wall paper";
+      type = types.nullOr types.path;
+      default = rootPath + "/wallpapers/wallpaper.jpg";
+      description = "The path to the wall paper";
     };
   };
 
@@ -26,9 +26,9 @@ in
     ];
 
     home.file.".config/swaylock/config" = {
-        text = ''
+      text = ''
         image=${rootPath + "/wallpapers/300SL.png"}
-        '';
+      '';
     };
 
     midugh.rofi.enable = true;
@@ -48,7 +48,7 @@ in
         };
 
         output."*" = attrsets.filterAttrs (n: v: v != null) {
-            background = strings.optionalString (cfg.wallpaper != null) "${cfg.wallpaper} fill";
+          background = strings.optionalString (cfg.wallpaper != null) "${cfg.wallpaper} fill";
         };
 
         input."*" = {
@@ -74,20 +74,21 @@ in
           "${modifier}+Tab" = ''exec "${lib.getExe pkgs.swaylock}"'';
           "${modifier}+Shift+r" = "reload";
         };
-          bars = [];
+        bars = [ ];
 
-          startup = [{
-            command =
+        startup = [{
+          command =
             let
-                script = pkgs.writeShellScriptBin "waybar-reload" ''
+              script = pkgs.writeShellScriptBin "waybar-reload" ''
                 ps -x | grep -E 'waybar$' | sed -E 's/\s*([0-9]+).*/\1/g' | xargs kill
                 exec ${lib.getExe pkgs.waybar}
-                '';
-            in ''
-            ${lib.getExe script}
+              '';
+            in
+            ''
+              ${lib.getExe script}
             '';
-            always = true;
-          }];
+          always = true;
+        }];
       };
 
 

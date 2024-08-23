@@ -236,11 +236,11 @@ in
   };
 
   programs.sway = {
-      enable = true;
-      extraPackages = with pkgs; [
-        swaylock
-        swayidle
-      ];
+    enable = true;
+    extraPackages = with pkgs; [
+      swaylock
+      swayidle
+    ];
   };
 
   system.stateVersion = stateVersion;

@@ -78,12 +78,12 @@
             inherit (nixpkgs) lib;
             inherit (self) inputs;
             inherit
-                system
-                pkgs
-                pkgs-unstable
-                username
-                home-manager
-                modules;
+              system
+              pkgs
+              pkgs-unstable
+              username
+              home-manager
+              modules;
           }
         );
 

@@ -5,20 +5,21 @@
 }:
 with lib;
 let
-    cfg = config.midugh.waybar;
-in {
-    options.midugh.waybar = {
-        enable = mkEnableOption "waybar";
-    };
+  cfg = config.midugh.waybar;
+in
+{
+  options.midugh.waybar = {
+    enable = mkEnableOption "waybar";
+  };
 
-    config = mkIf cfg.enable {
-        home.packages = with pkgs; [
-            waybar
-        ];
+  config = mkIf cfg.enable {
+    home.packages = with pkgs; [
+      waybar
+    ];
 
-        home.file.".config/waybar/" = {
-            source = ./config;
-            recursive = true;
-        };
+    home.file.".config/waybar/" = {
+      source = ./config;
+      recursive = true;
     };
+  };
 }

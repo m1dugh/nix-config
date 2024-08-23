@@ -9,12 +9,13 @@
 , ...
 }:
 let
-    defaultSpecialArgs = {
-        inherit username;
-        stateVersion = "24.05";
-        rootPath = ../.;
-    };
-in {
+  defaultSpecialArgs = {
+    inherit username;
+    stateVersion = "24.05";
+    rootPath = ../.;
+  };
+in
+{
   midugh-laptop = lib.nixosSystem {
     inherit system;
     specialArgs = {
