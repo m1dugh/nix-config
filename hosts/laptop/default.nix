@@ -16,6 +16,8 @@ in
   ];
 
   networking.hostName = "midugh-laptop";
+  networking.useDHCP = lib.mkDefault true;
+
   users.groups.${username} = {
     members = [ username ];
     gid = 1000;
@@ -231,7 +233,13 @@ in
     lockerCommand = "${lockCommand}";
   };
 
-  programs.sway.enable = true;
+  programs.sway = {
+      enable = true;
+      extraPackages = with pkgs; [
+        swaylock
+        swayidle
+      ];
+  };
 
   system.stateVersion = stateVersion;
   networking.resolvconf.dnsExtensionMechanism = false;

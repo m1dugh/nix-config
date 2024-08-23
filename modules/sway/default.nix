@@ -19,6 +19,12 @@ in
       alacritty
     ];
 
+    home.file.".config/swaylock/config" = {
+        text = ''
+        image=${../../wallpapers/300SL.png}
+        '';
+    };
+
     midugh.rofi.enable = true;
     midugh.i3status-rust.enable = true;
 
@@ -55,6 +61,7 @@ in
           "${modifier}+Control+Shift+Down" = "move workspace to output down";
           "${modifier}+d" = ''exec "${menu}"'';
           "${modifier}+r" = "mode resize";
+          "${modifier}+Tab" = ''exec "${lib.getExe pkgs.swaylock}"'';
         };
 
         bars = [{
@@ -71,6 +78,10 @@ in
       };
 
       extraConfig = ''
+        set $opacity 0.9
+        for_window [class=".*"] opacity $opacity
+        for_window [app_id=".*"] opacity $opacity
+
         default_border none
         for_window [class="^.*"] border pixel 2
       '';
