@@ -79,9 +79,9 @@ in
           startup = [{
             command =
             let
-                script = pkgs.writeShellScriptBin "reload-waybar" ''
-                ${lib.getExe pkgs.killall} waybar
-                ${lib.getExe pkgs.waybar}
+                script = pkgs.writeShellScriptBin "waybar-reload" ''
+                ps -x | grep -E 'waybar$' | sed -E 's/\s*([0-9]+).*/\1/g' | xargs kill
+                exec ${lib.getExe pkgs.waybar}
                 '';
             in ''
             ${lib.getExe script}
