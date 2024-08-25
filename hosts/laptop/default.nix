@@ -249,4 +249,14 @@ in
 
   system.stateVersion = stateVersion;
   networking.resolvconf.dnsExtensionMechanism = false;
+
+  services.logind.extraConfig = ''
+      HandleSuspendKey=hibernate
+      HandleLidSwitch=hibernate
+  '';
+
+  systemd.targets = {
+    sleep.enable = false;
+    suspend.enable = false;
+  };
 }
