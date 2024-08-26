@@ -1,6 +1,49 @@
 {
   "nodes": {
+    "dragon-center": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1724678385,
+        "narHash": "sha256-5oPLon2LKofcYg4i/VEMJP0xLyY4jwl2iHxjJWC6uVs=",
+        "owner": "m1dugh",
+        "repo": "DragonCenterForLinux",
+        "rev": "71cdce2906a904ca1e785956a10b9d01cc9f5f97",
+        "type": "github"
+      },
+      "original": {
+        "owner": "m1dugh",
+        "repo": "DragonCenterForLinux",
+        "type": "github"
+      }
+    },
     "flake-utils": {
+      "inputs": {
+        "systems": [
+          "dragon-center",
+          "systems"
+        ]
+      },
+      "locked": {
+        "lastModified": 1710146030,
+        "narHash": "sha256-SZ5L6eA7HJ/nmkzGG7/ISclqe6oZdOZTNoesiInkXPQ=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "b1d9ab70662946ef0850d488da1c9019f3a9752a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_2": {
       "inputs": {
         "systems": [
           "systems"
@@ -75,14 +118,30 @@
     },
     "root": {
       "inputs": {
-        "flake-utils": "flake-utils",
+        "dragon-center": "dragon-center",
+        "flake-utils": "flake-utils_2",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "systems": "systems"
+        "systems": "systems_2"
       }
     },
     "systems": {
+      "locked": {
+        "lastModified": 1689347949,
+        "narHash": "sha256-12tWmuL2zgBgZkdoB6qXZsgJEH9LR3oUgpaQq2RbI80=",
+        "owner": "nix-systems",
+        "repo": "default-linux",
+        "rev": "31732fcf5e8fea42e59c2488ad31a0e651500f68",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default-linux",
+        "type": "github"
+      }
+    },
+    "systems_2": {
       "locked": {
         "lastModified": 1689347949,
         "narHash": "sha256-12tWmuL2zgBgZkdoB6qXZsgJEH9LR3oUgpaQq2RbI80=",

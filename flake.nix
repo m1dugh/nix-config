@@ -15,12 +15,18 @@
       url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
     };
+
+    dragon-center = {
+        url = "github:m1dugh/DragonCenterForLinux";
+        inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     { self
     , nixpkgs
     , nixpkgs-unstable
+    , dragon-center
     , home-manager
     , flake-utils
     , ...
@@ -49,7 +55,7 @@
         inherit lib pkgs;
       };
       generateModules = modules: lib.attrsets.genAttrs modules (name: import (./modules + "/${name}"));
-      customPackages = pkgs // localLib.pkgs // self.packages.${system};
+      customPackages = pkgs // localLib.pkgs // self.packages.${system} // dragon-center.packages.${system};
       customLib = lib // localLib.lib;
       defaultArgs = {
         inherit (self) inputs;
@@ -68,7 +74,9 @@
         home-manager = home-manager.defaultPackage.${system};
       } // (import ./pkgs defaultArgs);
 
-      nixosModules = generateModules [ "xfce" ];
+      nixosModules = (generateModules [ "xfce" ]) // {
+        dragon-center = dragon-center.nixosModules.default;
+      };
 
       homeManagerModules = generateModules [
         "alacritty"

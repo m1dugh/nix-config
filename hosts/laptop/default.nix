@@ -23,6 +23,11 @@ in
     gid = 1000;
   };
 
+  services.dragon-center = {
+    enable = false;
+    withBootOptions = false;
+  };
+
   users.users.${username} = {
     isNormalUser = true;
     extraGroups = [
@@ -159,6 +164,8 @@ in
 
     # Games
     prismlauncher
+
+    wl-clipboard-rs
   ];
 
   services.libinput = {
