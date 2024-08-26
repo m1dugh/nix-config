@@ -258,8 +258,8 @@ in
   networking.resolvconf.dnsExtensionMechanism = false;
 
   services.logind.extraConfig = ''
-      HandleSuspendKey=hibernate
-      HandleLidSwitch=hibernate
+    HandleSuspendKey=hibernate
+    HandleLidSwitch=hibernate
   '';
 
   systemd.targets = {

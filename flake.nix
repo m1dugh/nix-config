@@ -17,8 +17,8 @@
     };
 
     dragon-center = {
-        url = "github:m1dugh/DragonCenterForLinux";
-        inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:m1dugh/DragonCenterForLinux";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

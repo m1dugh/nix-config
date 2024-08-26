@@ -48,6 +48,8 @@ in
       firefox
 
       imagemagick
+
+      whatsapp-for-linux
     ];
   };
 

@@ -19,9 +19,22 @@ in
     };
 
     enableNetworkManager = mkEnableOption "network manager applet";
+
+    volumeStep = mkOption {
+      description = "The step the volume should be changed for the increase/decrease volume shortcut";
+      type = types.int;
+      default = 2;
+    };
   };
 
   config = mkIf cfg.enable {
+
+    assertions = [
+      {
+        assertion = cfg.volumeStep > 0;
+        message = "The volume step must be greater than 0.";
+      }
+    ];
 
     gtk = {
       enable = true;
@@ -36,6 +49,7 @@ in
 
     home.packages = with pkgs; [
       alacritty
+      swaynotificationcenter
     ];
 
     home.file.".config/swaylock/config" = {
@@ -76,7 +90,7 @@ in
         };
         modules-center = [ "sway/window" ];
         modules-left = [ "sway/workspaces" "sway/mode" ];
-        modules-right = [ "battery" "pulseaudio" "disk" "memory" "temperature" "cpu" "clock" "tray" ];
+        modules-right = [ "battery" "pulseaudio" "disk" "memory" "temperature" "cpu" "clock" "custom/notification" "tray" ];
         pulseaudio = {
           format = "{volume}% {icon}";
           format-icons = {
@@ -93,6 +107,27 @@ in
         };
         tray = {
           icon-size = 21;
+        };
+
+        "custom/notification" = {
+          escape = true;
+          exec = "swaync-client -swb";
+          exec-if = "which swaync-client";
+          format = "{icon}";
+          format-icons = {
+            dnd-inhibited-none = "";
+            dnd-inhibited-notification = "<span foreground='red'><sup></sup></span>";
+            dnd-none = "";
+            dnd-notification = "<span foreground='red'><sup></sup></span>";
+            inhibited-none = "";
+            inhibited-notification = "<span foreground='red'><sup></sup></span>";
+            none = "";
+            notification = "<span foreground='red'><sup></sup></span>";
+          };
+          on-click = "swaync-client -t -sw";
+          on-click-right = "swaync-client -d -sw";
+          return-type = "json";
+          tooltip = false;
         };
       };
     };
@@ -121,8 +156,8 @@ in
         };
 
         keybindings = mkOptionDefault {
-          "XF86AudioRaiseVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status";
-          "XF86AudioLowerVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status";
+          "XF86AudioRaiseVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +${toString cfg.volumeStep}% && $refresh_i3status";
+          "XF86AudioLowerVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -${toString cfg.volumeStep}% && $refresh_i3status";
           "XF86AudioMute" = "exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status";
           "XF86AudioMicMute" = "exec --no-startup-id pactl set-sink-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status";
           "XF86AudioPlay" = "exec --no-startup-id playerctl play-pause";
@@ -152,6 +187,10 @@ in
             '';
           always = true;
         }
+          {
+            command = "${lib.getExe pkgs.swaynotificationcenter}";
+            always = true;
+          }
           (mkIf cfg.enableNetworkManager {
             command = "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator";
             always = true;
