@@ -166,14 +166,8 @@ in
     prismlauncher
 
     wl-clipboard-rs
+    libinput
   ];
-
-  services.libinput = {
-    enable = true;
-    mouse.naturalScrolling = false;
-    touchpad.naturalScrolling = false;
-    touchpad.accelSpeed = "-0.2";
-  };
 
   services.displayManager =
     let

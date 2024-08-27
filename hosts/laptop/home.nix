@@ -21,6 +21,12 @@ in
     enableNetworkManager = true;
   };
 
+  wayland.windowManager.sway.config.input."1739:52653:CUST0001:00_06CB:CDAD_Touchpad" = {
+    tap = "enabled";
+    dwt = "enabled";
+    middle_emulation = "enabled";
+  };
+
   midugh.git = {
     enable = true;
     editor = "nvim";
