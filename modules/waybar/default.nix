@@ -13,10 +13,18 @@ in
   options.midugh.waybar = {
     enable = mkEnableOption "waybar";
     config = mkOption {
-      type = format.type;
-      default = { };
+      type = types.nullOr format.type;
+      default = null;
       description = ''
         The config file for waybar.
+      '';
+    };
+
+    configFile = mkOption {
+      type = types.nullOr types.path;
+      default = null;
+      description = ''
+        The path to the config file.
       '';
     };
 
@@ -30,14 +38,27 @@ in
   };
 
   config = mkIf cfg.enable {
+
+    assertions = [{
+      assertion = lib.xor (cfg.configFile == null) (cfg.config == null);
+      message = ''
+        One and only one of `midugh.waybar.configFile` and `midugh.waybar.config` must be set.
+      '';
+    }];
+
     home.packages = with pkgs; [
       waybar
     ];
 
-    home.file.${mkConfig "config"}.source = pkgs.writeJSONText "config" cfg.config;
+    home.file.${mkConfig "config"}.source =
+      if cfg.config != null then
+        pkgs.writeJSONText "config" cfg.config
+      else
+        cfg.configFile
+    ;
 
     home.file.${mkConfig "style.css"} = mkIf (cfg.style != null) {
-      text = cfg.style;
+      source = cfg.style;
     };
   };
 }

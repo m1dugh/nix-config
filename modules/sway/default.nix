@@ -61,75 +61,8 @@ in
     midugh.rofi.enable = true;
     midugh.waybar = {
       enable = true;
-      config = {
-        battery = {
-          format = "{capacity}% {icon}";
-          format-icons = [ "" "" "" "" "" ];
-          interval = 5;
-        };
-        clock = {
-          format = "{:%H:%M:%S}  ";
-          format-alt = "{:%a, %d. %b  %H:%M:%S}  ";
-          interval = 1;
-        };
-        cpu = {
-          format = "{load} {usage}% ";
-          interval = 10;
-          max-length = 15;
-        };
-        disk = {
-          format = "{specific_free:0.0f}GB ";
-          interval = 30;
-          path = "/";
-          unit = "GB";
-        };
-        layer = "top";
-        memory = {
-          format = "{used:0.1f}G/{total:0.1f}G ";
-          interval = 10;
-        };
-        modules-center = [ "sway/window" ];
-        modules-left = [ "sway/workspaces" "sway/mode" ];
-        modules-right = [ "battery" "pulseaudio" "disk" "memory" "temperature" "cpu" "clock" "custom/notification" "tray" ];
-        pulseaudio = {
-          format = "{volume}% {icon}";
-          format-icons = {
-            default = [ "" "" ];
-          };
-          format-muted = "";
-          on-click = "pavucontrol";
-        };
-        "sway/window" = {
-          max-length = 50;
-        };
-        temperature = {
-          format = "{temperatureC}°C ";
-        };
-        tray = {
-          icon-size = 21;
-        };
-
-        "custom/notification" = {
-          escape = true;
-          exec = "swaync-client -swb";
-          exec-if = "which swaync-client";
-          format = "{icon}";
-          format-icons = {
-            dnd-inhibited-none = "";
-            dnd-inhibited-notification = "<span foreground='red'><sup></sup></span>";
-            dnd-none = "";
-            dnd-notification = "<span foreground='red'><sup></sup></span>";
-            inhibited-none = "";
-            inhibited-notification = "<span foreground='red'><sup></sup></span>";
-            none = "";
-            notification = "<span foreground='red'><sup></sup></span>";
-          };
-          on-click = "swaync-client -t -sw";
-          on-click-right = "swaync-client -d -sw";
-          return-type = "json";
-          tooltip = false;
-        };
-      };
+      configFile = ../waybar/config/config.json;
+      style = ../waybar/config/style.css;
     };
 
     wayland.windowManager.sway = {

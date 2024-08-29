@@ -25,7 +25,6 @@
 
     wget
     curl
-    xorg.xkill
     killall
     htop
     pciutils
@@ -33,6 +32,9 @@
     # Documentation
     man-pages
     man-pages-posix
+
+    dig
+    inetutils
   ];
 
   documentation.dev.enable = true;
