@@ -13,7 +13,16 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "usbhid" "nvme" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "ehci_pci"
+    "usbhid"
+    "nvme"
+    "usb_storage"
+    "sd_mod"
+    "aesni_intel"
+    "cryptd"
+  ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" "ec_sys" ];
 
@@ -42,8 +51,15 @@
     "aarch64-linux"
   ];
 
+  boot.initrd.systemd.enable = true;
+
   boot.initrd.luks.devices.crypted = {
     device = "/dev/disk/by-uuid/63640f50-26db-4e09-82ee-92e18b93e62e";
+    allowDiscards = true;
+    keyFileSize = 4096;
+    keyFile = "/dev/disk/by-id/usb-General_USB_Flash_Disk_04NCZ3G8Y7ERGZRJ-0:0";
+    keyFileTimeout = 3;
+    bypassWorkqueues = true;
   };
 
   fileSystems."/" =
