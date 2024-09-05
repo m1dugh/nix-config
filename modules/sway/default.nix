@@ -50,6 +50,7 @@ in
     home.packages = with pkgs; [
       alacritty
       swaynotificationcenter
+      sway-contrib.grimshot
     ];
 
     home.file.".config/swaylock/config" = {
@@ -104,6 +105,7 @@ in
           "${modifier}+r" = "mode resize";
           "${modifier}+Tab" = ''exec "${lib.getExe pkgs.swaylock}"'';
           "${modifier}+Shift+r" = "reload";
+          "Print" = "exec ${lib.getExe pkgs.sway-contrib.grimshot}";
         };
         bars = [ ];
 

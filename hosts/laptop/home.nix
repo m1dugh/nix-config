@@ -56,6 +56,8 @@ in
       imagemagick
 
       whatsapp-for-linux
+
+      kubelogin
     ];
   };
 
