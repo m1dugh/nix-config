@@ -107,9 +107,14 @@ in
   };
 
   sound.enable = true;
-  hardware = {
-    bluetooth.enable = true;
-    pulseaudio.enable = true;
+  hardware.bluetooth.enable = true;
+
+  security.rtkit.enable = true;
+  services.pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
   };
 
 
@@ -167,6 +172,8 @@ in
 
     wl-clipboard-rs
     libinput
+
+    teams-for-linux
   ];
 
   services.displayManager =

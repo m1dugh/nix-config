@@ -7,6 +7,7 @@
 with lib;
 let
   cfg = config.midugh.sway;
+  defaultConfig = config.wayland.windowManager.sway;
   menu = "${getExe pkgs.rofi} -modi drun,run -show drun";
 in
 {
@@ -66,7 +67,10 @@ in
       style = ../waybar/config/style.css;
     };
 
-    wayland.windowManager.sway = {
+    wayland.windowManager.sway = 
+    let
+        inherit (defaultConfig.config) left right up down;
+    in {
       enable = true;
       config = rec {
         terminal = lib.getExe pkgs.alacritty;
@@ -90,10 +94,10 @@ in
         };
 
         keybindings = mkOptionDefault {
-          "XF86AudioRaiseVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +${toString cfg.volumeStep}% && $refresh_i3status";
-          "XF86AudioLowerVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -${toString cfg.volumeStep}% && $refresh_i3status";
-          "XF86AudioMute" = "exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status";
-          "XF86AudioMicMute" = "exec --no-startup-id pactl set-sink-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status";
+          "XF86AudioRaiseVolume" = "exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ ${toString cfg.volumeStep}%+ && $refresh_i3status";
+          "XF86AudioLowerVolume" = "exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ ${toString cfg.volumeStep}%- && $refresh_i3status";
+          "XF86AudioMute" = "exec --no-startup-id wpctl set-mute @DEFAULT_SINK@ toggle && $refresh_i3status";
+          "XF86AudioMicMute" = "exec --no-startup-id wpctl set-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status";
           "XF86AudioPlay" = "exec --no-startup-id playerctl play-pause";
           "XF86AudioNext" = "exec --no-startup-id playerctl next";
           "XF86AudioPrev" = "exec --no-startup-id playerctl previous";
@@ -101,6 +105,12 @@ in
           "${modifier}+Control+Shift+Left" = "move workspace to output left";
           "${modifier}+Control+Shift+Up" = "move workspace to output up";
           "${modifier}+Control+Shift+Down" = "move workspace to output down";
+
+          "${modifier}+Control+Shift+${right}" = "move workspace to output right";
+          "${modifier}+Control+Shift+${left}" = "move workspace to output left";
+          "${modifier}+Control+Shift+${up}" = "move workspace to output up";
+          "${modifier}+Control+Shift+${down}" = "move workspace to output down";
+
           "${modifier}+d" = ''exec "${menu}"'';
           "${modifier}+r" = "mode resize";
           "${modifier}+Tab" = ''exec "${lib.getExe pkgs.swaylock}"'';
