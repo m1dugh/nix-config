@@ -25,9 +25,56 @@ in {
       default = false;
       description = "Whether to add kubernetes auto complete";
     };
+
+    withLoadenv = mkOption {
+        type = types.bool;
+        default = true;
+        description = ''
+            Whether to add the loadenv script to zsh.
+        '';
+    };
+
+    extraScripts = mkOption {
+        type = types.listOf types.str;
+        default = [];
+        description = ''
+            A list of scripts to add as strings
+        '';
+        example = litteralExpression ''
+            "function test() {echo \"test\"}"
+        '';
+    };
   };
 
-  config = mkIf cfg.enable {
+  config = 
+  let
+    extraScripts = cfg.extraScripts ++ (builtins.filter (val: val != null) [
+        (strings.optionalString cfg.withLoadenv ''
+        function loadenv () {
+            if [ $# -le 0 ]; then
+                echo "Usage: loadenv <files> ..." >&2
+                return 1
+            fi
+            set -o allexport
+            for file in "$@"; do
+                source "$file"
+            done
+            set +o allexport
+        }
+        '')
+        (strings.optionalString cfg.withKubernetes ''
+          source <(kubectl completion zsh)
+        '')
+        (strings.optionalString cfg.viMode ''
+          bindkey -v
+          export KEYTIMEOUT=1
+          bindkey -M menuselect 'h' vi-backward-char
+          bindkey -M menuselect 'k' vi-up-line-or-history
+          bindkey -M menuselect 'l' vi-forward-char
+          bindkey -M menuselect 'j' vi-down-line-or-history
+        '')
+    ]);
+  in mkIf cfg.enable {
     programs.zsh = {
       enable = true;
       autosuggestion.enable = true;
@@ -38,15 +85,10 @@ in {
         save = cfg.historySize;
       };
 
-      initExtra = strings.concatStringsSep "\n" [
+      initExtra = strings.concatStringsSep "\n" ([
         ''
           ZSH_CACHE_DIR=''${ZSH_CACHE_DIR:-~/.config/zsh/}
-        ''
-        (strings.optionalString cfg.withKubernetes ''
-          source <(kubectl completion zsh)
-        '')
 
-        ''
           zmodload zsh/complist
           bindkey '^E' autosuggest-accept
           bindkey '^[[1;5C' forward-word
@@ -55,16 +97,7 @@ in {
           autoload -Uz prompt_custom_setup && prompt_custom_setup
         ''
 
-        (strings.optionalString cfg.viMode ''
-          bindkey -v
-          export KEYTIMEOUT=1
-          bindkey -M menuselect 'h' vi-backward-char
-          bindkey -M menuselect 'k' vi-up-line-or-history
-          bindkey -M menuselect 'l' vi-forward-char
-          bindkey -M menuselect 'j' vi-down-line-or-history
-        '')
-
-      ];
+      ] ++ extraScripts);
       shellAliases = lib.mkMerge
         [
           (mkIf cfg.withKubernetes { k = "kubectl"; })
