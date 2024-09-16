@@ -1,10 +1,23 @@
 
 vim.cmd [[packadd packer.nvim]]
 
-return require('packer').startup(function(use)
+local packer = require("packer")
+packer.util = require("packer.util")
+
+packer.startup({function(use)
     use 'wbthomason/packer.nvim'
 
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+    }
+
     use 'mfussenegger/nvim-dap'
+
+    use {
+        "catppuccin/nvim",
+        as = "catppuccin",
+    }
 
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.6',
@@ -21,14 +34,6 @@ return require('packer').startup(function(use)
         },
     }
 
-    use({
-        'rose-pine/neovim',
-        as = 'rose-pine',
-        config = function()
-            vim.cmd('colorscheme rose-pine')
-        end
-    })
-
     use('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
 
     use {
@@ -37,4 +42,6 @@ return require('packer').startup(function(use)
         'neovim/nvim-lspconfig',
     }
 
-end)
+end, config = {
+    compile_path = packer.util.join_paths(vim.fn.stdpath("cache"), "plugin", "packer_compiled.lua")
+}})

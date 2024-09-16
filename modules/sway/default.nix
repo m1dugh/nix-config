@@ -26,6 +26,12 @@ in
       type = types.int;
       default = 2;
     };
+
+    inactivityLockTime = mkOption {
+        description = "The time after which the screen should be locked after inactivity. If null, swayidle will not lock screen";
+        default = 600;
+        type = types.nullOr types.int;
+    };
   };
 
   config = mkIf cfg.enable {
@@ -140,7 +146,16 @@ in
             (mkIf cfg.enableNetworkManager {
               command = "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator";
               always = true;
-            })];
+            })
+            (mkIf (cfg.inactivityLockTime != null) {
+                command = ''
+                exec swayidle -w \
+                    timeout ${toString cfg.inactivityLockTime} 'swaylock -f' \
+                    timeout ${toString (cfg.inactivityLockTime + 5)} 'swaymsg "output * power off"' \
+                    resume 'swaymsg "output * power on"'
+                '';
+            })
+            ];
         };
 
 

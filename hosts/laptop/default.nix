@@ -6,13 +6,19 @@
 , lib
 , ...
 }:
-let
-  lockCommand = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock";
-in
 {
 
   imports = [
     ./hardware-configuration.nix
+  ];
+
+  fonts.packages = with pkgs; [
+    fira-code
+    (nerdfonts.override {
+        fonts = [
+            "FiraCode"
+        ];
+    })
   ];
 
   networking.hostName = "midugh-laptop";
@@ -241,11 +247,6 @@ in
   };
 
   programs.nix-ld.libraries = options.programs.nix-ld.libraries.default ++ (with pkgs; [ ]);
-
-  programs.xss-lock = {
-    enable = true;
-    lockerCommand = "${lockCommand}";
-  };
 
   programs.sway = {
     enable = true;
