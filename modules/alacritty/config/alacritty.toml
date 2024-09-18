@@ -4,8 +4,8 @@ args = ["zsh"]
 
 [window]
 decorations = "None"
-opacity = 0.95
+opacity = 0.98
 
 [font]
 normal = { family = "monospace", style = "Regular" }
-size = 10
+size = 14
