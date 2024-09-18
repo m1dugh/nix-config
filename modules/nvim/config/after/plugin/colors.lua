@@ -1,8 +1,11 @@
+local kanagawa = require("kanagawa")
 
-function Color(color)
-	color = color or "rose-pine"
-	vim.cmd.colorscheme(color)
+kanagawa.setup({
+    theme = "dragon",
+    background = {
+        light = "lotus",
+        dark = "dragon",
+    },
+})
 
-	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-end
+vim.cmd('colorscheme kanagawa')

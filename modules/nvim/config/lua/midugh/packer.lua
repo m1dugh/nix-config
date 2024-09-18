@@ -19,10 +19,7 @@ packer.startup({function(use)
 
     use 'mfussenegger/nvim-dap'
 
-    use {
-        "catppuccin/nvim",
-        as = "catppuccin",
-    }
+    use 'rebelot/kanagawa.nvim'
 
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.6',
