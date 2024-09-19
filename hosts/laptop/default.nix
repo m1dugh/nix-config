@@ -41,6 +41,7 @@
       "docker"
       "networkmanager"
       "kvm"
+      "openrazer"
       config.users.groups.users.name
     ];
     shell = pkgs.zsh;
@@ -180,6 +181,9 @@
     libinput
 
     teams-for-linux
+
+    openrazer-daemon
+    polychromatic
   ];
 
   services.displayManager =

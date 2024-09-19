@@ -93,6 +93,9 @@
 
 
   hardware = {
+
+    openrazer.enable = true;
+
     opengl = {
       extraPackages = with pkgs; [
         mesa
