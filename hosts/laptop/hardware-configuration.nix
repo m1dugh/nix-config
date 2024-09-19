@@ -7,7 +7,6 @@
 , modulesPath
 , ...
 }:
-
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -24,11 +23,7 @@
     "cryptd"
   ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.kernelModules = [ "kvm-intel" "ec_sys" ];
-
-  boot.extraModprobeConfig = ''
-    options ec_sys write_support=1
-  '';
+  boot.kernelModules = [ "kvm-intel" "msi-ec" ];
 
   boot.blacklistedKernelModules = [
     "nvidia"
@@ -37,7 +32,15 @@
     "nvidia_modeset"
   ];
 
-  boot.extraModulePackages = [ ];
+  boot.kernelPackages = pkgs.linuxPackages // {
+      inherit (pkgs) msi-ec;
+  };
+
+
+  boot.extraModulePackages = with pkgs; [
+      msi-ec
+  ];
+
   boot.kernelParams = [
     "acpi_rev_override=1"
     "acpi_osi=Linux"

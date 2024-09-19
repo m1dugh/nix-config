@@ -10,7 +10,7 @@
 }:
 let
   defaultSpecialArgs = {
-    inherit username;
+    inherit username system;
     stateVersion = "24.05";
     rootPath = ../.;
   };

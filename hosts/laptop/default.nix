@@ -30,7 +30,7 @@
   };
 
   services.dragon-center = {
-    enable = true;
+    enable = false;
     withBootOptions = false;
   };
 
