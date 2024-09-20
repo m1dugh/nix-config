@@ -27,40 +27,40 @@ in {
     };
 
     withLoadenv = mkOption {
-        type = types.bool;
-        default = true;
-        description = ''
-            Whether to add the loadenv script to zsh.
-        '';
+      type = types.bool;
+      default = true;
+      description = ''
+        Whether to add the loadenv script to zsh.
+      '';
     };
 
     extraScripts = mkOption {
-        type = types.listOf types.str;
-        default = [];
-        description = ''
-            A list of scripts to add as strings
-        '';
-        example = litteralExpression ''
-            "function test() {echo \"test\"}"
-        '';
+      type = types.listOf types.str;
+      default = [ ];
+      description = ''
+        A list of scripts to add as strings
+      '';
+      example = litteralExpression ''
+        "function test() {echo \"test\"}"
+      '';
     };
   };
 
-  config = 
-  let
-    extraScripts = cfg.extraScripts ++ (builtins.filter (val: val != null) [
+  config =
+    let
+      extraScripts = cfg.extraScripts ++ (builtins.filter (val: val != null) [
         (strings.optionalString cfg.withLoadenv ''
-        function loadenv () {
-            if [ $# -le 0 ]; then
-                echo "Usage: loadenv <files> ..." >&2
-                return 1
-            fi
-            set -o allexport
-            for file in "$@"; do
-                source "$file"
-            done
-            set +o allexport
-        }
+          function loadenv () {
+              if [ $# -le 0 ]; then
+                  echo "Usage: loadenv <files> ..." >&2
+                  return 1
+              fi
+              set -o allexport
+              for file in "$@"; do
+                  source "$file"
+              done
+              set +o allexport
+          }
         '')
         (strings.optionalString cfg.withKubernetes ''
           source <(kubectl completion zsh)
@@ -73,50 +73,51 @@ in {
           bindkey -M menuselect 'l' vi-forward-char
           bindkey -M menuselect 'j' vi-down-line-or-history
         '')
-    ]);
-  in mkIf cfg.enable {
-    programs.zsh = {
-      enable = true;
-      autosuggestion.enable = true;
-      syntaxHighlighting.enable = true;
+      ]);
+    in
+    mkIf cfg.enable {
+      programs.zsh = {
+        enable = true;
+        autosuggestion.enable = true;
+        syntaxHighlighting.enable = true;
 
-      history = {
-        size = cfg.historySize;
-        save = cfg.historySize;
+        history = {
+          size = cfg.historySize;
+          save = cfg.historySize;
+        };
+
+        initExtra = strings.concatStringsSep "\n" ([
+          ''
+            ZSH_CACHE_DIR=''${ZSH_CACHE_DIR:-~/.config/zsh/}
+
+            zmodload zsh/complist
+            bindkey '^E' autosuggest-accept
+            bindkey '^[[1;5C' forward-word
+            bindkey '^[[1;5D' backward-word
+            fpath=(${./prompt} $fpath)
+            autoload -Uz prompt_custom_setup && prompt_custom_setup
+          ''
+
+        ] ++ extraScripts);
+        shellAliases = lib.mkMerge
+          [
+            (mkIf cfg.withKubernetes { k = "kubectl"; })
+            {
+              ls = "ls --color=auto";
+              ga = "git add";
+              gp = "git push";
+              gcmsg = "git commit -m";
+              gcam = "git commit -am";
+              gl = "git pull";
+              gpr = "git pull --rebase";
+              gst = "git status";
+              gd = "git diff";
+              gco = "git checkout";
+              gsw = "git switch";
+              gcb = "git checkout -b";
+              glo = "git log --oneline";
+            }
+          ];
       };
-
-      initExtra = strings.concatStringsSep "\n" ([
-        ''
-          ZSH_CACHE_DIR=''${ZSH_CACHE_DIR:-~/.config/zsh/}
-
-          zmodload zsh/complist
-          bindkey '^E' autosuggest-accept
-          bindkey '^[[1;5C' forward-word
-          bindkey '^[[1;5D' backward-word
-          fpath=(${./prompt} $fpath)
-          autoload -Uz prompt_custom_setup && prompt_custom_setup
-        ''
-
-      ] ++ extraScripts);
-      shellAliases = lib.mkMerge
-        [
-          (mkIf cfg.withKubernetes { k = "kubectl"; })
-          {
-            ls = "ls --color=auto";
-            ga = "git add";
-            gp = "git push";
-            gcmsg = "git commit -m";
-            gcam = "git commit -am";
-            gl = "git pull";
-            gpr = "git pull --rebase";
-            gst = "git status";
-            gd = "git diff";
-            gco = "git checkout";
-            gsw = "git switch";
-            gcb = "git checkout -b";
-            glo = "git log --oneline";
-          }
-        ];
     };
-  };
 }

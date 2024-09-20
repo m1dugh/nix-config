@@ -69,6 +69,15 @@ local servers = {
             "rust-analyzer",
         },
     },
+
+    slint_lsp = {
+        filetypes = {
+            "slint",
+        },
+        cmd = {
+            "slint-lsp"
+        },
+    },
 }
 
 local function setup_lsp_server(server_name, config)

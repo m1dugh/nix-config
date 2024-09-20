@@ -15,9 +15,9 @@
   fonts.packages = with pkgs; [
     fira-code
     (nerdfonts.override {
-        fonts = [
-            "FiraCode"
-        ];
+      fonts = [
+        "FiraCode"
+      ];
     })
   ];
 
@@ -27,11 +27,6 @@
   users.groups.${username} = {
     members = [ username ];
     gid = 1000;
-  };
-
-  services.dragon-center = {
-    enable = false;
-    withBootOptions = false;
   };
 
   users.users.${username} = {
@@ -117,11 +112,34 @@
   hardware.bluetooth.enable = true;
 
   security.rtkit.enable = true;
+
+  security.polkit.enable = true;
+
+  systemd = {
+    user.services.polkit-gnome-authentication-agent-1 = {
+      description = "polkit-gnome-authentication-agent-1";
+      wantedBy = [ "graphical-session.target" ];
+      wants = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        Restart = "on-failure";
+        RestartSec = 1;
+        TimeoutStopSec = 10;
+      };
+    };
+  };
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+  };
+
+  environment.sessionVariables = {
+    WAYLAND_DISPLAY = "wayland-1";
   };
 
 

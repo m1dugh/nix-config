@@ -32,15 +32,6 @@
     "nvidia_modeset"
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages // {
-      inherit (pkgs) msi-ec;
-  };
-
-
-  boot.extraModulePackages = with pkgs; [
-      msi-ec
-  ];
-
   boot.kernelParams = [
     "acpi_rev_override=1"
     "acpi_osi=Linux"
@@ -91,6 +82,13 @@
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
+  hardware.msi-dragon-center = {
+    enable = true;
+    driver = {
+      enable = true;
+      package = pkgs.msi-ec;
+    };
+  };
 
   hardware = {
 
