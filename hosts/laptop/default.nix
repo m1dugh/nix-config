@@ -138,11 +138,6 @@
     pulse.enable = true;
   };
 
-  environment.sessionVariables = {
-    WAYLAND_DISPLAY = "wayland-1";
-  };
-
-
   environment.systemPackages = with pkgs; [
 
     # Dev dependencies
