@@ -53,6 +53,13 @@
     ];
   };
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+        xdg-desktop-portal
+    ];
+  };
+
   xdg.mime.defaultApplications = {
     "x-scheme-handler/http" = "brave.desktop";
     "x-scheme-handler/https" = "brave.desktop";
@@ -178,9 +185,9 @@
     burpsuite
     bruno
     git-lfs
-    arandr
+    wdisplays
     openssl
-    yq
+    yq-go
     jq
     bear
 
@@ -262,8 +269,6 @@
     pinentryPackage = pkgs.pinentry-curses;
     enableSSHSupport = true;
   };
-
-  programs.nix-ld.libraries = options.programs.nix-ld.libraries.default ++ (with pkgs; [ ]);
 
   programs.sway = {
     enable = true;
