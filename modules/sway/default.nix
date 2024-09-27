@@ -29,7 +29,7 @@ in
 
     inactivityLockTime = mkOption {
       description = "The time after which the screen should be locked after inactivity. If null, swayidle will not lock screen";
-      default = 600;
+      default = 1200;
       type = types.nullOr types.int;
     };
   };
