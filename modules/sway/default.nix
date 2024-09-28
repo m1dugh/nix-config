@@ -9,6 +9,23 @@ let
   cfg = config.midugh.sway;
   defaultConfig = config.wayland.windowManager.sway;
   menu = "${getExe pkgs.rofi} -modi drun,run -show drun";
+  screenshotOptions = {
+    options = {
+      enable = mkEnableOption "screenshot package";
+      package = mkOption {
+        type = types.package;
+        description = ''
+          The package to use for the screen shot.
+        '';
+      };
+      command = mkOption {
+        type = types.str;
+        description = ''
+          The command to run to take a screenshot.
+        '';
+      };
+    };
+  };
 in
 {
   options.midugh.sway = {
@@ -17,6 +34,15 @@ in
       type = types.nullOr types.path;
       default = rootPath + "/wallpapers/wallpaper.jpg";
       description = "The path to the wall paper";
+    };
+
+    screenshot = mkOption {
+      type = types.submodule screenshotOptions;
+      default = rec {
+        enable = true;
+        package = pkgs.screenshot;
+        command = lib.getExe package;
+      };
     };
 
     enableNetworkManager = mkEnableOption "network manager applet";
@@ -54,11 +80,10 @@ in
       };
     };
 
-    home.packages = with pkgs; [
+    home.packages = with pkgs; ([
       alacritty
       swaynotificationcenter
-      sway-contrib.grimshot
-    ];
+    ] ++ (lists.optional cfg.screenshot.enable cfg.screenshot.package));
 
     home.file.".config/swaylock/config" = {
       text = ''
@@ -122,7 +147,7 @@ in
             "${modifier}+r" = "mode resize";
             "${modifier}+Tab" = ''exec "${lib.getExe pkgs.swaylock}"'';
             "${modifier}+Shift+r" = "reload";
-            "Print" = "exec ${lib.getExe pkgs.sway-contrib.grimshot}";
+            "Print" = "exec ${cfg.screenshot.command}";
           };
           bars = [ ];
 
