@@ -1,6 +1,5 @@
 { username
 , config
-, options
 , pkgs
 , stateVersion
 , lib
@@ -20,6 +19,24 @@
       ];
     })
   ];
+
+  # for loginctl lock-session
+  services.systemd-lock-handler.enable = true;
+
+  systemd.user.services.loginctl-swaylock = {
+    enable = true;
+    description = "A service locking screen";
+    onSuccess = [ "unlock.target" ];
+    partOf = [ "lock.target" ];
+    after = [ "lock.target" ];
+    serviceConfig = {
+        Type = "forking";
+        Restart = "on-failure";
+        RestartSec = 0;
+        ExecStart = "${lib.getExe pkgs.swaylock} -f";
+    };
+    wantedBy = [ "lock.target" ];
+  };
 
   networking.hostName = "midugh-laptop";
   networking.useDHCP = lib.mkDefault true;
@@ -122,20 +139,18 @@
 
   security.polkit.enable = true;
 
-  systemd = {
-    user.services.polkit-gnome-authentication-agent-1 = {
+  systemd.user.services.polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
       wantedBy = [ "graphical-session.target" ];
       wants = [ "graphical-session.target" ];
       after = [ "graphical-session.target" ];
       serviceConfig = {
-        Type = "simple";
-        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-        Restart = "on-failure";
-        RestartSec = 1;
-        TimeoutStopSec = 10;
+          Type = "simple";
+          ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+          Restart = "on-failure";
+          RestartSec = 1;
+          TimeoutStopSec = 10;
       };
-    };
   };
 
   services.pipewire = {

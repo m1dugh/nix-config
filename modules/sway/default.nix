@@ -7,8 +7,12 @@
 with lib;
 let
   cfg = config.midugh.sway;
+  terminalPkg = pkgs.alacritty;
   defaultConfig = config.wayland.windowManager.sway;
-  menu = "${getExe pkgs.rofi} -modi drun,run -show drun";
+  rofi = getExe config.programs.rofi.finalPackage;
+  menu = "${rofi} -show drun";
+  emoji = "${rofi} -theme ${./config/emoji-theme.rasi} -show emoji -emoji-format '{emoji} {group}'";
+  power-menu = "${rofi} -theme ${./config/power-menu-theme.rasi} -show power-menu -modi power-menu:'rofi-power-menu --no-text'";
   screenshotOptions = {
     options = {
       enable = mkEnableOption "screenshot package";
@@ -69,6 +73,12 @@ in
       }
     ];
 
+    midugh.rofi = {
+        enable = true;
+        wayland = true;
+    };
+    programs.rofi.terminal = getExe terminalPkg;
+
     gtk = {
       enable = true;
       gtk3.extraConfig = {
@@ -80,10 +90,11 @@ in
       };
     };
 
-    home.packages = with pkgs; ([
-      alacritty
-      swaynotificationcenter
-    ] ++ (lists.optional cfg.screenshot.enable cfg.screenshot.package));
+    home.packages = [
+      terminalPkg
+      pkgs.swaynotificationcenter
+      pkgs.rofi-power-menu
+    ] ++ (lists.optional cfg.screenshot.enable cfg.screenshot.package);
 
     home.file.".config/swaylock/config" = {
       text = ''
@@ -91,7 +102,6 @@ in
       '';
     };
 
-    midugh.rofi.enable = true;
     midugh.waybar = {
       enable = true;
       configFile = ../waybar/config/config.json;
@@ -105,7 +115,7 @@ in
       {
         enable = true;
         config = rec {
-          terminal = lib.getExe pkgs.alacritty;
+          terminal = lib.getExe terminalPkg;
           modifier = "Mod4";
           gaps.outer = 5;
           gaps.inner = 10;
@@ -147,7 +157,9 @@ in
             "${modifier}+r" = "mode resize";
             "${modifier}+Tab" = ''exec "${lib.getExe pkgs.swaylock}"'';
             "${modifier}+Shift+r" = "reload";
-            "Print" = "exec ${cfg.screenshot.command}";
+            "${modifier}+slash" = ''exec "${emoji}"'';
+            "${modifier}+p" = ''exec "${power-menu}"'';
+            "Print" = ''exec "${cfg.screenshot.command}"'';
           };
           bars = [ ];
 
