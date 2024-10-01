@@ -9,11 +9,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1726845580,
-        "narHash": "sha256-3tQEZh8fTRb06T1KnV/hIynu0JOC1mCNbQPRPO+gu+Y=",
+        "lastModified": 1727776364,
+        "narHash": "sha256-T6S5Idfx3w2aaqnQ1YsOpPh9Z5To9QPwQJTluPk6NFo=",
         "owner": "m1dugh",
         "repo": "DragonCenterForLinux",
-        "rev": "bbf3dabbdedb179f4f2af880675ba7abed0f20a9",
+        "rev": "220cba9c3457e9ba7c3ae8577eecd1913acf1c11",
         "type": "github"
       },
       "original": {

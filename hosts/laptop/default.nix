@@ -20,6 +20,16 @@
     })
   ];
 
+  services.msi-dragon-center = {
+    enable = true;
+    driver = {
+        enable = true;
+        package = pkgs.msi-ec;
+    };
+  };
+
+  users.extraGroups.dragon-center.members = [ username ];
+
   # for loginctl lock-session
   services.systemd-lock-handler.enable = true;
 

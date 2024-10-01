@@ -17,11 +17,11 @@
 	"pulseaudio": {
 		"tooltip": false,
 		"scroll-step": 2,
-		"format": "{icon} {volume}%",
+		"format": "{icon}  {volume}%",
 		"format-muted": " {volume}%",
 		"on-click":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
 		"format-icons": {
-			"default": ["", ""]
+			"default": [" ", " "]
 		}
 	},
     "custom/notification": {

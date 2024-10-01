@@ -5,6 +5,7 @@
 , pkgs
 , lib
 , modulesPath
+, username
 , ...
 }:
 {
@@ -81,14 +82,6 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-
-  hardware.msi-dragon-center = {
-    enable = true;
-    driver = {
-      enable = true;
-      package = pkgs.msi-ec;
-    };
-  };
 
   hardware = {
 
