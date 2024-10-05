@@ -23,8 +23,8 @@
   services.msi-dragon-center = {
     enable = true;
     driver = {
-        enable = true;
-        package = pkgs.msi-ec;
+      enable = true;
+      package = pkgs.msi-ec;
     };
   };
 
@@ -40,10 +40,10 @@
     partOf = [ "lock.target" ];
     after = [ "lock.target" ];
     serviceConfig = {
-        Type = "forking";
-        Restart = "on-failure";
-        RestartSec = 0;
-        ExecStart = "${lib.getExe pkgs.swaylock} -f";
+      Type = "forking";
+      Restart = "on-failure";
+      RestartSec = 0;
+      ExecStart = "${lib.getExe pkgs.swaylock} -f";
     };
     wantedBy = [ "lock.target" ];
   };
@@ -83,7 +83,7 @@
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
-        xdg-desktop-portal
+      xdg-desktop-portal
     ];
   };
 
@@ -150,17 +150,17 @@
   security.polkit.enable = true;
 
   systemd.user.services.polkit-gnome-authentication-agent-1 = {
-      description = "polkit-gnome-authentication-agent-1";
-      wantedBy = [ "graphical-session.target" ];
-      wants = [ "graphical-session.target" ];
-      after = [ "graphical-session.target" ];
-      serviceConfig = {
-          Type = "simple";
-          ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-          Restart = "on-failure";
-          RestartSec = 1;
-          TimeoutStopSec = 10;
-      };
+    description = "polkit-gnome-authentication-agent-1";
+    wantedBy = [ "graphical-session.target" ];
+    wants = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+      Restart = "on-failure";
+      RestartSec = 1;
+      TimeoutStopSec = 10;
+    };
   };
 
   services.pipewire = {
@@ -229,6 +229,8 @@
 
     openrazer-daemon
     polychromatic
+
+    awscli2
   ];
 
   services.displayManager =

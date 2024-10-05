@@ -74,8 +74,8 @@ in
     ];
 
     midugh.rofi = {
-        enable = true;
-        wayland = true;
+      enable = true;
+      wayland = true;
     };
     programs.rofi.terminal = getExe terminalPkg;
 

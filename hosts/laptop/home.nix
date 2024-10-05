@@ -2,19 +2,9 @@
 , stateVersion
 , ...
 }:
-let
-  wallpaper = ../../wallpapers/wallpaper.jpg;
-  dmenuCommand = "${pkgs.rofi}/bin/rofi -modi drun,run -show drun";
-  lockCommand = "${pkgs.betterlockscreen}/bin/betterlockscreen --lock";
-  terminal = "${pkgs.alacritty}/bin/alacritty";
-  screenshotCommand = "${pkgs.flameshot}/bin/flameshot gui";
-in
 {
   midugh.nvim.enable = true;
-  midugh.zsh = {
-    enable = true;
-    withKubernetes = true;
-  };
+  midugh.zsh.enable = true;
 
   midugh.sway = {
     enable = true;

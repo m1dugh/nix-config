@@ -13,23 +13,26 @@ in {
   };
 
   config = mkIf cfg.enable {
-    programs.rofi = 
-    let
+    programs.rofi =
+      let
         package = if cfg.wayland then pkgs.rofi-wayland else options.programs.rofi.package.default;
-        waylandOverride = pkg: if cfg.wayland then (pkg.override {
-            rofi-unwrapped = package;
-        }) else pkg;
-    in {
-      enable = true;
-      inherit package;
-      extraConfig = {
-        modi = "drun,emoji";
-      };
-      font = "monospace";
-      theme = ./config/rofi-theme.rasi;
-      plugins = (builtins.map waylandOverride [
+        waylandOverride = pkg:
+          if cfg.wayland then
+            (pkg.override {
+              rofi-unwrapped = package;
+            }) else pkg;
+      in
+      {
+        enable = true;
+        inherit package;
+        extraConfig = {
+          modi = "drun,emoji";
+        };
+        font = "monospace";
+        theme = ./config/rofi-theme.rasi;
+        plugins = (builtins.map waylandOverride [
           pkgs.rofi-emoji
-      ]);
-    };
+        ]);
+      };
   };
 }
