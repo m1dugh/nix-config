@@ -1,3 +1,4 @@
+# vi: ft=sh
 # Purification
 # by Matthieu Cneude
 # https://github.com/Phantas0s/purification
@@ -60,7 +61,7 @@ prompt_k8s_info()
     if [ $? -ne 0 ]; then
         return;
     fi
-    echo "$ZSH_THEME_K8S_PROMPT_PREFIX$cluster/$namespace$ZSH_THEME_K8S_PROMPT_SUFFIX"
+    echo "$ZSH_THEME_K8S_PROMPT_PREFIX$cluster:$namespace$ZSH_THEME_K8S_PROMPT_SUFFIX"
 
 }
 
