@@ -280,6 +280,8 @@
 
   services.globalprotect = {
     enable = true;
+    settings."sncf.gpcloudservice.com".openconnect-args = "--os win";
+    csdWrapper = "${pkgs.openconnect}/libexec/openconnect/hipreport.sh";
   };
 
   services.avahi = {
