@@ -15,6 +15,15 @@
         awscli2
         gcc
         cargo
+        nodejs
+
+        # fonts
+        fira-code
+        (nerdfonts.override {
+            fonts = [
+                "FiraCode"
+            ];
+        })
     ];
 
     midugh.git = {
@@ -32,6 +41,8 @@
         enable = true;
         viMode = true;
     };
+
+    fonts.fontconfig.enable = true;
 
     programs.home-manager.enable = true;
 }
