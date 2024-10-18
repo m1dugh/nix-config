@@ -3,17 +3,27 @@
 , modules
 , ...
 }:
-let username = "romain.le-miere";
-in {
+{
   home-manager.useGlobalPkgs = true;
-  "${username}" = home-manager.lib.homeManagerConfiguration {
+  "midugh-pie" = home-manager.lib.homeManagerConfiguration {
     inherit pkgs;
     extraSpecialArgs = {
-      inherit username;
+      username = "romain.le-miere";
     };
 
     modules = [
-      ./pie.nix
+      ./sncf.nix
+    ] ++ modules;
+  };
+
+  "midugh-sncf" = home-manager.lib.homeManagerConfiguration {
+    inherit pkgs;
+    extraSpecialArgs = {
+      username = "romain.le-miere";
+    };
+
+    modules = [
+      ./sncf.nix
     ] ++ modules;
   };
 }
