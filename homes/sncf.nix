@@ -12,7 +12,16 @@
         sops
         yq-go
         jq
+        awscli2
+        gcc
+        cargo
     ];
+
+    midugh.git = {
+        enable = true;
+        username = "0301717D";
+        email = "rlemiere@sncf.fr";
+    };
 
     midugh.nvim = {
         enable = true;
@@ -24,5 +33,5 @@
         viMode = true;
     };
 
-    program.home-manager.enable = true;
+    programs.home-manager.enable = true;
 }
