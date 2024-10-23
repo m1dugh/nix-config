@@ -50,6 +50,9 @@
 
   networking.hostName = "midugh-laptop";
   networking.useDHCP = lib.mkDefault true;
+  networking.extraHosts = ''
+    127.0.0.1 *.localhost
+  '';
 
   users.groups.${username} = {
     members = [ username ];
@@ -145,6 +148,10 @@
   sound.enable = true;
   hardware.bluetooth.enable = true;
 
+  security.pki.certificateFiles = [
+    ../../certs/sncf.fr.pem
+  ];
+
   security.rtkit.enable = true;
 
   security.polkit.enable = true;
@@ -196,7 +203,8 @@
     wireguard-tools
     age
 
-    globalprotect-openconnect
+    globalprotect-openconnect_2
+    openconnect
     alacritty
 
     btrfs-progs
@@ -231,6 +239,8 @@
     polychromatic
 
     awscli2
+
+    nixfmt-rfc-style
   ];
 
   services.displayManager =
@@ -278,18 +288,11 @@
     enable = true;
   };
 
-  services.globalprotect = {
-    enable = true;
-    settings."sncf.gpcloudservice.com".openconnect-args = "--os win";
-    csdWrapper = "${pkgs.openconnect}/libexec/openconnect/hipreport.sh";
-  };
-
   services.avahi = {
     enable = false;
     nssmdns4 = true;
     openFirewall = true;
   };
-
 
   # GPG keys setup.
   services.pcscd.enable = true;

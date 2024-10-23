@@ -1,0 +1,36 @@
+diff --git a/apps/gpgui-helper/src-tauri/src/app.rs b/apps/gpgui-helper/src-tauri/src/app.rs
+index 17820ff..b29a2f6 100644
+--- a/apps/gpgui-helper/src-tauri/src/app.rs
++++ b/apps/gpgui-helper/src-tauri/src/app.rs
+@@ -24,31 +24,6 @@ impl App {
+     let api_key = self.api_key.clone();
+ 
+     tauri::Builder::default()
+-      .setup(move |app| {
+-        let win = app.get_window("main").expect("no main window");
+-        win.hide_menu();
+-
+-        let notifier = ProgressNotifier::new(win.clone());
+-        let installer = Installer::new(api_key);
+-        let updater = Arc::new(GuiUpdater::new(gui_version, notifier, installer));
+-
+-        let win_clone = win.clone();
+-        app.listen_global("app://update-done", move |_event| {
+-          info!("Update done");
+-          let _ = win_clone.close();
+-        });
+-
+-        // Listen for the update event
+-        win.listen("app://update", move |_event| {
+-          let updater = Arc::clone(&updater);
+-          tokio::spawn(async move { updater.update().await });
+-        });
+-
+-        // Update the GUI on startup
+-        win.trigger("app://update", None);
+-
+-        Ok(())
+-      })
+       .run(tauri::generate_context!())?;
+ 
+     Ok(())
