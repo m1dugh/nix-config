@@ -8,32 +8,22 @@
 , pkg-config
 , vpnc-scripts
 , callPackage
-, makeDesktopItem
+, rustPlatform
+, glib
+, atk
+, gdk-pixbuf
+, pango
+, cairo
+, harfbuzz
+, gtk3
+, zlib
 }:
 let
     version = "2.3.7";
     pname =  "globalprotect-openconnect";
-    naersk = callPackage
-    (fetchFromGitHub {
-      owner = "nix-community";
-      repo = "naersk";
-      rev = "3fb418eaf352498f6b6c30592e3beb63df42ef11";
-      hash = "sha256-r/xppY958gmZ4oTfLiHN0ZGuQ+RSTijDblVgVLFi1mw=";
-    })
-    { };
-
     gpgui = callPackage ./gui.nix { };
 
-    desktop = makeDesktopItem {
-        name = "GlobalProtect Openconnect VPN Client";
-        desktopName = "GlobalProtect Openconnect VPN Client";
-        comment = "A GUI for GlobalProtect VPN";
-        genericName = "GlobalProtect VPN Client";
-        exec = "gpclient launch-gui %u";
-        categories = ["Network" "Dialup"];
-        mimeTypes = ["x-scheme-handler/globalprotectcallback"];
-    };
-in naersk.buildPackage {
+in rustPlatform.buildRustPackage {
     inherit version pname;
 
     src = fetchFromGitHub {
@@ -52,34 +42,61 @@ in naersk.buildPackage {
           pkg-config
         ];
 
-        overrideMain = {...}: {
-            patches = [
-                ./gui-install.patch
-            ];
-          postPatch  = ''
-            substituteInPlace crates/common/src/vpn_utils.rs \
-              --replace-fail /etc/vpnc/vpnc-script ${lib.getExe vpnc-scripts}
-            substituteInPlace crates/gpapi/src/lib.rs \
-              --replace-fail /usr/bin/gpclient $out/bin/gpclient \
-              --replace-fail /usr/bin/gpservice $out/bin/gpservice \
-              --replace-fail /usr/bin/gpgui-helper $out/bin/gpgui-helper \
-              --replace-fail /usr/bin/gpgui ${gpgui}/bin/gpgui \
-              --replace-fail /usr/bin/gpauth $out/bin/gpauth
-          '';
+        PKG_CONFIG_PATH = lib.strings.concatMapStringsSep ":" (pkg: "${pkg}/lib/pkgconfig/") [
+            glib.dev
+            libsoup.dev
+            webkitgtk.dev
+            atk.dev
+            gdk-pixbuf.dev
+            pango.dev
+            cairo.dev
+            harfbuzz.dev
+            gtk3.dev
+            openconnect
+            zlib
+        ];
 
-          postInstall = ''
-            mkdir -p $out/share/applications/
-            ln -s ${desktop}/share/applications/* $out/share/applications
+        NIX_CFLAGS_COMPILE = (map (pkg: "-I${pkg}/include") [
+            openconnect.dev
+        ]);
+
+        NIX_CFLAGS_LINK = (map (pkg: "-L${lib.getLib pkg}/lib") [
+            openconnect
+            zlib
+        ]);
+
+        cargoHash = "sha256-cdhhBUQASrnfjeJxkwx39vr/KHeQlBh0wMvw+Q7EK98=";
+
+        postPatch  = ''
+            substituteInPlace crates/common/src/vpn_utils.rs \
+            --replace-fail /etc/vpnc/vpnc-script ${vpnc-scripts}/bin/vpnc-script \
+            --replace-fail /usr/libexec/openconnect/hipreport.sh ${openconnect}/libexec/openconnect/hipreport.sh
+
+        substituteInPlace crates/gpapi/src/lib.rs \
+            --replace-fail /usr/bin/gpclient $out/bin/gpclient \
+            --replace-fail /usr/bin/gpservice $out/bin/gpservice \
+            --replace-fail /usr/bin/gpgui-helper $out/bin/gpgui-helper \
+            --replace-fail /usr/bin/gpgui ${gpgui}/bin/gpgui \
+            --replace-fail /usr/bin/gpauth $out/bin/gpauth
+            '';
+
+        postInstall = ''
+            mkdir -p $out/
             ln -s ${gpgui}/bin/gpgui $out/bin/
-          '';
-        };
+            ln -s ${gpgui}/share/ $out/share
+            '';
 
     meta = {
+        mainProgram = "gpclient";
         description = "A GlobalProtect VPN client for Linux, written in Rust, based on OpenConnect and Tauri, supports SSO with MFA, Yubikey, and client certificate authentication, etc.";
         licences = lib.licences.gpl3;
         homepage = "https://github.com/yuezk/GlobalProtect-openconnect";
         maintainers = [
             lib.maintainers.m1dugh
+        ];
+        platforms = [
+            "aarch64-linux"
+            "x86_64-linux"
         ];
     };
 }
