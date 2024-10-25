@@ -43,7 +43,7 @@
       Type = "forking";
       Restart = "on-failure";
       RestartSec = 0;
-      ExecStart = "${lib.getExe pkgs.swaylock} -f";
+      ExecStart = "${lib.getExe pkgs.swaylock-effects} -f";
     };
     wantedBy = [ "lock.target" ];
   };
@@ -305,7 +305,6 @@
   programs.sway = {
     enable = true;
     extraPackages = with pkgs; [
-      swaylock
       swayidle
     ];
   };

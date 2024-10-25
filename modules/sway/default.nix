@@ -49,6 +49,12 @@ in
       };
     };
 
+    swaylockPackage = mkOption {
+        type = types.package;
+        default = pkgs.swaylock-effects;
+        example = literal "pkgs.swaylock-effects";
+    };
+
     enableNetworkManager = mkEnableOption "network manager applet";
 
     volumeStep = mkOption {
@@ -94,11 +100,24 @@ in
       terminalPkg
       pkgs.swaynotificationcenter
       pkgs.rofi-power-menu
+      cfg.swaylockPackage
     ] ++ (lists.optional cfg.screenshot.enable cfg.screenshot.package);
 
     home.file.".config/swaylock/config" = {
       text = ''
-        image=${rootPath + "/wallpapers/300SL.png"}
+        screenshots
+        clock
+        indicator-idle-visible
+        indicator-radius=100
+        indicator-thickness=7
+        effect-blur=7x3
+        effect-vignette=0.5:0.5
+        ring-color=bb00cc
+        key-hl-color=880033
+        line-color=00000000
+        inside-color=00000088
+        separator-color=00000000
+        fade-in=0.2
       '';
     };
 
@@ -155,7 +174,7 @@ in
 
             "${modifier}+d" = ''exec "${menu}"'';
             "${modifier}+r" = "mode resize";
-            "${modifier}+Tab" = ''exec "${lib.getExe pkgs.swaylock}"'';
+            "${modifier}+Tab" = ''exec "${lib.getExe cfg.swaylockPackage}"'';
             "${modifier}+Shift+r" = "reload";
             "${modifier}+slash" = ''exec "${emoji}"'';
             "${modifier}+p" = ''exec "${power-menu}"'';
