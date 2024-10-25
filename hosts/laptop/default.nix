@@ -223,6 +223,8 @@
     yq-go
     jq
     bear
+    unzip
+    ltrace
 
     networkmanagerapplet
     glib
@@ -241,6 +243,8 @@
     awscli2
 
     nixfmt-rfc-style
+    nixpkgs-review
+    pavucontrol
   ];
 
   services.displayManager =
