@@ -47,7 +47,7 @@
 
       whatsapp-for-linux
 
-      kubelogin
+      kubelogin-oidc
     ];
   };
 

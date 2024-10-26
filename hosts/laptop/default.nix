@@ -197,6 +197,7 @@
     krew
     docker-compose
     kubectx
+    fzf
     kubernetes-helm
     terraform
     sops
@@ -225,6 +226,7 @@
     bear
     unzip
     ltrace
+    nix-index
 
     networkmanagerapplet
     glib
