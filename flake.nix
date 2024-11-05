@@ -35,6 +35,7 @@
     let
       system = "x86_64-linux";
       username = "midugh";
+      inherit (nixpkgs) lib;
       mkDefaultArgs = system: 
       let
         pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
@@ -43,15 +44,17 @@
             config.allowUnsupportedSystem = true;
             inherit system;
         };
+        pkgs-local = self.packages.${system};
       in {
         inherit (self) inputs;
         inherit
             pkgs-unstable
+            pkgs-local
             pkgs
             system
             username
+            lib
             ;
-        inherit (nixpkgs) lib;
       };
       pkgs-unstable = import nixpkgs-unstable {
         inherit system;
@@ -61,15 +64,9 @@
         config.allowUnfree = true;
         config.allowUnsupportedSystem = true;
       });
-      inherit (nixpkgs) lib;
-      localLib = import ./lib {
-        inherit lib pkgs;
-      };
       generateModules = modules: lib.attrsets.genAttrs modules (name: import (./modules + "/${name}"));
 
       customPackages = pkgs
-          // localLib.pkgs
-          // self.packages.${system}
           // dragon-center.packages.${system}
           ;
       defaultArgs = {
@@ -77,10 +74,11 @@
         inherit
           system
           username
-          home-manager
-          pkgs-unstable;
+          pkgs-unstable
+          ;
         inherit lib;
         pkgs = customPackages;
+        pkgs-local = self.packages.${system};
       };
     in
     rec {

@@ -2,6 +2,7 @@
 , rootPath
 , lib
 , pkgs
+, pkgs-local
 , ...
 }:
 with lib;
@@ -44,7 +45,7 @@ in
       type = types.submodule screenshotOptions;
       default = rec {
         enable = true;
-        package = pkgs.screenshot;
+        package = pkgs-local.screenshot;
         command = lib.getExe package;
       };
     };
