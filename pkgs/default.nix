@@ -6,6 +6,6 @@
   msi-ec = pkgs.callPackage ./msi-ec inputs;
   screenshot = pkgs.callPackage ./screenshot.nix inputs;
   inwebo-authenticator = pkgs.callPackage ./inwebo-authenticator.nix inputs;
-  globalprotect-openconnect_2 = pkgs.callPackage ./globalprotect-openconnect {};
-  gpgui = pkgs.callPackage ./globalprotect-openconnect/gui.nix {};
+  globalprotect-openconnect_2 = pkgs.callPackage ./globalprotect-openconnect { };
+  gpgui = pkgs.callPackage ./globalprotect-openconnect/gui.nix { };
 }

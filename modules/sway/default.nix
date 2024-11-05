@@ -51,9 +51,9 @@ in
     };
 
     swaylockPackage = mkOption {
-        type = types.package;
-        default = pkgs.swaylock-effects;
-        example = literal "pkgs.swaylock-effects";
+      type = types.package;
+      default = pkgs.swaylock-effects;
+      example = literal "pkgs.swaylock-effects";
     };
 
     enableNetworkManager = mkEnableOption "network manager applet";

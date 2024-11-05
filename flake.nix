@@ -36,19 +36,20 @@
       system = "x86_64-linux";
       username = "midugh";
       inherit (nixpkgs) lib;
-      mkDefaultArgs = system: 
-      let
-        pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
-        pkgs = import nixpkgs {
+      mkDefaultArgs = system:
+        let
+          pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+          pkgs = import nixpkgs {
             config.allowUnfree = true;
             config.allowUnsupportedSystem = true;
             inherit system;
-        };
-        pkgs-local = self.packages.${system};
-        dragon-center-pkgs = dragon-center.packages.${system};
-      in {
-        inherit (self) inputs;
-        inherit
+          };
+          pkgs-local = self.packages.${system};
+          dragon-center-pkgs = dragon-center.packages.${system};
+        in
+        {
+          inherit (self) inputs;
+          inherit
             pkgs-unstable
             pkgs-local
             pkgs
@@ -57,18 +58,19 @@
             lib
             dragon-center-pkgs
             ;
-      };
+        };
       generateModules = modules: lib.attrsets.genAttrs modules (name: import (./modules + "/${name}"));
 
       defaultArgs = mkDefaultArgs system;
     in
     rec {
-      packages = flake-utils.lib.eachDefaultSystemMap(system:
-      let
-        defaultArgs = mkDefaultArgs system;
-      in {
-        home-manager = home-manager.defaultPackage.${system};
-      } // (import ./pkgs defaultArgs));
+      packages = flake-utils.lib.eachDefaultSystemMap (system:
+        let
+          defaultArgs = mkDefaultArgs system;
+        in
+        {
+          home-manager = home-manager.defaultPackage.${system};
+        } // (import ./pkgs defaultArgs));
 
       nixosModules = (generateModules [ "xfce" ]) // {
         dragon-center = dragon-center.nixosModules.default;

@@ -13,14 +13,14 @@ let
   inherit (inputs) home-manager;
   specialArgs = {
     inherit
-        inputs
-        username
-        pkgs-local
-        dragon-center-pkgs
-        pkgs-unstable
-        pkgs
-        system
-        ;
+      inputs
+      username
+      pkgs-local
+      dragon-center-pkgs
+      pkgs-unstable
+      pkgs
+      system
+      ;
     stateVersion = "24.05";
     rootPath = ../.;
   };

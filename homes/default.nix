@@ -5,8 +5,9 @@
 , ...
 }:
 let
-    inherit (inputs) home-manager;
-in {
+  inherit (inputs) home-manager;
+in
+{
   home-manager.useGlobalPkgs = true;
   "midugh-pie" = home-manager.lib.homeManagerConfiguration {
     inherit pkgs;
