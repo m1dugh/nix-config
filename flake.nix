@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
@@ -51,29 +51,27 @@
             system
             username
             ;
+        inherit (nixpkgs) lib;
       };
       pkgs-unstable = import nixpkgs-unstable {
         inherit system;
       };
-      overlay = final: prev:
-        {
-          gdb_14 = pkgs-unstable.gdb;
-        };
       pkgs = (import nixpkgs {
         inherit system;
         config.allowUnfree = true;
         config.allowUnsupportedSystem = true;
-        overlays = [
-          overlay
-        ];
       });
       inherit (nixpkgs) lib;
       localLib = import ./lib {
         inherit lib pkgs;
       };
       generateModules = modules: lib.attrsets.genAttrs modules (name: import (./modules + "/${name}"));
-      customPackages = pkgs // localLib.pkgs // self.packages.${system} // dragon-center.packages.${system};
-      customLib = lib // localLib.lib;
+
+      customPackages = pkgs
+          // localLib.pkgs
+          // self.packages.${system}
+          // dragon-center.packages.${system}
+          ;
       defaultArgs = {
         inherit (self) inputs;
         inherit
@@ -81,7 +79,7 @@
           username
           home-manager
           pkgs-unstable;
-        lib = customLib;
+        inherit lib;
         pkgs = customPackages;
       };
     in
