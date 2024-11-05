@@ -5,6 +5,7 @@
 , pkgs
 , pkgs-unstable
 , pkgs-local
+, dragon-center-pkgs
 , modules
 , ...
 }:
@@ -15,6 +16,7 @@ let
         inputs
         username
         pkgs-local
+        dragon-center-pkgs
         pkgs-unstable
         pkgs
         system

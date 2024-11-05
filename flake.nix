@@ -45,6 +45,7 @@
             inherit system;
         };
         pkgs-local = self.packages.${system};
+        dragon-center-pkgs = dragon-center.packages.${system};
       in {
         inherit (self) inputs;
         inherit
@@ -54,6 +55,7 @@
             system
             username
             lib
+            dragon-center-pkgs
             ;
       };
       pkgs-unstable = import nixpkgs-unstable {
@@ -66,20 +68,7 @@
       });
       generateModules = modules: lib.attrsets.genAttrs modules (name: import (./modules + "/${name}"));
 
-      customPackages = pkgs
-          // dragon-center.packages.${system}
-          ;
-      defaultArgs = {
-        inherit (self) inputs;
-        inherit
-          system
-          username
-          pkgs-unstable
-          ;
-        inherit lib;
-        pkgs = customPackages;
-        pkgs-local = self.packages.${system};
-      };
+      defaultArgs = mkDefaultArgs system;
     in
     rec {
       # TODO: use flake-utils

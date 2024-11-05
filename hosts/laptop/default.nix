@@ -4,6 +4,7 @@
 , stateVersion
 , lib
 , pkgs-local
+, dragon-center-pkgs
 , ...
 }:
 {
@@ -23,6 +24,7 @@
 
   services.msi-dragon-center = {
     enable = true;
+    package = dragon-center-pkgs.dragon-center;
     driver = {
       enable = true;
       package = pkgs-local.msi-ec;
