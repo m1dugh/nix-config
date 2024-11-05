@@ -35,6 +35,23 @@
     let
       system = "x86_64-linux";
       username = "midugh";
+      mkDefaultArgs = system: 
+      let
+        pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+        pkgs = import nixpkgs {
+            config.allowUnfree = true;
+            config.allowUnsupportedSystem = true;
+            inherit system;
+        };
+      in {
+        inherit (self) inputs;
+        inherit
+            pkgs-unstable
+            pkgs
+            system
+            username
+            ;
+      };
       pkgs-unstable = import nixpkgs-unstable {
         inherit system;
       };
@@ -70,9 +87,12 @@
     in
     rec {
       # TODO: use flake-utils
-      packages.${system} = {
+      packages = flake-utils.lib.eachDefaultSystemMap(system:
+      let
+        defaultArgs = mkDefaultArgs system;
+      in {
         home-manager = home-manager.defaultPackage.${system};
-      } // (import ./pkgs defaultArgs);
+      } // (import ./pkgs defaultArgs));
 
       nixosModules = (generateModules [ "xfce" ]) // {
         dragon-center = dragon-center.nixosModules.default;
