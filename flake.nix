@@ -58,20 +58,11 @@
             dragon-center-pkgs
             ;
       };
-      pkgs-unstable = import nixpkgs-unstable {
-        inherit system;
-      };
-      pkgs = (import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-        config.allowUnsupportedSystem = true;
-      });
       generateModules = modules: lib.attrsets.genAttrs modules (name: import (./modules + "/${name}"));
 
       defaultArgs = mkDefaultArgs system;
     in
     rec {
-      # TODO: use flake-utils
       packages = flake-utils.lib.eachDefaultSystemMap(system:
       let
         defaultArgs = mkDefaultArgs system;
