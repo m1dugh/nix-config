@@ -3,6 +3,8 @@
 , pkgs
 , stateVersion
 , lib
+, pkgs-local
+, dragon-center-pkgs
 , ...
 }:
 {
@@ -22,9 +24,10 @@
 
   services.msi-dragon-center = {
     enable = true;
+    package = dragon-center-pkgs.dragon-center;
     driver = {
       enable = true;
-      package = pkgs.msi-ec;
+      package = pkgs-local.msi-ec;
     };
   };
 
@@ -177,7 +180,7 @@
     pulse.enable = true;
   };
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = (with pkgs; [
 
     # Dev dependencies
     go
@@ -204,7 +207,6 @@
     wireguard-tools
     age
 
-    globalprotect-openconnect_2
     openconnect
     alacritty
 
@@ -247,7 +249,9 @@
     nixfmt-rfc-style
     nixpkgs-review
     pavucontrol
-  ];
+  ]) ++ (with pkgs-local; [
+    globalprotect-openconnect_2
+  ]);
 
   services.displayManager =
     let

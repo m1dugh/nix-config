@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
@@ -35,44 +35,42 @@
     let
       system = "x86_64-linux";
       username = "midugh";
-      pkgs-unstable = import nixpkgs-unstable {
-        inherit system;
-      };
-      overlay = final: prev:
-        {
-          gdb_14 = pkgs-unstable.gdb;
-        };
-      pkgs = (import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-        config.allowUnsupportedSystem = true;
-        overlays = [
-          overlay
-        ];
-      });
       inherit (nixpkgs) lib;
-      localLib = import ./lib {
-        inherit lib pkgs;
-      };
+      mkDefaultArgs = system:
+        let
+          pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+          pkgs = import nixpkgs {
+            config.allowUnfree = true;
+            config.allowUnsupportedSystem = true;
+            inherit system;
+          };
+          pkgs-local = self.packages.${system};
+          dragon-center-pkgs = dragon-center.packages.${system};
+        in
+        {
+          inherit (self) inputs;
+          inherit
+            pkgs-unstable
+            pkgs-local
+            pkgs
+            system
+            username
+            lib
+            dragon-center-pkgs
+            ;
+        };
       generateModules = modules: lib.attrsets.genAttrs modules (name: import (./modules + "/${name}"));
-      customPackages = pkgs // localLib.pkgs // self.packages.${system} // dragon-center.packages.${system};
-      customLib = lib // localLib.lib;
-      defaultArgs = {
-        inherit (self) inputs;
-        inherit
-          system
-          username
-          home-manager
-          pkgs-unstable;
-        lib = customLib;
-        pkgs = customPackages;
-      };
+
+      defaultArgs = mkDefaultArgs system;
     in
     rec {
-      # TODO: use flake-utils
-      packages.${system} = {
-        home-manager = home-manager.defaultPackage.${system};
-      } // (import ./pkgs defaultArgs);
+      packages = flake-utils.lib.eachDefaultSystemMap (system:
+        let
+          defaultArgs = mkDefaultArgs system;
+        in
+        {
+          home-manager = home-manager.defaultPackage.${system};
+        } // (import ./pkgs defaultArgs));
 
       nixosModules = (generateModules [ "xfce" ]) // {
         dragon-center = dragon-center.nixosModules.default;

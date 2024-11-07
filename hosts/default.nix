@@ -2,25 +2,32 @@
 , lib
 , system
 , username
-, home-manager
 , pkgs
 , pkgs-unstable
+, pkgs-local
+, dragon-center-pkgs
 , modules
 , ...
 }:
 let
-  defaultSpecialArgs = {
-    inherit username system;
+  inherit (inputs) home-manager;
+  specialArgs = {
+    inherit
+      inputs
+      username
+      pkgs-local
+      dragon-center-pkgs
+      pkgs-unstable
+      pkgs
+      system
+      ;
     stateVersion = "24.05";
     rootPath = ../.;
   };
 in
 {
   midugh-laptop = lib.nixosSystem {
-    inherit system;
-    specialArgs = {
-      inherit inputs pkgs pkgs-unstable;
-    } // defaultSpecialArgs;
+    inherit system specialArgs;
     modules = [
       ./laptop
       ./configuration.nix
@@ -29,7 +36,7 @@ in
       {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
-        home-manager.extraSpecialArgs = defaultSpecialArgs;
+        home-manager.extraSpecialArgs = specialArgs;
         home-manager.users.${username} = {
           imports = [
             ./home.nix
