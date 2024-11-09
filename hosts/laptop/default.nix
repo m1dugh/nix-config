@@ -94,18 +94,19 @@
     ];
   };
 
-  xdg.mime.defaultApplications = 
-      (lib.attrsets.genAttrs [
-        "x-scheme-handler/http"
-        "x-scheme-handler/https"
-        "text/html"
-        "application/x-extension-htm"
-        "application/x-extension-html"
-        "application/x-extension-shtml"
-        "application/xhtml+xml"
-        "application/x-extension-xhtml"
-        "application/x-extension-xht"
-      ] (_: "firefox.desktop"));
+  xdg.mime.defaultApplications =
+    (lib.attrsets.genAttrs [
+      "x-scheme-handler/http"
+      "x-scheme-handler/https"
+      "text/html"
+      "application/x-extension-htm"
+      "application/x-extension-html"
+      "application/x-extension-shtml"
+      "application/xhtml+xml"
+      "application/x-extension-xhtml"
+      "application/x-extension-xht"
+    ]
+      (_: "firefox.desktop"));
 
   boot.loader = {
     efi.canTouchEfiVariables = true;
