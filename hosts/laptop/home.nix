@@ -41,7 +41,6 @@
       slack
 
       brave
-      firefox
 
       imagemagick
 

@@ -11,6 +11,7 @@
 
   imports = [
     ./hardware-configuration.nix
+    ./firefox.nix
   ];
 
   fonts.packages = with pkgs; [
@@ -93,17 +94,18 @@
     ];
   };
 
-  xdg.mime.defaultApplications = {
-    "x-scheme-handler/http" = "brave.desktop";
-    "x-scheme-handler/https" = "brave.desktop";
-    "text/html" = "brave.desktop";
-    "application/x-extension-htm" = "brave.desktop";
-    "application/x-extension-html" = "brave.desktop";
-    "application/x-extension-shtml" = "brave.desktop";
-    "application/xhtml+xml" = "brave.desktop";
-    "application/x-extension-xhtml" = "brave.desktop";
-    "application/x-extension-xht" = "brave.desktop";
-  };
+  xdg.mime.defaultApplications = 
+      (lib.attrsets.genAttrs [
+        "x-scheme-handler/http"
+        "x-scheme-handler/https"
+        "text/html"
+        "application/x-extension-htm"
+        "application/x-extension-html"
+        "application/x-extension-shtml"
+        "application/xhtml+xml"
+        "application/x-extension-xhtml"
+        "application/x-extension-xht"
+      ] (_: "firefox.desktop"));
 
   boot.loader = {
     efi.canTouchEfiVariables = true;
