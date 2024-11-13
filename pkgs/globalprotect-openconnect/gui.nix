@@ -1,82 +1,91 @@
-{ fetchurl
-, stdenv
-, system
-, zstd
-, webkitgtk
-, libappindicator
-, gtk3
-, cairo
-, gdk-pixbuf
-, libsoup
-, glib
-, autoPatchelfHook
-, makeDesktopItem
+{
+  fetchurl,
+  stdenv,
+  zstd,
+  webkitgtk,
+  libappindicator,
+  gtk3,
+  cairo,
+  gdk-pixbuf,
+  libsoup,
+  glib,
+  autoPatchelfHook,
+  version,
+  lib,
+  platforms,
+  maintainers,
 }:
 let
-  desktop = makeDesktopItem {
-    name = "GlobalProtect Openconnect VPN Client";
-    desktopName = "GlobalProtect Openconnect VPN Client";
-    comment = "A GUI for GlobalProtect VPN";
-    genericName = "GlobalProtect VPN Client";
-    exec = "gpclient launch-gui %u";
-    icon = "gpgui";
-    categories = [ "Network" "Dialup" ];
-    mimeTypes = [ "x-scheme-handler/globalprotectcallback" ];
-  };
-
-  version = "2.3.7";
   remoteHashes = {
     "x86_64-linux" = {
-      sha256 = "sha256-o1jTVfIzKk19uJH+NKFUL+Vjdlo/yZ7c44vCnv+FEfc=";
+      hash = "sha256-wSoBvHkLbf9aaFWBJMfm7Angd/PwKzNH+yqvYxhjmxY=";
       arch-name = "x86_64";
     };
     "aarch64-linux" = {
-      sha256 = "sha256-DibtaY8/h11/V78a/A46Nnku8TqMLcZ0OPr0mzV4xkc=";
+      hash = "sha256-Gata5OVlckfcy/F+UBe2FW7OwB47efw69lMAAU8Q4JQ=";
       arch-name = "aarch64";
     };
   };
 
-  remotes = builtins.mapAttrs
-    (_: { sha256, arch-name }: fetchurl {
-      inherit sha256;
+  remotes = builtins.mapAttrs (
+    _:
+    { hash, arch-name }:
+    fetchurl {
+      inherit hash;
       url = "https://github.com/yuezk/GlobalProtect-openconnect/releases/download/v${version}/globalprotect-openconnect-${version}-1-${arch-name}.pkg.tar.zst";
-    })
-    remoteHashes;
+    }
+  ) remoteHashes;
+
+  src =
+    if builtins.elem stdenv.hostPlatform.system (builtins.attrNames remoteHashes) then
+      remotes.${stdenv.hostPlatform.system}
+    else
+      throw "Unsupported system '${stdenv.hostPlatform.system}'";
 
 in
 stdenv.mkDerivation {
   name = "gpgui";
-  inherit version;
-  src = remotes.${system};
+  inherit version src;
+
   nativeBuildInputs = [
     zstd
-    webkitgtk
     autoPatchelfHook
-    libappindicator
+  ];
+
+  buildInputs = [
     webkitgtk
+    libappindicator
     gtk3
     cairo
     gdk-pixbuf
     libsoup
     glib
   ];
+
   postUnpack = ''
     tar xf $src
   '';
 
   postPatch = ''
-    sed -i 's/\/usr\/bin\/gpservice/gpservice/' ./share/polkit-1/actions/com.yuezk.gpgui.policy
+    substituteInPlace ./share/polkit-1/actions/com.yuezk.gpgui.policy \
+      --replace-fail /usr/bin/gpservice gpservice
   '';
 
   postInstall = ''
     mkdir -p $out/bin/
     install -m 0755 ./bin/gpgui $out/bin/
     patchelf \
-        --add-needed libappindicator3.so.1 \
-        $out/bin/gpgui
+      --add-needed libappindicator3.so.1 \
+      $out/bin/gpgui
     mkdir -p $out/share/
-    ln -s ${desktop}/share/applications/ $out/share/applications
     cp -r share/icons/ $out/share/
     cp -r share/polkit-1/ $out/share/
   '';
+
+  meta = {
+    mainProgram = "gpgui";
+    description = "The gui for globalprotect-openconnect_2";
+    license = lib.licenses.unfree;
+    inherit platforms maintainers;
+  };
 }
