@@ -204,6 +204,7 @@
     docker-compose
     kubectx
     fzf
+    stern
     kubernetes-helm
     terraform
     sops
