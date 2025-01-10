@@ -4,7 +4,15 @@
 }:
 {
   midugh.nvim.enable = true;
-  midugh.zsh.enable = true;
+  midugh.zsh = {
+    enable = true;
+    extraScripts = [''
+        function awsctx() { 
+            export AWS_PROFILE="$(aws configure list-profiles | fzf)" 
+            echo "Switched to profile ""$AWS_PROFILE""." 
+        }
+    ''];
+  };
 
   midugh.sway = {
     enable = true;

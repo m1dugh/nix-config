@@ -87,7 +87,7 @@
 
     openrazer.enable = true;
 
-    opengl = {
+    graphics = {
       extraPackages = with pkgs; [
         mesa
         mesa.drivers

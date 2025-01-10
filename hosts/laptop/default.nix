@@ -151,7 +151,6 @@
     };
   };
 
-  sound.enable = true;
   hardware.bluetooth.enable = true;
 
   security.pki.certificateFiles = [

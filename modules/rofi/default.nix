@@ -17,7 +17,7 @@ in {
       let
         package = if cfg.wayland then pkgs.rofi-wayland else options.programs.rofi.package.default;
         waylandOverride = pkg:
-          if cfg.wayland then
+          if (cfg.wayland && builtins.hasAttr "override" pkg) then
             (pkg.override {
               rofi-unwrapped = package;
             }) else pkg;
