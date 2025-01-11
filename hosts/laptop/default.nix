@@ -26,10 +26,6 @@
   services.msi-dragon-center = {
     enable = true;
     package = dragon-center-pkgs.dragon-center;
-    driver = {
-      enable = true;
-      package = pkgs-local.msi-ec;
-    };
   };
 
   users.extraGroups.dragon-center.members = [ username ];

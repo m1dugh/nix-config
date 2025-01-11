@@ -5,7 +5,6 @@
 , pkgs
 , lib
 , modulesPath
-, username
 , ...
 }:
 {
@@ -25,6 +24,10 @@
   ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" "msi-ec" ];
+
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    msi-ec
+  ];
 
   boot.blacklistedKernelModules = [
     "nvidia"
