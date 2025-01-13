@@ -4,11 +4,12 @@
 {
   home.username = "midugh";
   home.homeDirectory = "/home/midugh";
-  home.stateVersion = "24.05";
+  home.stateVersion = "24.11";
 
   home.packages = with pkgs; [
     kubectl
-    helm
+    kubernetes-helm
+    dig
     sops
     yq-go
     jq
@@ -16,6 +17,11 @@
     gcc
     cargo
     nodejs
+
+    python312
+    kubectx
+    fzf
+    stern
 
     # fonts
     fira-code
