@@ -2,7 +2,7 @@
   fetchurl,
   stdenv,
   zstd,
-  webkitgtk,
+  webkitgtk_4_1,
   libappindicator,
   gtk3,
   cairo,
@@ -18,11 +18,11 @@
 let
   remoteHashes = {
     "x86_64-linux" = {
-      hash = "sha256-wSoBvHkLbf9aaFWBJMfm7Angd/PwKzNH+yqvYxhjmxY=";
+      hash = "sha256-61EOxEYiJqJYT4Jtk9GRto7ic989V1D2UsuiKsjtT90=";
       arch-name = "x86_64";
     };
     "aarch64-linux" = {
-      hash = "sha256-Gata5OVlckfcy/F+UBe2FW7OwB47efw69lMAAU8Q4JQ=";
+      hash = "sha256-efnANqloGVCBKjjyV8dX/reW3YgXsVH4WHAyRg/oWzU=";
       arch-name = "aarch64";
     };
   };
@@ -53,7 +53,7 @@ stdenv.mkDerivation {
   ];
 
   buildInputs = [
-    webkitgtk
+    webkitgtk_4_1
     libappindicator
     gtk3
     cairo

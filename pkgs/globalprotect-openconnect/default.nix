@@ -5,7 +5,8 @@
   lib,
   openconnect,
   libsoup,
-  webkitgtk,
+  openssl,
+  webkitgtk_4_1,
   pkg-config,
   callPackage,
   rustPlatform,
@@ -29,7 +30,7 @@ let
     m1dugh
     binary-eater
   ];
-  version = "2.3.9";
+  version = "2.4.1";
   pname = "globalprotect-openconnect";
 
   gpgui = callPackage ./gui.nix { inherit version platforms maintainers; };
@@ -42,7 +43,7 @@ rustPlatform.buildRustPackage {
     owner = "yuezk";
     repo = "GlobalProtect-openconnect";
     rev = "v${version}";
-    hash = "sha256-s+uCpNrwQvdIINLSIbtcCCBg469J2xtlyiwDYqtXrQs=";
+    hash = "sha256-MY4JvftrC6sR8M0dFvnGZOkvHIhPRcyct9AG/8527gw=";
   };
 
   nativeBuildInputs = [
@@ -54,7 +55,7 @@ rustPlatform.buildRustPackage {
   buildInputs = [
     libsoup
     glib
-    webkitgtk
+    webkitgtk_4_1
     atk
     gdk-pixbuf
     pango
@@ -63,27 +64,31 @@ rustPlatform.buildRustPackage {
     gtk3
     openconnect
     zlib
+    openssl
   ];
 
-  NIX_CFLAGS_COMPILE = (map (pkg: "-I${pkg}/include") [ openconnect.dev ]);
+  doCheck = false;
 
-  NIX_CFLAGS_LINK = (
-    map (pkg: "-L${lib.getLib pkg}/lib") [
-      openconnect
-      zlib
-    ]
-  );
+  cargoBuildFlags = [
+    "--package" "gpauth"
+    "--package" "gpclient"
+    "--package" "gpservice"
+  ] ++ (lib.lists.optionals withGui [
+    "--package" "gpgui-helper"
+  ]);
 
-  cargoHash = "sha256-/KJM1JjFFI4aR1YwWI7k27QSPknPponTTazk5FG9HKc=";
+  cargoHash = "sha256-PqfnIK2kxePpEP/YVL6xMZ2YldmUOXuZy84Agdszn4g=";
 
   postPatch =
     let
       replacements = [
         "--replace-fail /usr/bin/gpclient $out/bin/gpclient"
         "--replace-fail /usr/bin/gpservice $out/bin/gpservice"
-        "--replace-fail /usr/bin/gpgui-helper $out/bin/gpgui-helper"
         "--replace-fail /usr/bin/gpauth $out/bin/gpauth"
-      ] ++ lib.optional withGui "--replace-fail /usr/bin/gpgui ${gpgui}/bin/gpgui";
+      ] ++ lib.optionals withGui [
+        "--replace-fail /usr/bin/gpgui-helper $out/bin/gpgui-helper"
+        "--replace-fail /usr/bin/gpgui ${gpgui}/bin/gpgui"
+      ];
     in
     ''
       substituteInPlace crates/common/src/vpn_utils.rs \
