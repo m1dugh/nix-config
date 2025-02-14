@@ -112,10 +112,9 @@
 
   boot.plymouth.enable = true;
 
-  virtualisation.virtualbox.host = {
-    enable = false;
-    enableExtensionPack = true;
-  };
+  programs.virt-manager.enable = true;
+
+  virtualisation.spiceUSBRedirection.enable = true;
 
   virtualisation.libvirtd = {
     enable = true;
