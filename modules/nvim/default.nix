@@ -48,6 +48,7 @@ in
       in
       (with pkgs; [
         ripgrep
+        tree-sitter
       ] ++ debuggerPackages);
 
     programs.neovim = {
@@ -55,7 +56,7 @@ in
       viAlias = cfg.useAliases;
       vimAlias = cfg.useAliases;
       plugins = with pkgs; [
-        vimPlugins.packer-nvim
+        vimPlugins.lazy-nvim
         vimPlugins.nvim-dap
       ];
     };
