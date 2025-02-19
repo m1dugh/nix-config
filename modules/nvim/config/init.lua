@@ -1,3 +1,4 @@
-require("midugh")
-require("midugh.remap")
-require("midugh.packer")
+require("config")
+require("config.remap")
+
+require("config.lazy")

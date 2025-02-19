@@ -1,2 +1,4 @@
 # symlink
 /result
+
+/modules/nvim/config/lazy-lock.json
