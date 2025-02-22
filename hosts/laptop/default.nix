@@ -67,6 +67,7 @@
       "networkmanager"
       "kvm"
       "openrazer"
+      "video"
       config.users.groups.users.name
     ];
     shell = pkgs.zsh;
@@ -323,6 +324,7 @@
   services.logind.extraConfig = ''
     HandleSuspendKey=hibernate
     HandleLidSwitch=hibernate
+    HandlePowerKey=ignore
   '';
 
   systemd.targets = {

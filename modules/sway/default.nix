@@ -63,6 +63,11 @@ in
       type = types.int;
       default = 2;
     };
+    brightnessStep = mkOption {
+      description = "The step the brightness should be changed for the increase/decrease brightness shortcut";
+      type = types.int;
+      default = 10;
+    };
 
     inactivityLockTime = mkOption {
       description = "The time after which the screen should be locked after inactivity. If null, swayidle will not lock screen";
@@ -158,6 +163,8 @@ in
           keybindings = mkOptionDefault {
             "XF86AudioRaiseVolume" = "exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ ${toString cfg.volumeStep}%+ && $refresh_i3status";
             "XF86AudioLowerVolume" = "exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ ${toString cfg.volumeStep}%- && $refresh_i3status";
+            "XF86MonBrightnessUp" = "exec --no-startup-id xbacklight -inc ${toString cfg.brightnessStep}";
+            "XF86MonBrightnessDown" = "exec --no-startup-id xbacklight -dec ${toString cfg.brightnessStep}";
             "XF86AudioMute" = "exec --no-startup-id wpctl set-mute @DEFAULT_SINK@ toggle && $refresh_i3status";
             "XF86AudioMicMute" = "exec --no-startup-id wpctl set-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status";
             "XF86AudioPlay" = "exec --no-startup-id playerctl play-pause";

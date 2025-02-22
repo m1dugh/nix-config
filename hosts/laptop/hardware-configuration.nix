@@ -51,8 +51,9 @@
 
   boot.initrd.systemd.enable = true;
 
-  boot.initrd.luks.devices.crypted = {
-    device = "/dev/disk/by-uuid/63640f50-26db-4e09-82ee-92e18b93e62e";
+
+  boot.initrd.luks.devices.cryptroot = {
+    device = "/dev/disk/by-uuid/3436694d-6b2b-4a4b-a25b-52b43f582e1a";
     allowDiscards = true;
     keyFileSize = 4096;
     keyFile = "/dev/disk/by-id/usb-General_USB_Flash_Disk_04NCZ3G8Y7ERGZRJ-0:0";
@@ -62,29 +63,34 @@
 
   fileSystems."/" =
     {
-      device = "/dev/disk/by-uuid/4a010770-8fa6-4e11-ab70-530791fac16b";
+      device = "/dev/disk/by-uuid/7082afa7-b2d9-477e-9971-8b1d6b173f5a";
       fsType = "ext4";
     };
+
   fileSystems."/home" =
     {
-      device = "/dev/disk/by-uuid/27e78500-e9d5-4a36-a881-be9f90fcafce";
+      device = "/dev/disk/by-uuid/056a57bb-d810-4baa-919c-6d0a624130cf";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
     {
-      device = "/dev/disk/by-uuid/B362-9D39";
+      device = "/dev/disk/by-uuid/FCBC-10DE";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
   swapDevices =
-    [{ device = "/dev/disk/by-uuid/2b179543-e2ba-4957-bef5-8dec53849431"; }];
+    [
+      { device = "/dev/disk/by-uuid/18c9673f-0d9b-4dae-bfac-e0b703470512"; }
+    ];
 
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  hardware.acpilight.enable = true;
 
   hardware = {
 
