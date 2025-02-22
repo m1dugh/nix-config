@@ -1,5 +1,7 @@
 { pkgs
 , stateVersion
+, username
+, config
 , ...
 }:
 {
@@ -15,6 +17,8 @@
       ''
     ];
   };
+
+  systemd.user.sessionVariables = config.home.sessionVariables;
 
   midugh.sway = {
     enable = true;

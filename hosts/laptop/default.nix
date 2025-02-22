@@ -28,6 +28,12 @@
     package = dragon-center-pkgs.dragon-center;
   };
 
+  qt = {
+    enable = true;
+    platformTheme = "gnome";
+    style = "adwaita-dark";
+  };
+
   users.extraGroups.dragon-center.members = [ username ];
 
   # for loginctl lock-session
