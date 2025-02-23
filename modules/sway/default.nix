@@ -165,7 +165,7 @@ in
           };
 
           keybindings = mkOptionDefault {
-            "XF86AudioRaiseVolume" = "exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ ${toString cfg.volumeStep}%+ && $refresh_i3status";
+            "XF86AudioRaiseVolume" = "exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ ${toString cfg.volumeStep}%+ --limit 1.0 && $refresh_i3status";
             "XF86AudioLowerVolume" = "exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ ${toString cfg.volumeStep}%- && $refresh_i3status";
             "XF86MonBrightnessUp" = "exec --no-startup-id xbacklight -inc ${toString cfg.brightnessStep}";
             "XF86MonBrightnessDown" = "exec --no-startup-id xbacklight -dec ${toString cfg.brightnessStep}";

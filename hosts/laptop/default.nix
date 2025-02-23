@@ -117,8 +117,6 @@
     timeout = 0;
   };
 
-  boot.plymouth.enable = true;
-
   programs.virt-manager.enable = true;
 
   virtualisation.spiceUSBRedirection.enable = true;
