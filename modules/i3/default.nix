@@ -137,7 +137,7 @@ in {
               notification = true;
             })
             {
-              command = "exec ${pkgs.picom}/bin/picom";
+              command = "exec '${pkgs.picom}/bin/picom --backend glx'";
               always = true;
             }
 
