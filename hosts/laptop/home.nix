@@ -1,10 +1,15 @@
 { pkgs
 , stateVersion
-, username
 , config
+, lib
 , ...
 }:
-{
+let
+    flameshot = pkgs.flameshot.override{
+        enableWlrSupport = true;
+    };
+
+in {
   midugh.nvim.enable = true;
   midugh.zsh = {
     enable = true;
@@ -23,6 +28,11 @@
   midugh.sway = {
     enable = true;
     enableNetworkManager = true;
+
+    screenshot = {
+        package = flameshot;
+        command = "${lib.getExe flameshot} gui";
+    };
   };
 
   wayland.windowManager.sway.config.input."1739:52653:CUST0001:00_06CB:CDAD_Touchpad" = {
@@ -40,9 +50,11 @@
 
   home = {
     inherit stateVersion;
-    packages = with pkgs; [
+    packages = (with pkgs; [
       krb5
       sshfs
+
+      keeweb
 
       poetry
 
@@ -61,6 +73,8 @@
       whatsapp-for-linux
 
       kubelogin-oidc
+    ]) ++ [
+        flameshot
     ];
   };
 

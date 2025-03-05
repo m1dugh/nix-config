@@ -23,6 +23,8 @@
     })
   ];
 
+  services.gnome.gnome-keyring.enable = true;
+
   services.msi-dragon-center = {
     enable = true;
     package = dragon-center-pkgs.dragon-center;
@@ -58,6 +60,7 @@
   networking.useDHCP = lib.mkDefault true;
   networking.extraHosts = ''
     127.0.0.1 *.localhost
+    10.42.58.1 netbox.dc-01.srs.epita.fr
   '';
 
   users.groups.${username} = {
@@ -252,6 +255,8 @@
     nixfmt-rfc-style
     nixpkgs-review
     pavucontrol
+
+
   ]) ++ (with pkgs-local; [
     globalprotect-openconnect_2
   ]);
