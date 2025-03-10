@@ -22,7 +22,7 @@
     "aesni_intel"
     "cryptd"
   ];
-  boot.initrd.kernelModules = [ "dm-snapshot" ];
+  boot.initrd.kernelModules = [ "dm-snapshot" "usb_storage" ];
   boot.kernelModules = [ "kvm-intel" "msi-ec" ];
 
   boot.extraModulePackages = with config.boot.kernelPackages; [
