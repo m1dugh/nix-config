@@ -209,6 +209,7 @@
     stern
     kubernetes-helm
     terraform
+    opentofu
     sops
     wireguard-tools
     age
