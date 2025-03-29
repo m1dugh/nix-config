@@ -60,7 +60,6 @@
   networking.useDHCP = lib.mkDefault true;
   networking.extraHosts = ''
     127.0.0.1 *.localhost
-    10.42.58.1 netbox.dc-01.srs.epita.fr
   '';
 
   users.groups.${username} = {
@@ -97,6 +96,7 @@
     enable = true;
     extraPortals = with pkgs; [
       xdg-desktop-portal
+      xdg-desktop-portal-wlr
     ];
   };
 

@@ -5,9 +5,10 @@
 , ...
 }:
 let
-    flameshot = pkgs.flameshot.override{
-        enableWlrSupport = true;
-    };
+    # flameshot = pkgs.flameshot.override{
+    #     enableWlrSupport = true;
+    # };
+    inherit (pkgs) flameshot;
 
 in {
   midugh.nvim.enable = true;
@@ -73,6 +74,7 @@ in {
       whatsapp-for-linux
 
       kubelogin-oidc
+      grim
     ]) ++ [
         flameshot
     ];
