@@ -1,5 +1,6 @@
 { lib
 , config
+, pkgs
 , ...
 }:
 with lib;
@@ -31,6 +32,12 @@ in
       type = types.int;
       default = 100000;
       description = "The size of the history";
+    };
+
+    useLsd = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Whether to use the lsd command instead of ls and tree";
     };
 
     viMode = mkOption {
@@ -70,6 +77,8 @@ in
       "kubectl".command = "source <(kubectl completion zsh)";
       "docker".command = "source <(docker completion zsh)";
     };
+
+    home.packages = (lists.optional cfg.useLsd pkgs.lsd);
 
     programs.zsh = {
       enable = true;
@@ -152,7 +161,10 @@ in
           gsw = "git switch";
           gcb = "git checkout -b";
           glo = "git log --oneline";
-        };
+        } // (if cfg.useLsd then {
+            ls = "lsd";
+            tree = "lsd --tree";
+        } else {});
     };
   };
 }

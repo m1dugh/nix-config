@@ -5,15 +5,17 @@
 , ...
 }:
 let
-    # flameshot = pkgs.flameshot.override{
-    #     enableWlrSupport = true;
-    # };
-    inherit (pkgs) flameshot;
+  # flameshot = pkgs.flameshot.override{
+  #     enableWlrSupport = true;
+  # };
+  inherit (pkgs) flameshot;
 
-in {
+in
+{
   midugh.nvim.enable = true;
   midugh.zsh = {
     enable = true;
+    useLsd = true;
     extraScripts = [
       ''
         function awsctx() { 
@@ -31,8 +33,8 @@ in {
     enableNetworkManager = true;
 
     screenshot = {
-        package = flameshot;
-        command = "${lib.getExe flameshot} gui";
+      package = flameshot;
+      command = "${lib.getExe flameshot} gui";
     };
   };
 
@@ -76,7 +78,7 @@ in {
       kubelogin-oidc
       grim
     ]) ++ [
-        flameshot
+      flameshot
     ];
   };
 
