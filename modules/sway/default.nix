@@ -16,7 +16,11 @@ let
   power-menu = "${rofi} -theme ${./config/power-menu-theme.rasi} -show power-menu -modi power-menu:'rofi-power-menu --no-text'";
   screenshotOptions = {
     options = {
-      enable = mkEnableOption "screenshot package";
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+        description = "Whether to enable screenshot package";
+      };
       package = mkOption {
         type = types.package;
         description = ''
@@ -84,6 +88,8 @@ in
         message = "The volume step must be greater than 0.";
       }
     ];
+
+    midugh.sway.screenshot.command = mkIf cfg.screenshot.enable (mkDefault (getExe cfg.screenshot.package));
 
     midugh.rofi = {
       enable = true;
@@ -164,7 +170,7 @@ in
             xkb_options = "caps:swapescape";
           };
 
-          keybindings = mkOptionDefault {
+          keybindings = mkOptionDefault ({
             "XF86AudioRaiseVolume" = "exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ ${toString cfg.volumeStep}%+ --limit 1.0 && $refresh_i3status";
             "XF86AudioLowerVolume" = "exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ ${toString cfg.volumeStep}%- && $refresh_i3status";
             "XF86MonBrightnessUp" = "exec --no-startup-id xbacklight -inc ${toString cfg.brightnessStep}";
@@ -190,8 +196,9 @@ in
             "${modifier}+Shift+r" = "reload";
             "${modifier}+slash" = ''exec "${emoji}"'';
             "${modifier}+p" = ''exec "${power-menu}"'';
+          } // (if cfg.screenshot.enable then {
             "Print" = ''exec "${cfg.screenshot.command}"'';
-          };
+          } else { }));
           bars = [ ];
 
           startup = [{

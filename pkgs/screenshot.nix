@@ -5,7 +5,7 @@
 let
   name = "screenshot";
   script = pkgs.writeShellScriptBin name ''
-    ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | ${lib.getExe pkgs.swappy} -f -
+    ${lib.getExe pkgs.grim} -g "$(${lib.getExe pkgs.slurp})" - | ${lib.getExe pkgs.ksnip} -e -
   '';
   desktop = pkgs.makeDesktopItem {
     inherit name;
@@ -20,7 +20,7 @@ let
 in
 pkgs.stdenv.mkDerivation {
   inherit name;
-  version = "0-unstable-2024-09-28";
+  version = "0-unstable-2025-03-30";
 
   dontUnpack = true;
 

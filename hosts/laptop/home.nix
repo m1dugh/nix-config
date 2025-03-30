@@ -1,16 +1,9 @@
 { pkgs
 , stateVersion
 , config
-, lib
+, pkgs-local
 , ...
 }:
-let
-  # flameshot = pkgs.flameshot.override{
-  #     enableWlrSupport = true;
-  # };
-  inherit (pkgs) flameshot;
-
-in
 {
   midugh.nvim.enable = true;
   midugh.zsh = {
@@ -32,10 +25,7 @@ in
     enable = true;
     enableNetworkManager = true;
 
-    screenshot = {
-      package = flameshot;
-      command = "${lib.getExe flameshot} gui";
-    };
+    screenshot.package = pkgs-local.screenshot;
   };
 
   wayland.windowManager.sway.config.input."1739:52653:CUST0001:00_06CB:CDAD_Touchpad" = {
@@ -77,9 +67,7 @@ in
 
       kubelogin-oidc
       grim
-    ]) ++ [
-      flameshot
-    ];
+    ]);
   };
 
   services.ssh-agent.enable = true;

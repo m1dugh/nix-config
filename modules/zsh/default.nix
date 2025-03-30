@@ -162,9 +162,9 @@ in
           gcb = "git checkout -b";
           glo = "git log --oneline";
         } // (if cfg.useLsd then {
-            ls = "lsd";
-            tree = "lsd --tree";
-        } else {});
+          ls = "lsd";
+          tree = "lsd --tree";
+        } else { });
     };
   };
 }
