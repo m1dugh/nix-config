@@ -4,7 +4,12 @@
 , ...
 }:
 with lib;
-let cfg = config.midugh.i3;
+let
+    cfg = config.midugh.i3;
+    right = "l";
+    left = "h";
+    up = "k";
+    down = "j";
 in {
   options.midugh.i3 = {
     enable = mkEnableOption "i3";
@@ -106,12 +111,20 @@ in {
             "XF86AudioPlay" = "exec --no-startup-id playerctl play-pause";
             "XF86AudioNext" = "exec --no-startup-id playerctl next";
             "XF86AudioPrev" = "exec --no-startup-id playerctl previous";
+            "${modifier}+${right}" = "focus right";
+            "${modifier}+${left}" = "focus left";
+            "${modifier}+${up}" = "focus up";
+            "${modifier}+${down}" = "focus down";
+            "${modifier}+Shift+${right}" = "move right";
+            "${modifier}+Shift+${left}" = "move left";
+            "${modifier}+Shift+${up}" = "move up";
+            "${modifier}+Shift+${down}" = "move down";
             "${modifier}+Control+Shift+Right" = "move workspace to output right";
             "${modifier}+Control+Shift+Left" = "move workspace to output left";
             "${modifier}+Control+Shift+Up" = "move workspace to output up";
             "${modifier}+Control+Shift+Down" = "move workspace to output down";
 
-            "${modifier}+l" = "exec ${cfg.lockCommand}";
+            "${modifier}+Tab" = "exec ${cfg.lockCommand}";
             "${modifier}+d" = ''exec "${cfg.dmenuCommand}"'';
             "${modifier}+r" = "mode resize";
             "${modifier}+BackSpace" = ''exec "pkill -u $USER"'';
