@@ -151,6 +151,7 @@
     enable = true;
     daemon.settings = {
       features.buildkit = true;
+      features.containerd-snapshotter = true;
     };
   };
 
@@ -257,6 +258,7 @@
     nixpkgs-review
     pavucontrol
 
+    cemu
 
   ]) ++ (with pkgs-local; [
     globalprotect-openconnect_2

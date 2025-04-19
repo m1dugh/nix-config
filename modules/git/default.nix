@@ -45,6 +45,7 @@ in {
         pull.rebase = true;
         core.editor = cfg.editor;
         push.autoSetupRemote = true;
+        safe.directory = "*";
 
         color = {
           ui = "auto";
