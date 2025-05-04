@@ -24,3 +24,4 @@ vim.keymap.set("i", "<CR>", function()
     end
 end, {silent = true, expr = true})
 
+vim.g.health = { style = 'float' }

@@ -7,4 +7,6 @@
   globalprotect-openconnect_2 = pkgs.callPackage ./globalprotect-openconnect {
     withGui = true;
   };
+
+  helm-osh = pkgs.callPackage ./helm-osh { };
 }

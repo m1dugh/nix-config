@@ -208,7 +208,11 @@
     kubectx
     fzf
     stern
-    kubernetes-helm
+    (wrapHelm kubernetes-helm {
+      plugins = [
+        pkgs-local.helm-osh
+      ];
+    })
     terraform
     opentofu
     sops

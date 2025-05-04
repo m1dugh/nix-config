@@ -5,12 +5,13 @@
 }:
 with lib;
 let
-    cfg = config.midugh.i3;
-    right = "l";
-    left = "h";
-    up = "k";
-    down = "j";
-in {
+  cfg = config.midugh.i3;
+  right = "l";
+  left = "h";
+  up = "k";
+  down = "j";
+in
+{
   options.midugh.i3 = {
     enable = mkEnableOption "i3";
     modifier = mkOption {
