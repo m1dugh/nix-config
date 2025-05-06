@@ -59,7 +59,7 @@
   networking.hostName = "midugh-laptop";
   networking.useDHCP = lib.mkDefault true;
   networking.extraHosts = ''
-    127.0.0.1 *.localhost
+    10.42.1.112 openstack.srs.epita.fr keystone.openstack.srs.epita.fr cinder.openstack.srs.epita.fr nova.openstack.srs.epita.fr designate.openstack.srs.epita.fr glance.openstack.srs.epita.fr neutron.openstack.srs.epita.fr
   '';
 
   users.groups.${username} = {
@@ -213,6 +213,7 @@
         pkgs-local.helm-osh
       ];
     })
+    openstackclient-full
     terraform
     opentofu
     sops
