@@ -1,6 +1,7 @@
 { pkgs
 , config
 , lib
+, pkgs-unstable
 , ...
 }:
 with lib;
@@ -55,6 +56,7 @@ in
       enable = true;
       viAlias = cfg.useAliases;
       vimAlias = cfg.useAliases;
+      package = pkgs-unstable.neovim-unwrapped;
       plugins = with pkgs; [
         vimPlugins.lazy-nvim
         vimPlugins.nvim-dap

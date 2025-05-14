@@ -1,3 +1,3 @@
-require("config")
-require("config.remap")
-require("config.lazy")
+require("midugh.settings")
+require("midugh.maps")
+require("midugh.lazy")

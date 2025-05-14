@@ -1,4 +1,3 @@
-
 local set = vim.opt
 
 set.tabstop = 4
@@ -24,4 +23,6 @@ vim.keymap.set("i", "<CR>", function()
     end
 end, {silent = true, expr = true})
 
-vim.g.health = { style = 'float' }
+vim.g.health = {
+    style = 'float',
+}
