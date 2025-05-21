@@ -260,6 +260,8 @@
     cemu
     mcontrolcenter
 
+    tcpdump
+
   ]) ++ (with pkgs-local; [
     globalprotect-openconnect_2
   ]);
