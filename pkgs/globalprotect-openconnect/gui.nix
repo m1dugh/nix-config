@@ -1,12 +1,12 @@
 { fetchurl
 , stdenv
 , zstd
-, webkitgtk
+, webkitgtk_4_0
 , libappindicator
 , gtk3
 , cairo
 , gdk-pixbuf
-, libsoup
+, libsoup_2_4
 , glib
 , autoPatchelfHook
 , version
@@ -55,12 +55,12 @@ stdenv.mkDerivation {
   ];
 
   buildInputs = [
-    webkitgtk
+    webkitgtk_4_0
     libappindicator
     gtk3
     cairo
     gdk-pixbuf
-    libsoup
+    libsoup_2_4
     glib
   ];
 

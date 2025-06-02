@@ -15,11 +15,7 @@
 
   fonts.packages = with pkgs; [
     fira-code
-    (nerdfonts.override {
-      fonts = [
-        "FiraCode"
-      ];
-    })
+    nerd-fonts.fira-code
   ];
 
   services.gnome.gnome-keyring.enable = true;
@@ -52,9 +48,6 @@
 
   networking.hostName = "midugh-laptop";
   networking.useDHCP = lib.mkDefault true;
-  networking.extraHosts = ''
-    10.42.1.112 openstack.srs.epita.fr keystone.openstack.srs.epita.fr cinder.openstack.srs.epita.fr nova.openstack.srs.epita.fr designate.openstack.srs.epita.fr glance.openstack.srs.epita.fr neutron.openstack.srs.epita.fr novncproxy.openstack.srs.epita.fr ceph.srs.epita.fr
-  '';
 
   users.groups.${username} = {
     members = [ username ];
@@ -115,6 +108,12 @@
   };
 
   programs.virt-manager.enable = true;
+
+  virtualisation.virtualbox = {
+    host.enable = true;
+    guest.enable = true;
+    guest.dragAndDrop = true;
+  };
 
   virtualisation.spiceUSBRedirection.enable = true;
 
@@ -261,6 +260,7 @@
     mcontrolcenter
 
     tcpdump
+    wl-mirror
 
   ]) ++ (with pkgs-local; [
     globalprotect-openconnect_2

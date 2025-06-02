@@ -2,7 +2,6 @@
 , lib
 , system
 , username
-, pkgs
 , pkgs-unstable
 , pkgs-local
 , dragon-center-pkgs
@@ -18,7 +17,6 @@ let
       pkgs-local
       dragon-center-pkgs
       pkgs-unstable
-      pkgs
       system
       ;
     stateVersion = "24.11";

@@ -3,8 +3,8 @@
 , fetchFromGitHub
 , lib
 , openconnect
-, libsoup
-, webkitgtk
+, libsoup_2_4
+, webkitgtk_4_0
 , pkg-config
 , callPackage
 , rustPlatform
@@ -52,9 +52,9 @@ rustPlatform.buildRustPackage {
   ];
 
   buildInputs = [
-    libsoup
+    libsoup_2_4
     glib
-    webkitgtk
+    webkitgtk_4_0
     atk
     gdk-pixbuf
     pango
@@ -74,7 +74,7 @@ rustPlatform.buildRustPackage {
     ]
   );
 
-  cargoHash = "sha256-/KJM1JjFFI4aR1YwWI7k27QSPknPponTTazk5FG9HKc=";
+  cargoHash = "sha256-6AV1XNgmFAqbH8o49PUHvDCml9sAVsTpDUIH04lGKtk=";
 
   postPatch =
     let

@@ -99,7 +99,6 @@
     graphics = {
       extraPackages = with pkgs; [
         mesa
-        mesa.drivers
       ];
       enable = true;
     };

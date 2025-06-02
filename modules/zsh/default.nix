@@ -90,7 +90,7 @@ in
         save = cfg.historySize;
       };
 
-      initExtra =
+      initContent =
         let
           completionsScripts =
             let

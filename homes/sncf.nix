@@ -25,11 +25,7 @@
 
     # fonts
     fira-code
-    (nerdfonts.override {
-      fonts = [
-        "FiraCode"
-      ];
-    })
+    nerd-fonts.fira-code
   ];
 
   midugh.git = {
