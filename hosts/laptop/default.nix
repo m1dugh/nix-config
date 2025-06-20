@@ -26,6 +26,10 @@
     style = "adwaita-dark";
   };
 
+  networking.extraHosts = ''
+    192.168.56.102 supervision.37.srs.adlin
+  '';
+
   users.extraGroups.dragon-center.members = [ username ];
 
   # for loginctl lock-session
