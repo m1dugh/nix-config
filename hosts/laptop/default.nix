@@ -4,6 +4,8 @@
 , stateVersion
 , lib
 , pkgs-local
+, system
+, inputs
 , ...
 }:
 {
@@ -113,12 +115,6 @@
 
   programs.virt-manager.enable = true;
 
-  virtualisation.virtualbox = {
-    host.enable = true;
-    guest.enable = true;
-    guest.dragAndDrop = true;
-  };
-
   virtualisation.spiceUSBRedirection.enable = true;
 
   virtualisation.libvirtd = {
@@ -187,7 +183,6 @@
 
     # Dev dependencies
     go
-
     rustc
     cargo
 
@@ -198,6 +193,7 @@
     gnumake
     gdb
     clang
+    zip
 
     kubernetes
     krew
@@ -229,6 +225,7 @@
     libreoffice-qt6-fresh
     gimp
     burpsuite
+    zap
     bruno
     git-lfs
     wdisplays
