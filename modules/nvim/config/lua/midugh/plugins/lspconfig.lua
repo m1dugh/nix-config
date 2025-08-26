@@ -15,10 +15,15 @@ return {
 
         dependencies = {
             { "neovim/nvim-lspconfig" },
+            { "Saghen/blink.cmp" },
         },
 
         config = function(_, opts)
             require("mason-lspconfig").setup(opts)
+            vim.lsp.config("*", {
+                capabilities = require("blink.cmp").get_lsp_capabilities({}),
+                root_markers = { ".git" },
+            })
 
             vim.lsp.config("clangd", {
                 settings = {
@@ -27,8 +32,6 @@ return {
                     root_dir = vim.fs.root(0, {"compile_commands.json", "compile_flags.txt", ".git"}),
                 },
             })
-
-            vim.lsp.enable('clangd')
 
             vim.lsp.config("lua_ls", {
                 settings = {
@@ -42,11 +45,6 @@ return {
                     },
                 },
             })
-
-            vim.lsp.enable('lua_ls')
-
-
-            -- local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -73,6 +71,11 @@ return {
                 }
             })
 
+
+            vim.lsp.enable({
+                "clangd",
+                "lua_ls",
+            })
         end
-}
+    }
 }
