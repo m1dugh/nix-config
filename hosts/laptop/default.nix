@@ -4,8 +4,6 @@
 , stateVersion
 , lib
 , pkgs-local
-, system
-, inputs
 , ...
 }:
 {
@@ -27,10 +25,6 @@
     platformTheme = "gnome";
     style = "adwaita-dark";
   };
-
-  networking.extraHosts = ''
-    192.168.56.102 supervision.37.srs.adlin
-  '';
 
   users.extraGroups.dragon-center.members = [ username ];
 
@@ -262,6 +256,8 @@
 
     tcpdump
     wl-mirror
+
+    spotify
 
   ]) ++ (with pkgs-local; [
     globalprotect-openconnect_2
