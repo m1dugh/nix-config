@@ -5,7 +5,7 @@
 	"margin-top": 10,
 	"modules-left": [ "sway/workspaces", "sway/mode"],
 	"modules-center": [],
-    "modules-right": ["network", "battery", "pulseaudio", "disk", "memory", "temperature", "cpu", "clock", "custom/notification", "tray"],
+    "modules-right": ["network", "battery", "pulseaudio", "backlight", "disk", "memory", "temperature", "cpu", "clock", "custom/notification", "tray"],
 
     "disk": {
         "path": "/",
@@ -43,6 +43,11 @@
         "on-click": "swaync-client -t -sw",
         "on-click-right": "swaync-client -d -sw",
         "escape": true
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{percent}% {icon}",
+        "format-icons": ["", ""]
     },
 	"network": {
 		// "interface": "wlp2*", // (Optional) To force the use of this interface

@@ -14,6 +14,19 @@ let
   menu = "${rofi} -show drun";
   emoji = "${rofi} -theme ${./config/emoji-theme.rasi} -show emoji -emoji-format '{emoji} {group}'";
   power-menu = "${rofi} -theme ${./config/power-menu-theme.rasi} -show power-menu -modi power-menu:'rofi-power-menu --no-text'";
+
+  increase-backlight = pkgs.writeShellScriptBin "increase-backlight" ''
+    ${getExe pkgs.acpilight} +${toString cfg.brightnessStep}
+  '';
+
+  decrease-backlight = pkgs.writeShellScriptBin "increase-backlight" ''
+    current=$(${getExe pkgs.acpilight} -get)
+    if [ $(( current - ${toString cfg.brightnessStep} )) -lt ${toString cfg.brightnessStep} ]; then
+        exit 1
+    fi
+    ${getExe pkgs.acpilight} -${toString cfg.brightnessStep}
+  '';
+
   screenshotOptions = {
     options = {
       enable = mkOption {
@@ -173,8 +186,8 @@ in
           keybindings = mkOptionDefault ({
             "XF86AudioRaiseVolume" = "exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ ${toString cfg.volumeStep}%+ --limit 1.0 && $refresh_i3status";
             "XF86AudioLowerVolume" = "exec --no-startup-id wpctl set-volume @DEFAULT_SINK@ ${toString cfg.volumeStep}%- && $refresh_i3status";
-            "XF86MonBrightnessUp" = "exec --no-startup-id xbacklight -inc ${toString cfg.brightnessStep}";
-            "XF86MonBrightnessDown" = "exec --no-startup-id xbacklight -dec ${toString cfg.brightnessStep}";
+            "XF86MonBrightnessUp" = "exec --no-startup-id ${getExe increase-backlight}";
+            "XF86MonBrightnessDown" = "exec --no-startup-id ${getExe decrease-backlight}";
             "XF86AudioMute" = "exec --no-startup-id wpctl set-mute @DEFAULT_SINK@ toggle && $refresh_i3status";
             "XF86AudioMicMute" = "exec --no-startup-id wpctl set-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status";
             "XF86AudioPlay" = "exec --no-startup-id playerctl play-pause";
