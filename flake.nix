@@ -5,9 +5,11 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+
     burpsuitepro = {
-        url = "github:xiv3r/Burpsuite-Professional";
-        inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:xiv3r/Burpsuite-Professional";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     home-manager = {
@@ -28,21 +30,37 @@
   };
 
   outputs =
-    { self
-    , nixpkgs
-    , nixpkgs-unstable
-    , dragon-center
-    , home-manager
-    , flake-utils
-    , burpsuitepro
-    , ...
+    {
+      self,
+      nixpkgs,
+      nixpkgs-unstable,
+      dragon-center,
+      home-manager,
+      flake-utils,
+      treefmt-nix,
+      ...
     }:
 
     let
+      formatter-config =
+        { pkgs, ... }:
+        {
+          projectRootFile = "flake.nix";
+          programs.nixfmt.enable = true;
+          programs.stylua.enable = true;
+        };
+      treefmt-eval = flake-utils.lib.eachDefaultSystemMap (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        treefmt-nix.lib.evalModule pkgs formatter-config
+      );
       system = "x86_64-linux";
       username = "midugh";
       inherit (nixpkgs) lib;
-      mkDefaultArgs = system:
+      mkDefaultArgs =
+        system:
         let
           pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
           pkgs = import nixpkgs {
@@ -70,13 +88,16 @@
       defaultArgs = mkDefaultArgs system;
     in
     rec {
-      packages = flake-utils.lib.eachDefaultSystemMap (system:
+      packages = flake-utils.lib.eachDefaultSystemMap (
+        system:
         let
           defaultArgs = mkDefaultArgs system;
         in
         {
-          home-manager = home-manager.defaultPackage.${system};
-        } // (import ./pkgs defaultArgs));
+          inherit (home-manager.packages.${system}) home-manager;
+        }
+        // (import ./pkgs defaultArgs)
+      );
 
       nixosModules = (generateModules [ "xfce" ]) // {
         dragon-center = dragon-center.nixosModules.default;
@@ -101,18 +122,24 @@
             nixos = lib.attrsets.attrValues nixosModules;
           };
         in
-        (
-          import ./hosts (defaultArgs // {
+        (import ./hosts (
+          defaultArgs
+          // {
             inherit modules;
-          })
-        );
+          }
+        ));
 
       homeConfigurations = (
-        import ./homes (defaultArgs // {
-          modules = lib.attrsets.attrValues homeManagerModules;
-        })
+        import ./homes (
+          defaultArgs
+          // {
+            modules = lib.attrsets.attrValues homeManagerModules;
+          }
+        )
       );
 
-      formatter = flake-utils.lib.eachDefaultSystemMap (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
+      formatter = flake-utils.lib.eachDefaultSystemMap (
+        system: treefmt-eval.${system}.config.build.wrapper
+      );
     };
 }

@@ -259,6 +259,8 @@
 
     spotify
 
+    ghidra-bin
+
   ]) ++ (with pkgs-local; [
     globalprotect-openconnect_2
   ]);

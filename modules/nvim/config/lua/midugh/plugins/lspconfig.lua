@@ -53,16 +53,15 @@ return {
                     vim.bo[event.buf].omnifunc = nil
                     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
                     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-                    vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, opts)
+                    vim.keymap.set('n', 'K', function()
+                        vim.lsp.buf.hover({
+                            border = 'rounded',
+                        })
+                    end, opts)
                     vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
                     vim.keymap.set('n', '<leader>qf', vim.lsp.buf.code_action, opts)
                 end
             })
-
-            vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-                vim.lsp.handlers.hover,
-                { border = 'rounded' }
-            )
 
             vim.diagnostic.config({
                 float = {
