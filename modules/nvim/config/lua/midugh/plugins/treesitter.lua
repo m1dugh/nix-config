@@ -1,13 +1,13 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
 	event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-        "windwp/nvim-ts-autotag",
-    },
+	dependencies = {
+		"windwp/nvim-ts-autotag",
+	},
 	build = ":TSUpdate",
 	config = function()
 		require("nvim-treesitter.configs").setup({
-			ensure_installed = { "c", "lua", "nix", "terraform"},
+			ensure_installed = { "c", "lua", "nix", "terraform" },
 			sync_install = true,
 			auto_install = true,
 			highlight = {
@@ -15,12 +15,12 @@ return {
 
 				additional_vim_regex_highlighting = false,
 			},
-            indent = {
-                enable = true,
-            },
-            autotag = {
-                enable = true,
-            },
+			indent = {
+				enable = true,
+			},
+			autotag = {
+				enable = true,
+			},
 		})
 
 		local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
@@ -38,5 +38,5 @@ return {
 			},
 			filetype = "tiger",
 		}
-	end
+	end,
 }

@@ -1,10 +1,13 @@
-{ lib
-, config
-, ...
+{
+  lib,
+  config,
+  ...
 }:
 with lib;
-let cfg = config.midugh.git;
-in {
+let
+  cfg = config.midugh.git;
+in
+{
   options.midugh.git = {
     enable = mkEnableOption "git default config";
 

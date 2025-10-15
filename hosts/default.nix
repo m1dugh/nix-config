@@ -1,12 +1,13 @@
-{ inputs
-, lib
-, system
-, username
-, pkgs-unstable
-, pkgs-local
-, dragon-center-pkgs
-, modules
-, ...
+{
+  inputs,
+  lib,
+  system,
+  username,
+  pkgs-unstable,
+  pkgs-local,
+  dragon-center-pkgs,
+  modules,
+  ...
 }:
 let
   inherit (inputs) home-manager;

@@ -1,6 +1,7 @@
-{ appimageTools
-, fetchurl
-, ...
+{
+  appimageTools,
+  fetchurl,
+  ...
 }:
 let
   pname = "inwebo-authenticator";

@@ -1,7 +1,8 @@
-{ config
-, pkgs
-, lib
-, ...
+{
+  config,
+  pkgs,
+  lib,
+  ...
 }:
 let
   dmenuCommand = "${pkgs.rofi}/bin/rofi -modi drun,run -show drun";
@@ -67,7 +68,12 @@ in
 
   midugh.i3 = {
     enable = true;
-    inherit lockCommand dmenuCommand wallpaper terminal;
+    inherit
+      lockCommand
+      dmenuCommand
+      wallpaper
+      terminal
+      ;
   };
 
   midugh.nvim = {

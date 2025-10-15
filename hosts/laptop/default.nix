@@ -1,10 +1,11 @@
-{ username
-, config
-, pkgs
-, stateVersion
-, lib
-, pkgs-local
-, ...
+{
+  username,
+  config,
+  pkgs,
+  stateVersion,
+  lib,
+  pkgs-local,
+  ...
 }:
 {
 
@@ -87,8 +88,8 @@
     ];
   };
 
-  xdg.mime.defaultApplications =
-    (lib.attrsets.genAttrs [
+  xdg.mime.defaultApplications = (
+    lib.attrsets.genAttrs [
       "x-scheme-handler/http"
       "x-scheme-handler/https"
       "text/html"
@@ -98,8 +99,8 @@
       "application/xhtml+xml"
       "application/x-extension-xhtml"
       "application/x-extension-xht"
-    ]
-      (_: "firefox.desktop"));
+    ] (_: "firefox.desktop")
+  );
 
   boot.loader = {
     efi.canTouchEfiVariables = true;
@@ -173,97 +174,99 @@
     pulse.enable = true;
   };
 
-  environment.systemPackages = (with pkgs; [
+  environment.systemPackages =
+    (with pkgs; [
 
-    # Dev dependencies
-    go
-    rustc
-    cargo
+      # Dev dependencies
+      go
+      rustc
+      cargo
 
-    nodejs
-    yarn
+      nodejs
+      yarn
 
-    gcc
-    gnumake
-    gdb
-    clang
-    zip
+      gcc
+      gnumake
+      gdb
+      clang
+      zip
 
-    kubernetes
-    krew
-    docker-compose
-    kubectx
-    fzf
-    stern
-    (wrapHelm kubernetes-helm {
-      plugins = [
-        pkgs-local.helm-osh
-      ];
-    })
-    openstackclient-full
-    terraform
-    opentofu
-    sops
-    wireguard-tools
-    age
+      kubernetes
+      krew
+      docker-compose
+      kubectx
+      fzf
+      stern
+      (wrapHelm kubernetes-helm {
+        plugins = [
+          pkgs-local.helm-osh
+        ];
+      })
+      openstackclient-full
+      terraform
+      opentofu
+      sops
+      wireguard-tools
+      age
 
-    openconnect
-    alacritty
+      openconnect
+      alacritty
 
-    btrfs-progs
+      btrfs-progs
 
-    criterion
+      criterion
 
-    wireshark
+      wireshark
 
-    libreoffice-qt6-fresh
-    gimp
-    burpsuite
-    zap
-    bruno
-    git-lfs
-    wdisplays
-    openssl
-    yq-go
-    jq
-    bear
-    unzip
-    ltrace
-    nix-index
+      libreoffice-qt6-fresh
+      gimp
+      burpsuite
+      zap
+      bruno
+      git-lfs
+      wdisplays
+      openssl
+      yq-go
+      jq
+      bear
+      unzip
+      ltrace
+      nix-index
 
-    networkmanagerapplet
-    glib
+      networkmanagerapplet
+      glib
 
-    # Games
-    prismlauncher
+      # Games
+      prismlauncher
 
-    wl-clipboard-rs
-    libinput
+      wl-clipboard-rs
+      libinput
 
-    teams-for-linux
+      teams-for-linux
 
-    openrazer-daemon
-    polychromatic
+      openrazer-daemon
+      polychromatic
 
-    awscli2
+      awscli2
 
-    nixfmt-rfc-style
-    nixpkgs-review
-    pavucontrol
+      nixfmt-rfc-style
+      nixpkgs-review
+      pavucontrol
 
-    cemu
-    mcontrolcenter
+      cemu
+      mcontrolcenter
 
-    tcpdump
-    wl-mirror
+      tcpdump
+      wl-mirror
 
-    spotify
+      spotify
 
-    ghidra-bin
+      ghidra-bin
 
-  ]) ++ (with pkgs-local; [
-    globalprotect-openconnect_2
-  ]);
+    ])
+    ++ (with pkgs-local; [
+      globalprotect-openconnect_2
+    ]);
 
   services.displayManager =
     let

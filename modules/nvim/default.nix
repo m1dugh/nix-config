@@ -1,12 +1,17 @@
-{ pkgs
-, config
-, lib
-, ...
+{
+  pkgs,
+  config,
+  lib,
+  ...
 }:
 with lib;
-let inherit (import ./lib.nix {
-  inherit lib;
-}) debuggerType;
+let
+  inherit
+    (import ./lib.nix {
+      inherit lib;
+    })
+    debuggerType
+    ;
   cfg = config.midugh.nvim;
 in
 {
@@ -46,10 +51,14 @@ in
           in
           builtins.map (dbg: dbg.package) filtered;
       in
-      (with pkgs; [
-        ripgrep
-        tree-sitter
-      ] ++ debuggerPackages);
+      (
+        with pkgs;
+        [
+          ripgrep
+          tree-sitter
+        ]
+        ++ debuggerPackages
+      );
 
     programs.neovim = {
       enable = true;

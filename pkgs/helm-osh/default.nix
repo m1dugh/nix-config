@@ -1,7 +1,8 @@
-{ stdenv
-, fetchgit
-, buildGoModule
-, ...
+{
+  stdenv,
+  fetchgit,
+  buildGoModule,
+  ...
 }:
 
 let

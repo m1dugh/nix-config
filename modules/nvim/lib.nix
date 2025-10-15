@@ -1,11 +1,13 @@
-{ lib
-, ...
+{
+  lib,
+  ...
 }:
 with lib;
 {
   debuggerType = types.submodule (
-    { name
-    , ...
+    {
+      name,
+      ...
     }:
     {
       options = {

@@ -1,11 +1,14 @@
-{ pkgs
-, config
-, lib
-, ...
+{
+  pkgs,
+  config,
+  lib,
+  ...
 }:
 with lib;
-let cfg = config.midugh.xfce;
-in {
+let
+  cfg = config.midugh.xfce;
+in
+{
   options.midugh.xfce = {
     enable = mkEnableOption "XFCE config";
 
@@ -75,7 +78,6 @@ in {
     services.displayManager = {
       inherit (cfg) defaultSession;
     };
-
 
     services.xserver = {
       xkb = {

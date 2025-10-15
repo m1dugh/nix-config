@@ -1,19 +1,19 @@
-{ fetchurl
-, stdenv
-, zstd
-, webkitgtk_4_0
-, libappindicator
-, gtk3
-, cairo
-, gdk-pixbuf
-, libsoup_2_4
-, glib
-, autoPatchelfHook
-, version
-, lib
-, platforms
-, maintainers
-,
+{
+  fetchurl,
+  stdenv,
+  zstd,
+  webkitgtk_4_0,
+  libappindicator,
+  gtk3,
+  cairo,
+  gdk-pixbuf,
+  libsoup_2_4,
+  glib,
+  autoPatchelfHook,
+  version,
+  lib,
+  platforms,
+  maintainers,
 }:
 let
   remoteHashes = {
@@ -27,16 +27,14 @@ let
     };
   };
 
-  remotes = builtins.mapAttrs
-    (
-      _:
-      { hash, arch-name }:
-      fetchurl {
-        inherit hash;
-        url = "https://github.com/yuezk/GlobalProtect-openconnect/releases/download/v${version}/globalprotect-openconnect-${version}-1-${arch-name}.pkg.tar.zst";
-      }
-    )
-    remoteHashes;
+  remotes = builtins.mapAttrs (
+    _:
+    { hash, arch-name }:
+    fetchurl {
+      inherit hash;
+      url = "https://github.com/yuezk/GlobalProtect-openconnect/releases/download/v${version}/globalprotect-openconnect-${version}-1-${arch-name}.pkg.tar.zst";
+    }
+  ) remoteHashes;
 
   src =
     if builtins.elem stdenv.hostPlatform.system (builtins.attrNames remoteHashes) then

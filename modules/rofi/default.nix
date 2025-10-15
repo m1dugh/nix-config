@@ -1,12 +1,15 @@
-{ config
-, options
-, lib
-, pkgs
-, ...
+{
+  config,
+  options,
+  lib,
+  pkgs,
+  ...
 }:
 with lib;
-let cfg = config.midugh.rofi;
-in {
+let
+  cfg = config.midugh.rofi;
+in
+{
   options.midugh.rofi = {
     enable = mkEnableOption "rofi";
     wayland = mkEnableOption "wayland mode for rofi";
@@ -16,11 +19,14 @@ in {
     programs.rofi =
       let
         package = if cfg.wayland then pkgs.rofi-wayland else options.programs.rofi.package.default;
-        waylandOverride = pkg:
+        waylandOverride =
+          pkg:
           if (cfg.wayland && builtins.hasAttr "override" pkg) then
             (pkg.override {
               rofi-unwrapped = package;
-            }) else pkg;
+            })
+          else
+            pkg;
       in
       {
         enable = true;
@@ -30,9 +36,11 @@ in {
         };
         font = "monospace";
         theme = ./config/rofi-theme.rasi;
-        plugins = (builtins.map waylandOverride [
-          pkgs.rofi-emoji
-        ]);
+        plugins = (
+          builtins.map waylandOverride [
+            pkgs.rofi-emoji
+          ]
+        );
       };
   };
 }

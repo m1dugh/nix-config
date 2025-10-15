@@ -1,24 +1,24 @@
-{ perl
-, jq
-, fetchFromGitHub
-, lib
-, openconnect
-, libsoup_2_4
-, webkitgtk_4_0
-, pkg-config
-, callPackage
-, rustPlatform
-, glib
-, atk
-, gdk-pixbuf
-, pango
-, cairo
-, harfbuzz
-, gtk3
-, zlib
-, vpnc-scripts
-, withGui ? false
-,
+{
+  perl,
+  jq,
+  fetchFromGitHub,
+  lib,
+  openconnect,
+  libsoup_2_4,
+  webkitgtk_4_0,
+  pkg-config,
+  callPackage,
+  rustPlatform,
+  glib,
+  atk,
+  gdk-pixbuf,
+  pango,
+  cairo,
+  harfbuzz,
+  gtk3,
+  zlib,
+  vpnc-scripts,
+  withGui ? false,
 }:
 let
   platforms = [

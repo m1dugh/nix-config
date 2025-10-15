@@ -1,8 +1,9 @@
-{ pkgs
-, stateVersion
-, config
-, pkgs-local
-, ...
+{
+  pkgs,
+  stateVersion,
+  config,
+  pkgs-local,
+  ...
 }:
 {
   midugh.nvim.enable = true;
@@ -43,31 +44,34 @@
 
   home = {
     inherit stateVersion;
-    packages = (with pkgs; [
-      krb5
-      sshfs
+    packages = (
+      with pkgs;
+      [
+        krb5
+        sshfs
 
-      keeweb
+        keeweb
 
-      poetry
+        poetry
 
-      # LspServer
-      rust-analyzer
-      clang-tools
+        # LspServer
+        rust-analyzer
+        clang-tools
 
-      discord
-      # teams
-      slack
+        discord
+        # teams
+        slack
 
-      brave
+        brave
 
-      imagemagick
+        imagemagick
 
-      whatsapp-for-linux
+        whatsapp-for-linux
 
-      kubelogin-oidc
-      grim
-    ]);
+        kubelogin-oidc
+        grim
+      ]
+    );
   };
 
   services.ssh-agent.enable = true;

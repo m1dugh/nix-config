@@ -1,10 +1,13 @@
-{ lib
-, config
-, ...
+{
+  lib,
+  config,
+  ...
 }:
 with lib;
-let cfg = config.midugh.alacritty;
-in {
+let
+  cfg = config.midugh.alacritty;
+in
+{
   options.midugh.alacritty = {
     enable = mkEnableOption "alacritty";
   };

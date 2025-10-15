@@ -1,7 +1,8 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib;
 let
@@ -91,8 +92,10 @@ in
       enable = true;
       package = cfg.package;
       config =
-        let inherit (cfg) terminal modifier;
-        in {
+        let
+          inherit (cfg) terminal modifier;
+        in
+        {
           inherit terminal modifier;
           gaps = {
             outer = 5;
@@ -105,10 +108,14 @@ in
           };
 
           keybindings = mkOptionDefault {
-            "XF86AudioRaiseVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status";
-            "XF86AudioLowerVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status";
-            "XF86AudioMute" = "exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status";
-            "XF86AudioMicMute" = "exec --no-startup-id pactl set-sink-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status";
+            "XF86AudioRaiseVolume" =
+              "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status";
+            "XF86AudioLowerVolume" =
+              "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status";
+            "XF86AudioMute" =
+              "exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status";
+            "XF86AudioMicMute" =
+              "exec --no-startup-id pactl set-sink-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status";
             "XF86AudioPlay" = "exec --no-startup-id playerctl play-pause";
             "XF86AudioNext" = "exec --no-startup-id playerctl next";
             "XF86AudioPrev" = "exec --no-startup-id playerctl previous";
@@ -132,17 +139,22 @@ in
             "Print" = if (cfg.screenshotCommand != null) then "exec ${cfg.screenshotCommand}" else null;
           };
 
-          bars = [{
-            inherit (cfg) statusCommand;
-            position = "top";
-            trayOutput = "primary";
+          bars = [
+            {
+              inherit (cfg) statusCommand;
+              position = "top";
+              trayOutput = "primary";
 
-            fonts = {
-              names = [ "FiraSans" "Pango" ];
-              style = "Bold Semi-Condensed";
-              size = 14.0;
-            };
-          }];
+              fonts = {
+                names = [
+                  "FiraSans"
+                  "Pango"
+                ];
+                style = "Bold Semi-Condensed";
+                size = 14.0;
+              };
+            }
+          ];
 
           startup = [
             (mkIf (cfg.wallpaper != null) {

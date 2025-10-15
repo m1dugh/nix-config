@@ -1,7 +1,8 @@
-{ lib
-, config
-, pkgs
-, ...
+{
+  lib,
+  config,
+  pkgs,
+  ...
 }:
 with lib;
 let
@@ -96,55 +97,58 @@ in
             let
               values = builtins.attrValues cfg.completions;
             in
-            builtins.filter (v: v.enable) values
-          ;
-          extraScripts = cfg.extraScripts
+            builtins.filter (v: v.enable) values;
+          extraScripts =
+            cfg.extraScripts
             ++ (builtins.map (s: s.command) completionsScripts)
             ++ (builtins.filter (val: val != null) [
-            (strings.optionalString cfg.withLoadenv ''
-              function loadenv () {
-                  if [ $# -le 0 ]; then
-                      echo "Usage: loadenv <files> ..." >&2
-                      return 1
-                  fi
-                  set -o allexport
-                  for file in "$@"; do
-                      source "$file"
-                  done
-                  set +o allexport
-              }
-            '')
-            (strings.optionalString cfg.viMode ''
-              bindkey -v
-              export KEYTIMEOUT=1
-              bindkey -M menuselect 'h' vi-backward-char
-              bindkey -M vicmd 'k' up-line-or-beginning-search
-              bindkey -M menuselect 'l' vi-forward-char
-              bindkey -M vicmd 'j' down-line-or-beginning-search
-            '')
-            ''
-              autoload -U up-line-or-beginning-search
-              autoload -U down-line-or-beginning-search
-              zle -N up-line-or-beginning-search
-              zle -N down-line-or-beginning-search
-              bindkey "$terminfo[kcuu1]" up-line-or-beginning-search # Up
-              bindkey "$terminfo[kcud1]" down-line-or-beginning-search # Down
-            ''
-          ]);
+              (strings.optionalString cfg.withLoadenv ''
+                function loadenv () {
+                    if [ $# -le 0 ]; then
+                        echo "Usage: loadenv <files> ..." >&2
+                        return 1
+                    fi
+                    set -o allexport
+                    for file in "$@"; do
+                        source "$file"
+                    done
+                    set +o allexport
+                }
+              '')
+              (strings.optionalString cfg.viMode ''
+                bindkey -v
+                export KEYTIMEOUT=1
+                bindkey -M menuselect 'h' vi-backward-char
+                bindkey -M vicmd 'k' up-line-or-beginning-search
+                bindkey -M menuselect 'l' vi-forward-char
+                bindkey -M vicmd 'j' down-line-or-beginning-search
+              '')
+              ''
+                autoload -U up-line-or-beginning-search
+                autoload -U down-line-or-beginning-search
+                zle -N up-line-or-beginning-search
+                zle -N down-line-or-beginning-search
+                bindkey "$terminfo[kcuu1]" up-line-or-beginning-search # Up
+                bindkey "$terminfo[kcud1]" down-line-or-beginning-search # Down
+              ''
+            ]);
         in
-        strings.concatStringsSep "\n" ([
-          ''
-            ZSH_CACHE_DIR=''${ZSH_CACHE_DIR:-~/.config/zsh/}
+        strings.concatStringsSep "\n" (
+          [
+            ''
+              ZSH_CACHE_DIR=''${ZSH_CACHE_DIR:-~/.config/zsh/}
 
-            zmodload zsh/complist
-            bindkey '^E' autosuggest-accept
-            bindkey '^[[1;5C' forward-word
-            bindkey '^[[1;5D' backward-word
-            fpath=(${./prompt} $fpath)
-            autoload -Uz prompt_custom_setup && prompt_custom_setup
-          ''
+              zmodload zsh/complist
+              bindkey '^E' autosuggest-accept
+              bindkey '^[[1;5C' forward-word
+              bindkey '^[[1;5D' backward-word
+              fpath=(${./prompt} $fpath)
+              autoload -Uz prompt_custom_setup && prompt_custom_setup
+            ''
 
-        ] ++ extraScripts);
+          ]
+          ++ extraScripts
+        );
       shellAliases =
         {
           k = "kubectl";
@@ -161,10 +165,16 @@ in
           gsw = "git switch";
           gcb = "git checkout -b";
           glo = "git log --oneline";
-        } // (if cfg.useLsd then {
-          ls = "lsd";
-          tree = "lsd --tree";
-        } else { });
+        }
+        // (
+          if cfg.useLsd then
+            {
+              ls = "lsd";
+              tree = "lsd --tree";
+            }
+          else
+            { }
+        );
     };
   };
 }

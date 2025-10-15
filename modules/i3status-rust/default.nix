@@ -1,10 +1,13 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 with lib;
-let cfg = config.midugh.i3status-rust;
-in {
+let
+  cfg = config.midugh.i3status-rust;
+in
+{
   options.midugh.i3status-rust = {
     enable = mkEnableOption "i3status rust";
 
@@ -22,14 +25,12 @@ in {
     enable = true;
     bars.default = {
       blocks =
-        (builtins.map
-          (device: {
-            block = "net";
-            inherit device;
-            format = " $ip ";
-            format_alt = " ${device}: $ip ";
-          })
-          cfg.network-devices)
+        (builtins.map (device: {
+          block = "net";
+          inherit device;
+          format = " $ip ";
+          format_alt = " ${device}: $ip ";
+        }) cfg.network-devices)
         ++ [
           (lib.mkIf cfg.show-battery {
             block = "battery";
@@ -56,10 +57,12 @@ in {
           }
           {
             block = "sound";
-            click = [{
-              button = "left";
-              cmd = "pavucontrol";
-            }];
+            click = [
+              {
+                button = "left";
+                cmd = "pavucontrol";
+              }
+            ];
           }
           {
             block = "custom";
