@@ -1,94 +1,118 @@
 {
-	"layer": "top",
-	// Using margin-bottom with a negative value in order to reduce the space between Hyprland window and waybar
-	"margin-bottom": -10,
-	"margin-top": 10,
-	"modules-left": [ "sway/workspaces", "sway/mode"],
-	"modules-center": [],
-    "modules-right": ["network", "battery", "pulseaudio", "backlight", "disk", "memory", "temperature", "cpu", "clock", "custom/notification", "tray"],
+  "layer": "top",
+  // Using margin-bottom with a negative value in order to reduce the space between Hyprland window and waybar
+  "margin-bottom": -10,
+  "margin-top": 10,
+  "modules-left": ["sway/workspaces", "sway/mode", "mpris"],
+  "modules-center": [],
+  "modules-right": [
+    "network",
+    "battery",
+    "pulseaudio",
+    "backlight",
+    "disk",
+    "memory",
+    "temperature",
+    "cpu",
+    "clock",
+    "custom/notification",
+    "tray"
+  ],
 
-    "disk": {
-        "path": "/",
-        "interval": 30,
-        "format": "{specific_free:.0f}GB {percentage_used}% ",
-        "unit": "GB"
+  "disk": {
+    "path": "/",
+    "interval": 30,
+    "format": "{specific_free:.0f}GB {percentage_used}% ",
+    "unit": "GB"
+  },
+
+  "mpris": {
+    "format": "{player_icon} {title} (<i>{artist}</i>)",
+    "format-paused": "{status_icon} {title} (<i>{artist}</i>)",
+    "player-icons": {
+      "default": "▶",
+      "firefox": "🎵"
     },
-	
-	"pulseaudio": {
-		"tooltip": false,
-		"scroll-step": 2,
-		"format": "{icon}  {volume}%",
-		"format-muted": " {volume}%",
-		"on-click":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
-		"format-icons": {
-			"default": [" ", " "]
-		}
-	},
-    "custom/notification": {
-        "tooltip": false,
-        "format": "{icon}",
-        "format-icons": {
-            "notification": "<span foreground='red'><sup></sup></span>",
-            "none": "",
-            "dnd-notification": "<span foreground='red'><sup></sup></span>",
-            "dnd-none": "",
-            "inhibited-notification": "<span foreground='red'><sup></sup></span>",
-            "inhibited-none": "",
-            "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
-            "dnd-inhibited-none": ""
-        },
-        "return-type": "json",
-        "exec-if": "which swaync-client",
-        "exec": "swaync-client -swb",
-        "on-click": "swaync-client -t -sw",
-        "on-click-right": "swaync-client -d -sw",
-        "escape": true
+    "status-icons": {
+      "paused": "⏸"
+    }
+  },
+
+  "pulseaudio": {
+    "tooltip": false,
+    "scroll-step": 2,
+    "format": "{icon}  {volume}%",
+    "format-muted": " {volume}%",
+    "on-click": "wpctl set-mute @DEFAULT_SINK@ toggle",
+    "format-icons": {
+      "default": [" ", " "]
+    }
+  },
+  "custom/notification": {
+    "tooltip": false,
+    "format": "{icon}",
+    "format-icons": {
+      "notification": "<span foreground='red'><sup></sup></span>",
+      "none": "",
+      "dnd-notification": "<span foreground='red'><sup></sup></span>",
+      "dnd-none": "",
+      "inhibited-notification": "<span foreground='red'><sup></sup></span>",
+      "inhibited-none": "",
+      "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
+      "dnd-inhibited-none": ""
     },
-    "backlight": {
-        "device": "intel_backlight",
-        "format": "{percent}% {icon}",
-        "format-icons": ["", ""]
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  },
+  "backlight": {
+    "device": "intel_backlight",
+    "format": "{percent}% {icon}",
+    "format-icons": ["", ""]
+  },
+  "network": {
+    // "interface": "wlp2*", // (Optional) To force the use of this interface
+    "format-wifi": "",
+    "format-ethernet": "",
+    "tooltip-format": "{essid} ({signalStrength}%)",
+    "format-linked": "{ifname} (No IP) ",
+    "format-disconnected": "⚠",
+    "format-alt": "{ifname}: {ipaddr}/{cidr}"
+  },
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 20
     },
-	"network": {
-		// "interface": "wlp2*", // (Optional) To force the use of this interface
-		"format-wifi": "",
-		"format-ethernet": "",
-		"tooltip-format": "{essid} ({signalStrength}%)",
-		"format-linked": "{ifname} (No IP) ",
-		"format-disconnected": "⚠",
-		"format-alt": "{ifname}: {ipaddr}/{cidr}"
-		},
-    "battery": {
-        "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 20
-        },
-        "format": "{icon}  {capacity}%",
-        "format-charging": " {capacity}%",
-        "format-plugged": " {capacity}%",
-        "format-alt": "{time} {icon}",
-        "format-icons": ["", "", "", "", ""]
-    },
-	"tray":{
-		"icon-size": 21,
-		"spacing": 10
-	},
-    "clock": {
-        "interval": 1,
-        "format": "{:%H:%M:%S} ",
-        "format-alt": "{:%a, %d. %b  %H:%M:%S} "
-    },
-    "cpu": {
-        "interval": 10,
-        "format": "{load} {usage}% ",
-        "length": 50
-    },
-    "memory": {
-        "interval": 10,
-        "format": "{used:0.1f}G/{total:0.1f}G "
-    },
-    "temperature": {
-        "format": "{temperatureC}°C "
-    },
+    "format": "{icon}  {capacity}%",
+    "format-charging": " {capacity}%",
+    "format-plugged": " {capacity}%",
+    "format-alt": "{time} {icon}",
+    "format-icons": ["", "", "", "", ""]
+  },
+  "tray": {
+    "icon-size": 21,
+    "spacing": 10
+  },
+  "clock": {
+    "interval": 1,
+    "format": "{:%H:%M:%S} ",
+    "format-alt": "{:%a, %d. %b  %H:%M:%S} "
+  },
+  "cpu": {
+    "interval": 10,
+    "format": "{load} {usage}% ",
+    "length": 50
+  },
+  "memory": {
+    "interval": 10,
+    "format": "{used:0.1f}G/{total:0.1f}G "
+  },
+  "temperature": {
+    "format": "{temperatureC}°C "
+  }
 }
