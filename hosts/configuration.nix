@@ -13,6 +13,7 @@
   time.timeZone = "Europe/Paris";
 
   networking.networkmanager.enable = true;
+  networking.nftables.enable = true;
 
   nix.settings.experimental-features = [
     "nix-command"
