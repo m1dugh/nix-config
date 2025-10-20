@@ -240,6 +240,7 @@
       prismlauncher
 
       wl-clipboard-rs
+      file
       libinput
 
       teams-for-linux
@@ -249,11 +250,9 @@
 
       awscli2
 
-      nixfmt-rfc-style
       nixpkgs-review
       pavucontrol
 
-      cemu
       mcontrolcenter
 
       tcpdump
@@ -262,6 +261,8 @@
       spotify
 
       ghidra-bin
+
+      ryujinx
 
     ])
     ++ (with pkgs-local; [
@@ -326,6 +327,8 @@
     pinentryPackage = pkgs.pinentry-curses;
     enableSSHSupport = true;
   };
+
+  programs.obs-studio.enable = true;
 
   programs.sway = {
     enable = true;
