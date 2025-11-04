@@ -29,6 +29,7 @@
   "mpris": {
     "format": "{player_icon} {title} (<i>{artist}</i>)",
     "format-paused": "{status_icon} {title} (<i>{artist}</i>)",
+    "title-len": 32,
     "player-icons": {
       "default": "▶",
       "firefox": "🎵"
