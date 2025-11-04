@@ -110,6 +110,13 @@
 
   programs.virt-manager.enable = true;
 
+  # allow traffic for vms
+  networking.firewall.interfaces.virbr0.allowedTCPPorts = [ 53 ];
+  networking.firewall.interfaces.virbr0.allowedUDPPorts = [
+    53
+    67
+  ];
+
   virtualisation.spiceUSBRedirection.enable = true;
 
   virtualisation.libvirtd = {
