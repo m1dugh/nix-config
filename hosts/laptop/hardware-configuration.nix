@@ -61,9 +61,6 @@
   boot.initrd.luks.devices.cryptroot = {
     device = "/dev/disk/by-uuid/3436694d-6b2b-4a4b-a25b-52b43f582e1a";
     allowDiscards = true;
-    keyFileSize = 4096;
-    keyFile = "/dev/disk/by-id/usb-General_USB_Flash_Disk_04NCZ3G8Y7ERGZRJ-0:0";
-    keyFileTimeout = 3;
     bypassWorkqueues = true;
   };
 

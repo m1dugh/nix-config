@@ -20,7 +20,7 @@ let
       pkgs-unstable
       system
       ;
-    stateVersion = "24.11";
+    stateVersion = "25.05";
     rootPath = ../.;
   };
 in
@@ -30,6 +30,8 @@ in
     modules = [
       ./laptop
       ./configuration.nix
+
+      inputs.lanzaboote.nixosModules.lanzaboote
 
       home-manager.nixosModules.home-manager
       {

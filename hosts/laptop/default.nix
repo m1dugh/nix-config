@@ -104,8 +104,13 @@
 
   boot.loader = {
     efi.canTouchEfiVariables = true;
-    systemd-boot.enable = true;
+    systemd-boot.enable = lib.mkForce false;
     timeout = 0;
+  };
+
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/var/lib/sbctl";
   };
 
   programs.virt-manager.enable = true;
@@ -271,6 +276,9 @@
       ghidra-bin
 
       ryujinx
+      tpm2-tools
+      tpm2-tss
+      sbctl
 
     ])
     ++ (with pkgs-local; [

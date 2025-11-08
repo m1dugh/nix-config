@@ -7,6 +7,11 @@
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
 
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.3";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     burpsuitepro = {
       url = "github:xiv3r/Burpsuite-Professional";
       inputs.nixpkgs.follows = "nixpkgs";
