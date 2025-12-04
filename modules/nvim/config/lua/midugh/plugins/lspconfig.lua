@@ -25,6 +25,13 @@ return {
 				root_markers = { ".git" },
 			})
 
+			vim.lsp.config("terraform-lsp", {
+				settings = {
+					cmd = { "terraform-lsp" },
+					filetypes = { "terraform" },
+				},
+			})
+
 			vim.lsp.config("clangd", {
 				settings = {
 					cmd = { "clangd" },
@@ -35,6 +42,7 @@ return {
 
 			vim.lsp.config("lua_ls", {
 				settings = {
+					cmd = { "lua-language-server" },
 					Lua = {
 						diagnostics = {
 							globals = {
@@ -73,6 +81,7 @@ return {
 			vim.lsp.enable({
 				"clangd",
 				"lua_ls",
+				"terraform-lsp",
 			})
 		end,
 	},

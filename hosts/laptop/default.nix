@@ -280,6 +280,9 @@
       tpm2-tss
       sbctl
 
+      terraform-lsp
+      lua-language-server
+
     ])
     ++ (with pkgs-local; [
       globalprotect-openconnect_2

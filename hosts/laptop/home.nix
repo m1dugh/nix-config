@@ -1,8 +1,8 @@
 {
   pkgs,
-  stateVersion,
   config,
   pkgs-local,
+  stateVersion,
   ...
 }:
 {
@@ -44,6 +44,15 @@
 
   home = {
     inherit stateVersion;
+
+    pointerCursor = {
+      enable = true;
+      sway.enable = true;
+      gtk.enable = true;
+      name = "Apple-Cursor";
+      package = pkgs.apple-cursor;
+    };
+
     packages = (
       with pkgs;
       [
