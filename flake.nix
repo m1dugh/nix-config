@@ -48,7 +48,7 @@
 
     let
       formatter-config =
-        { pkgs, ... }:
+        { ... }:
         {
           projectRootFile = "flake.nix";
           programs.nixfmt.enable = true;

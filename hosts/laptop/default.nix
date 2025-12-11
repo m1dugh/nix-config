@@ -5,9 +5,12 @@
   stateVersion,
   lib,
   pkgs-local,
+  inputs,
   ...
 }:
 {
+
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
   imports = [
     ./hardware-configuration.nix
@@ -283,6 +286,7 @@
       terraform-lsp
       lua-language-server
       nixd
+      nixfmt
 
     ])
     ++ (with pkgs-local; [
