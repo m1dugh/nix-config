@@ -9,7 +9,6 @@ return {
 			automatic_installation = true,
 			ensure_installed = {
 				"bashls",
-				"nil_ls",
 			},
 		},
 
@@ -26,23 +25,24 @@ return {
 			})
 
 			vim.lsp.config("terraform-lsp", {
-				settings = {
-					cmd = { "terraform-lsp" },
-					filetypes = { "terraform" },
-				},
+				filetypes = { "terraform" },
+				cmd = { "terraform-lsp" },
+			})
+
+			vim.lsp.config("nixd", {
+				filetypes = { "nix" },
+				cmd = { "nixd" },
 			})
 
 			vim.lsp.config("clangd", {
-				settings = {
-					cmd = { "clangd" },
-					filetypes = { "c", "cpp" },
-					root_dir = vim.fs.root(0, { "compile_commands.json", "compile_flags.txt", ".git" }),
-				},
+				cmd = { "clangd" },
+				filetypes = { "c", "cpp" },
+				root_dir = vim.fs.root(0, { "compile_commands.json", "compile_flags.txt", ".git" }),
 			})
 
 			vim.lsp.config("lua_ls", {
+				cmd = { "lua-language-server" },
 				settings = {
-					cmd = { "lua-language-server" },
 					Lua = {
 						diagnostics = {
 							globals = {
@@ -82,6 +82,7 @@ return {
 				"clangd",
 				"lua_ls",
 				"terraform-lsp",
+				"nixd",
 			})
 		end,
 	},

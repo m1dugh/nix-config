@@ -282,6 +282,7 @@
 
       terraform-lsp
       lua-language-server
+      nixd
 
     ])
     ++ (with pkgs-local; [
