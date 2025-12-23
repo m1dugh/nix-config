@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   ...
 }:
 
@@ -10,7 +11,7 @@
     pulseaudio = true;
   };
 
-  time.timeZone = "Europe/Paris";
+  time.timeZone = lib.mkDefault "Europe/Paris";
 
   networking.networkmanager.enable = true;
   networking.nftables.enable = true;

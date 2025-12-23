@@ -1,16 +1,21 @@
 {
   username,
-  config,
   pkgs,
-  stateVersion,
   lib,
-  pkgs-local,
   inputs,
+  options,
+  pkgs-local,
+  stateVersion,
+  config,
   ...
 }:
 {
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+
+  time.timeZone = null;
+  services.automatic-timezoned.enable = true;
+  services.geoclue2.geoProviderUrl = "https://api.beacondb.net/v1/geolocate";
 
   imports = [
     ./hardware-configuration.nix
@@ -52,6 +57,7 @@
 
   networking.hostName = "midugh-laptop";
   networking.useDHCP = lib.mkDefault true;
+  networking.timeServers = options.networking.timeServers.default ++ [ "time.windows.com" ];
 
   users.groups.${username} = {
     members = [ username ];
