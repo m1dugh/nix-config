@@ -30,3 +30,5 @@ end, { silent = true, expr = true })
 vim.g.health = {
 	style = "float",
 }
+
+vim.g.copilot_enable = false
