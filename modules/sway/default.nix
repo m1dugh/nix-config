@@ -107,10 +107,8 @@ in
       mkDefault (getExe cfg.screenshot.package)
     );
 
-    midugh.rofi = {
-      enable = true;
-      wayland = true;
-    };
+    midugh.rofi.enable = true;
+
     programs.rofi.terminal = getExe terminalPkg;
 
     dconf.settings = {

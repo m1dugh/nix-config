@@ -41,10 +41,12 @@ in
     programs.git = {
       enable = true;
       lfs.enable = true;
-      userName = cfg.username;
-      userEmail = cfg.email;
+      settings = {
+        user = {
+            name = cfg.username;
+            email = cfg.email;
+                };
 
-      extraConfig = {
         init.defaultBranch = cfg.defaultBranch;
         pull.rebase = true;
         core.editor = cfg.editor;

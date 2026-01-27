@@ -75,7 +75,7 @@
 
         imagemagick
 
-        whatsapp-for-linux
+        wasistlos
 
         kubelogin-oidc
         grim

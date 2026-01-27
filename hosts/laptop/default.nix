@@ -5,6 +5,7 @@
   inputs,
   options,
   pkgs-local,
+  pkgs-lanzaboote,
   stateVersion,
   config,
   ...
@@ -34,8 +35,6 @@
     platformTheme = "gnome";
     style = "adwaita-dark";
   };
-
-  users.extraGroups.dragon-center.members = [ username ];
 
   # for loginctl lock-session
   services.systemd-lock-handler.enable = true;
@@ -140,15 +139,6 @@
       vhostUserPackages = with pkgs; [ virtiofsd ];
       runAsRoot = true;
       swtpm.enable = true;
-      ovmf = {
-        enable = true;
-        packages = [
-          (pkgs.OVMF.override {
-            secureBoot = true;
-            tpmSupport = true;
-          }).fd
-        ];
-      };
     };
   };
 
@@ -284,7 +274,7 @@
 
       ghidra-bin
 
-      ryujinx
+      ryubing
       tpm2-tools
       tpm2-tss
       sbctl
@@ -294,9 +284,8 @@
       nixd
       nixfmt
 
-    ])
-    ++ (with pkgs-local; [
-      globalprotect-openconnect_2
+    ]) ++ (with pkgs-lanzaboote; [
+        lzbt
     ]);
 
   services.displayManager =
@@ -327,15 +316,13 @@
     in
     {
       enable = true;
+      gdm.enable = true;
       sessionPackages = lib.lists.singleton sessions;
     };
 
   services.xserver = {
     enable = true;
     videoDrivers = [ "nouveau" ];
-    displayManager.gdm = {
-      enable = true;
-    };
   };
 
   services.blueman.enable = true;
@@ -370,11 +357,11 @@
   system.stateVersion = stateVersion;
   networking.resolvconf.dnsExtensionMechanism = false;
 
-  services.logind.extraConfig = ''
-    HandleSuspendKey=hibernate
-    HandleLidSwitch=hibernate
-    HandlePowerKey=ignore
-  '';
+  services.logind.settings.Login = {
+        HandleLidSwitch = "hibernate";
+        HandlePowerKey = "ignore";
+        HandleSuspendKey = "hibernate";
+};
 
   systemd.targets = {
     sleep.enable = false;

@@ -5,7 +5,7 @@
   username,
   pkgs-unstable,
   pkgs-local,
-  dragon-center-pkgs,
+  pkgs-lanzaboote,
   modules,
   ...
 }:
@@ -16,11 +16,11 @@ let
       inputs
       username
       pkgs-local
-      dragon-center-pkgs
       pkgs-unstable
+      pkgs-lanzaboote
       system
       ;
-    stateVersion = "25.05";
+    stateVersion = "25.11";
     rootPath = ../.;
   };
 in

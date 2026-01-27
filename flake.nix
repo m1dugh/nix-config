@@ -2,13 +2,13 @@
   description = "My configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
 
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.3";
+      url = "github:nix-community/lanzaboote/v1.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -18,7 +18,7 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -27,11 +27,6 @@
       url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
     };
-
-    dragon-center = {
-      url = "github:m1dugh/DragonCenterForLinux";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -39,10 +34,10 @@
       self,
       nixpkgs,
       nixpkgs-unstable,
-      dragon-center,
       home-manager,
       flake-utils,
       treefmt-nix,
+      lanzaboote,
       ...
     }:
 
@@ -75,18 +70,18 @@
             inherit system;
           };
           pkgs-local = self.packages.${system};
-          dragon-center-pkgs = dragon-center.packages.${system};
+          pkgs-lanzaboote = lanzaboote.packages.${system};
         in
         {
           inherit (self) inputs;
           inherit
             pkgs-unstable
             pkgs-local
+            pkgs-lanzaboote
             pkgs
             system
             username
             lib
-            dragon-center-pkgs
             ;
         };
       generateModules = modules: lib.attrsets.genAttrs modules (name: import (./modules + "/${name}"));
@@ -105,9 +100,7 @@
         // (import ./pkgs defaultArgs)
       );
 
-      nixosModules = (generateModules [ "xfce" ]) // {
-        dragon-center = dragon-center.nixosModules.default;
-      };
+      nixosModules = (generateModules [ "xfce" ]);
 
       homeManagerModules = generateModules [
         "alacritty"
