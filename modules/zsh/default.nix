@@ -149,32 +149,31 @@ in
           ]
           ++ extraScripts
         );
-      shellAliases =
-        {
-          k = "kubectl";
-          ls = "ls --color=auto";
-          ga = "git add";
-          gp = "git push";
-          gcmsg = "git commit -m";
-          gcam = "git commit -am";
-          gl = "git pull";
-          gpr = "git pull --rebase";
-          gst = "git status";
-          gd = "git diff";
-          gco = "git checkout";
-          gsw = "git switch";
-          gcb = "git checkout -b";
-          glo = "git log --oneline";
-        }
-        // (
-          if cfg.useLsd then
-            {
-              ls = "lsd";
-              tree = "lsd --tree";
-            }
-          else
-            { }
-        );
+      shellAliases = {
+        k = "kubectl";
+        ls = "ls --color=auto";
+        ga = "git add";
+        gp = "git push";
+        gcmsg = "git commit -m";
+        gcam = "git commit -am";
+        gl = "git pull";
+        gpr = "git pull --rebase";
+        gst = "git status";
+        gd = "git diff";
+        gco = "git checkout";
+        gsw = "git switch";
+        gcb = "git checkout -b";
+        glo = "git log --oneline";
+      }
+      // (
+        if cfg.useLsd then
+          {
+            ls = "lsd";
+            tree = "lsd --tree";
+          }
+        else
+          { }
+      );
     };
   };
 }

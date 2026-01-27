@@ -42,9 +42,11 @@ in
           imports = [
             ./home.nix
             ./laptop/home.nix
-          ] ++ modules.homeManager;
+          ]
+          ++ modules.homeManager;
         };
       }
-    ] ++ modules.nixos;
+    ]
+    ++ modules.nixos;
   };
 }

@@ -19,7 +19,8 @@ in
 
     modules = [
       ./pie.nix
-    ] ++ modules;
+    ]
+    ++ modules;
   };
 
   "midugh-sncf" = home-manager.lib.homeManagerConfiguration {
@@ -31,6 +32,7 @@ in
 
     modules = [
       ./sncf.nix
-    ] ++ modules;
+    ]
+    ++ modules;
   };
 }

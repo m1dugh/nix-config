@@ -131,7 +131,8 @@ in
       pkgs.swaynotificationcenter
       pkgs.rofi-power-menu
       cfg.swaylockPackage
-    ] ++ (lists.optional cfg.screenshot.enable cfg.screenshot.package);
+    ]
+    ++ (lists.optional cfg.screenshot.enable cfg.screenshot.package);
 
     home.file.".config/swaylock/config" = {
       text = ''

@@ -83,7 +83,8 @@ rustPlatform.buildRustPackage {
         "--replace-fail /usr/bin/gpservice $out/bin/gpservice"
         "--replace-fail /usr/bin/gpgui-helper $out/bin/gpgui-helper"
         "--replace-fail /usr/bin/gpauth $out/bin/gpauth"
-      ] ++ lib.optional withGui "--replace-fail /usr/bin/gpgui ${gpgui}/bin/gpgui";
+      ]
+      ++ lib.optional withGui "--replace-fail /usr/bin/gpgui ${gpgui}/bin/gpgui";
     in
     ''
       substituteInPlace crates/common/src/vpn_utils.rs \
@@ -93,16 +94,15 @@ rustPlatform.buildRustPackage {
         ${lib.strings.concatStringsSep " " replacements}
     '';
 
-  postInstall =
-    ''
-      mkdir -p $out/share/applications/
-      cp packaging/files/usr/share/applications/gpgui.desktop $out/share/applications/gpgui.desktop
-    ''
-    + lib.strings.optionalString withGui ''
-      ln -s ${gpgui}/bin/gpgui $out/bin/
-      ln -s ${gpgui}/share/icons/ $out/share/
-      ln -s ${gpgui}/share/polkit-1/ $out/share/
-    '';
+  postInstall = ''
+    mkdir -p $out/share/applications/
+    cp packaging/files/usr/share/applications/gpgui.desktop $out/share/applications/gpgui.desktop
+  ''
+  + lib.strings.optionalString withGui ''
+    ln -s ${gpgui}/bin/gpgui $out/bin/
+    ln -s ${gpgui}/share/icons/ $out/share/
+    ln -s ${gpgui}/share/polkit-1/ $out/share/
+  '';
 
   postFixup = ''
     substituteInPlace $out/share/applications/gpgui.desktop \

@@ -11,10 +11,10 @@ with lib;
     }:
     {
       options = {
-        enable = mkEnableOption ''${name} debugger'';
+        enable = mkEnableOption "${name} debugger";
         package = mkOption {
           type = types.package;
-          description = ''The package to add for the debugger'';
+          description = "The package to add for the debugger";
         };
       };
     }

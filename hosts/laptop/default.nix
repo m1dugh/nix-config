@@ -284,8 +284,9 @@
       nixd
       nixfmt
 
-    ]) ++ (with pkgs-lanzaboote; [
-        lzbt
+    ])
+    ++ (with pkgs-lanzaboote; [
+      lzbt
     ]);
 
   services.displayManager =
@@ -358,10 +359,10 @@
   networking.resolvconf.dnsExtensionMechanism = false;
 
   services.logind.settings.Login = {
-        HandleLidSwitch = "hibernate";
-        HandlePowerKey = "ignore";
-        HandleSuspendKey = "hibernate";
-};
+    HandleLidSwitch = "hibernate";
+    HandlePowerKey = "ignore";
+    HandleSuspendKey = "hibernate";
+  };
 
   systemd.targets = {
     sleep.enable = false;

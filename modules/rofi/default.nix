@@ -15,15 +15,15 @@ in
 
   config = mkIf cfg.enable {
     programs.rofi = {
-        enable = true;
-        extraConfig = {
-          modi = "drun,emoji";
-        };
-        font = "monospace";
-        theme = ./config/rofi-theme.rasi;
-        plugins = [
-            pkgs.rofi-emoji
-          ];
+      enable = true;
+      extraConfig = {
+        modi = "drun,emoji";
       };
+      font = "monospace";
+      theme = ./config/rofi-theme.rasi;
+      plugins = [
+        pkgs.rofi-emoji
+      ];
+    };
   };
 }

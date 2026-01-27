@@ -43,9 +43,9 @@ in
       lfs.enable = true;
       settings = {
         user = {
-            name = cfg.username;
-            email = cfg.email;
-                };
+          name = cfg.username;
+          email = cfg.email;
+        };
 
         init.defaultBranch = cfg.defaultBranch;
         pull.rebase = true;
