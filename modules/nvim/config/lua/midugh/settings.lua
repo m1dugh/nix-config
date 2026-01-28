@@ -31,4 +31,4 @@ vim.g.health = {
 	style = "float",
 }
 
-vim.g.copilot_enable = false
+vim.g.copilot_enabled = false
