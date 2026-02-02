@@ -13,7 +13,6 @@
 
   time.timeZone = lib.mkDefault "Europe/Paris";
 
-  networking.networkmanager.enable = true;
   networking.nftables.enable = true;
 
   nix.settings.experimental-features = [

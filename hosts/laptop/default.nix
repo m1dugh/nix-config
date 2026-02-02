@@ -63,6 +63,14 @@
     gid = 1000;
   };
 
+  networking.networkmanager = {
+    enable = true;
+    plugins = with pkgs; [
+      networkmanager-l2tp
+      networkmanager-openvpn
+    ];
+  };
+
   users.users.${username} = {
     isNormalUser = true;
     extraGroups = [
