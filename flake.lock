@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1751885687,
-        "narHash": "sha256-aM67owrjBwYXLw/dIdcywpDbjFurNg4qf8/zQytIKHE=",
+        "lastModified": 1770088080,
+        "narHash": "sha256-xuT/Q+gl15/RnmZOo59vt8Yu+3ec6u9ndWDunviF41w=",
         "owner": "xiv3r",
         "repo": "Burpsuite-Professional",
-        "rev": "ff563b88c30758ac9e0b5d4cde5856070f1d1552",
+        "rev": "af8afa2cea68a798374d7cfbd468fc878ac2f042",
         "type": "github"
       },
       "original": {

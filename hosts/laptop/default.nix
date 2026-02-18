@@ -8,6 +8,7 @@
   pkgs-lanzaboote,
   stateVersion,
   config,
+  system,
   ...
 }:
 {
@@ -295,6 +296,9 @@
     ])
     ++ (with pkgs-lanzaboote; [
       lzbt
+    ])
+    ++ (with inputs.burpsuitepro.packages.${system}; [
+      default
     ]);
 
   services.displayManager =

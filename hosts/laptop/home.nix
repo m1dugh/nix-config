@@ -62,6 +62,7 @@
         keeweb
 
         poetry
+        uv
 
         # LspServer
         rust-analyzer
