@@ -296,9 +296,6 @@
     ])
     ++ (with pkgs-lanzaboote; [
       lzbt
-    ])
-    ++ (with inputs.burpsuitepro.packages.${system}; [
-      default
     ]);
 
   services.displayManager =
