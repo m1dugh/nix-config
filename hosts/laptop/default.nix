@@ -8,7 +8,6 @@
   pkgs-lanzaboote,
   stateVersion,
   config,
-  system,
   ...
 }:
 {
@@ -356,6 +355,7 @@
   };
 
   programs.obs-studio.enable = true;
+  programs.thunderbird.enable = true;
 
   programs.sway = {
     enable = true;
