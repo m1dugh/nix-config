@@ -164,6 +164,7 @@ in
         gsw = "git switch";
         gcb = "git checkout -b";
         glo = "git log --oneline";
+        grep = "grep --color=always";
       }
       // (
         if cfg.useLsd then

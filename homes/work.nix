@@ -36,9 +36,11 @@
   midugh.zsh = {
     enable = true;
     viMode = true;
+    useLsd = true;
   };
 
   programs.home-manager.enable = true;
+  fonts.fontconfig.enable = true;
 
   nix = {
     package = pkgs.nix;
