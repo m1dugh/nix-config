@@ -35,4 +35,11 @@ in
     ]
     ++ modules;
   };
+  "midugh-work" = home-manager.lib.homeManagerConfiguration {
+    inherit pkgs;
+    modules = [
+      ./work.nix
+    ]
+    ++ modules;
+  };
 }

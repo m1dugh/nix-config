@@ -1,12 +1,13 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
 	event = { "BufReadPre", "BufNewFile" },
+	branch = "main",
 	dependencies = {
 		"windwp/nvim-ts-autotag",
 	},
 	build = ":TSUpdate",
 	config = function()
-		require("nvim-treesitter.configs").setup({
+		require("nvim-treesitter.config").setup({
 			ensure_installed = { "c", "lua", "nix", "terraform" },
 			sync_install = true,
 			auto_install = true,
@@ -23,7 +24,7 @@ return {
 			},
 		})
 
-		local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+		--[[ local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 
 		parser_config.tiger = {
 			install_info = {
@@ -38,5 +39,6 @@ return {
 			},
 			filetype = "tiger",
 		}
+        ]]
 	end,
 }
