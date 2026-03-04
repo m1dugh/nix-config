@@ -112,6 +112,7 @@
         "zsh"
         "sway"
         "waybar"
+        "tmux"
       ];
 
       nixosConfigurations =

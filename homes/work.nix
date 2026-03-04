@@ -23,15 +23,17 @@
     kubectx
     fzf
     stern
+    opentofu
+    terraform
 
     # fonts
     fira-code
     nerd-fonts.fira-code
   ];
-  midugh.nvim = {
-    enable = true;
-    debuggers = { };
-  };
+
+  midugh.nvim.enable = true;
+
+  midugh.tmux.enable = true;
 
   midugh.zsh = {
     enable = true;
