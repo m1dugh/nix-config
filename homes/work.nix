@@ -27,6 +27,8 @@
       fzf
       stern
 
+      scaleway-cli
+
       # fonts
       fira-code
       nerd-fonts.fira-code
