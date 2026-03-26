@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   pkgs-local,
+  pkgs-unstable,
   modules,
   ...
 }:
@@ -37,6 +38,9 @@ in
   };
   "midugh-work" = home-manager.lib.homeManagerConfiguration {
     inherit pkgs;
+    extraSpecialArgs = {
+      inherit pkgs-unstable;
+    };
     modules = [
       ./work.nix
     ]

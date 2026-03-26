@@ -63,7 +63,10 @@
       mkDefaultArgs =
         system:
         let
-          pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+          pkgs-unstable = import nixpkgs-unstable {
+            config.allowUnfree = true;
+            inherit system;
+          };
           pkgs = import nixpkgs {
             config.allowUnfree = true;
             config.allowUnsupportedSystem = true;
