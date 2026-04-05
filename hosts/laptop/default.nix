@@ -241,6 +241,7 @@
       libreoffice-qt6-fresh
       gimp
       burpsuite
+      caido
       zap
       bruno
       git-lfs
