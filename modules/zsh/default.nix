@@ -144,6 +144,8 @@ in
               bindkey '^[[1;5D' backward-word
               fpath=(${./prompt} $fpath)
               autoload -Uz prompt_custom_setup && prompt_custom_setup
+              export EDITOR=vim
+              export SHELL=${lib.getExe pkgs.zsh}
             ''
 
           ]

@@ -1,6 +1,7 @@
 {
   pkgs,
   pkgs-unstable,
+  lib,
   ...
 }:
 {
@@ -46,6 +47,12 @@
     enable = true;
     viMode = true;
     useLsd = true;
+    completions.scw = {
+      command = ''
+        source <(${pkgs.scaleway-cli}/bin/scw autocomplete script)
+      '';
+      enable = false;
+    };
   };
 
   programs.home-manager.enable = true;
