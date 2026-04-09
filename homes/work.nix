@@ -53,6 +53,15 @@
       '';
       enable = false;
     };
+
+    extraScripts = [
+      ''
+        function awsctx() { 
+            export AWS_PROFILE="$(${lib.getExe pkgs.awscli2} configure list-profiles | ${lib.getExe pkgs.fzf})" 
+            echo "Switched to profile ""$AWS_PROFILE""." 
+        }
+      ''
+    ];
   };
 
   programs.home-manager.enable = true;
