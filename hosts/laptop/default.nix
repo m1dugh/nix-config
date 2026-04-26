@@ -292,6 +292,8 @@
       lua-language-server
       nixd
       nixfmt
+      claude-code
+      claude-code-router
 
     ])
     ++ (with pkgs-lanzaboote; [
