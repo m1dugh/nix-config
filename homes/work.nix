@@ -24,6 +24,7 @@
       nodejs
 
       python312
+      python312Packages.debugpy
       kubectx
       fzf
       stern
