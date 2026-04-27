@@ -30,6 +30,7 @@
       stern
 
       scaleway-cli
+      argocd
 
       # fonts
       fira-code
