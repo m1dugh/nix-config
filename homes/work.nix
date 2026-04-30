@@ -35,6 +35,9 @@
       # fonts
       fira-code
       nerd-fonts.fira-code
+
+      claude-code
+      claude-code-router
     ]
     ++ (with pkgs-unstable; [
       terraform
