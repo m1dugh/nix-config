@@ -61,14 +61,23 @@
 
     extraScripts = [
       ''
+        aws_profile_file="''${HOME}/.aws/awsctx"
+
+        if [ -f "$aws_profile_file" ]; then
+            export AWS_PROFILE="$(cat "$aws_profile_file")"
+        fi
+
         awsctx() { 
             profiles="$(${lib.getExe pkgs.awscli2} configure list-profiles)"
             if [ -n "$AWS_PROFILE" ] && echo "$profiles" | grep -q "$AWS_PROFILE"; then
-                profiles="$(echo "$profiles" | grep -v "$AWS_PROFILE")"
-                profiles=$(echo "\033[0;32m$AWS_PROFILE\033[0m\n$profiles")
+                profiles=$(echo "$profiles" | sed "s/$AWS_PROFILE/$(echo -ne "\033[0;32m$AWS_PROFILE\033[0m")/g")
             fi
-            export AWS_PROFILE="$(echo "$profiles" | ${lib.getExe pkgs.fzf} --ansi)" 
-            echo "Switched to profile $AWS_PROFILE."
+            result="$(echo "$profiles" | ${lib.getExe pkgs.fzf} --ansi)"
+            if [ -n "$result" ]; then
+                export AWS_PROFILE="$result"
+                echo "$result" > $aws_profile_file
+                echo "Switched to profile $AWS_PROFILE."
+            fi
         }
       ''
     ];
