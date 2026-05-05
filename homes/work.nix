@@ -48,6 +48,10 @@
 
   midugh.tmux.enable = true;
 
+  programs.zsh.shellAliases = {
+    poweroff = "powershell.exe -Command 'shutdown /s /t 0'";
+  };
+
   midugh.zsh = {
     enable = true;
     viMode = true;
