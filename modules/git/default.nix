@@ -41,6 +41,9 @@ in
     programs.git = {
       enable = true;
       lfs.enable = true;
+      ignores = [
+        ".gitignore.local"
+      ];
       settings = {
         user = {
           name = cfg.username;
@@ -52,6 +55,7 @@ in
         core.editor = cfg.editor;
         push.autoSetupRemote = true;
         safe.directory = "*";
+        core.excludesFile = ".gitignore.local";
 
         color = {
           ui = "auto";

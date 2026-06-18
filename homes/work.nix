@@ -22,6 +22,7 @@
       gcc
       cargo
       nodejs
+      uv
 
       python312
       python312Packages.debugpy
@@ -85,6 +86,12 @@
         }
       ''
     ];
+  };
+
+  midugh.git = {
+    enable = true;
+    username = "rlemiere";
+    email = "rlemiere@athoria.fr";
   };
 
   programs.home-manager.enable = true;
