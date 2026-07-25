@@ -306,37 +306,16 @@
       opencode
     ]);
 
-  services.displayManager =
-    let
-      sessions =
-        let
-          swaySession = pkgs.writeText "sway.desktop" ''
-            [Desktop Entry]
-            Name=Sway
-            Comment=Wayland window manager
-            Exec=sway
-            Type=Application
-          '';
-        in
-        pkgs.stdenv.mkDerivation {
-          src = ./.;
-          providedSessions = [
-            "sway"
-          ];
-          name = "ly-sessions";
-          configurePhase = ''
-            mkdir -p $out/share/wayland-sessions/
-          '';
-          installPhase = ''
-            cp ${swaySession} $out/share/wayland-sessions/sway.desktop
-          '';
-        };
-    in
-    {
+  services.displayManager = {
+    enable = true;
+    sddm = {
       enable = true;
-      gdm.enable = true;
-      sessionPackages = lib.lists.singleton sessions;
+      wayland.enable = true;
     };
+    # TODO: move to gdm when fixed
+    # gdm.enable = true;
+    defaultSession = "sway";
+  };
 
   services.xserver = {
     enable = true;
