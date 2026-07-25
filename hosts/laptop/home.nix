@@ -76,8 +76,6 @@
 
         imagemagick
 
-        wasistlos
-
         kubelogin-oidc
         grim
       ]

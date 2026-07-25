@@ -64,10 +64,9 @@ in
       enable = true;
       viAlias = cfg.useAliases;
       vimAlias = cfg.useAliases;
-      package = pkgs.neovim-unwrapped;
-      plugins = with pkgs; [
-        vimPlugins.lazy-nvim
-        vimPlugins.nvim-dap
+      plugins = with pkgs.vimPlugins; [
+        lazy-nvim
+        nvim-dap
       ];
     };
   };

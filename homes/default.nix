@@ -4,6 +4,7 @@
   pkgs-local,
   pkgs-unstable,
   modules,
+  stateVersion,
   ...
 }:
 let
@@ -15,7 +16,7 @@ in
     inherit pkgs;
     extraSpecialArgs = {
       username = "romain.le-miere";
-      inherit pkgs-local;
+      inherit pkgs-local stateVersion;
     };
 
     modules = [
@@ -28,7 +29,7 @@ in
     inherit pkgs;
     extraSpecialArgs = {
       username = "romain.le-miere";
-      inherit pkgs-local;
+      inherit pkgs-local stateVersion;
     };
 
     modules = [
@@ -39,7 +40,7 @@ in
   "midugh-work" = home-manager.lib.homeManagerConfiguration {
     inherit pkgs;
     extraSpecialArgs = {
-      inherit pkgs-unstable;
+      inherit pkgs-unstable stateVersion;
     };
     modules = [
       ./work.nix

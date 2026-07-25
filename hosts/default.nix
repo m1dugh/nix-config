@@ -6,6 +6,7 @@
   pkgs-unstable,
   pkgs-local,
   pkgs-lanzaboote,
+  stateVersion,
   modules,
   ...
 }:
@@ -19,8 +20,8 @@ let
       pkgs-unstable
       pkgs-lanzaboote
       system
+      stateVersion
       ;
-    stateVersion = "25.11";
     rootPath = ../.;
   };
 in

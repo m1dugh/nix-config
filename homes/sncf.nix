@@ -1,11 +1,12 @@
 {
   pkgs,
+  stateVersion,
   ...
 }:
 {
   home.username = "midugh";
   home.homeDirectory = "/home/midugh";
-  home.stateVersion = "24.11";
+  home.stateVersion = stateVersion;
 
   home.packages = with pkgs; [
     kubectl

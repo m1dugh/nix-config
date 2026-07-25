@@ -6,6 +6,7 @@
   options,
   pkgs-local,
   pkgs-lanzaboote,
+  pkgs-unstable,
   stateVersion,
   config,
   ...
@@ -17,6 +18,8 @@
   time.timeZone = null;
   services.automatic-timezoned.enable = true;
   services.geoclue2.geoProviderUrl = "https://api.beacondb.net/v1/geolocate";
+
+  documentation.doc.enable = false;
 
   imports = [
     ./hardware-configuration.nix
@@ -241,7 +244,8 @@
       libreoffice-qt6-fresh
       gimp
       burpsuite
-      caido
+      caido-cli
+      caido-desktop
       zap
       bruno
       git-lfs
@@ -292,12 +296,14 @@
       lua-language-server
       nixd
       nixfmt
-      claude-code
-      claude-code-router
-
     ])
     ++ (with pkgs-lanzaboote; [
       lzbt
+    ])
+    ++ (with pkgs-unstable; [
+      claude-code
+      claude-code-router
+      opencode
     ]);
 
   services.displayManager =

@@ -1,7 +1,6 @@
 {
-  config,
   pkgs,
-  lib,
+  stateVersion,
   ...
 }:
 let
@@ -10,7 +9,6 @@ let
   lockCommand = "i3lock -i ${lockscreen}";
   wallpaper = ../wallpapers/prologin-2023_wallpaper.png;
   terminal = "${pkgs.alacritty}/bin/alacritty";
-  statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.config/i3status-rust/config-default.toml";
 in
 {
 
@@ -19,7 +17,7 @@ in
   manual.manpages.enable = false;
   home.username = "romain.le-miere";
   home.homeDirectory = "/home/romain.le-miere";
-  home.stateVersion = "23.05";
+  home.stateVersion = stateVersion;
 
   home.keyboard = {
     layout = "us";

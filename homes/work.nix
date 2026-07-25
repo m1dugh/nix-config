@@ -2,12 +2,13 @@
   pkgs,
   pkgs-unstable,
   lib,
+  stateVersion,
   ...
 }:
 {
   home.username = "rlemiere";
   home.homeDirectory = "/home/rlemiere";
-  home.stateVersion = "25.11";
+  home.stateVersion = stateVersion;
 
   home.packages =
     with pkgs;
