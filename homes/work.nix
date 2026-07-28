@@ -33,6 +33,8 @@
 
       scaleway-cli
       argocd
+      grafanactl
+      postgresql_17
 
       # fonts
       fira-code
@@ -42,7 +44,6 @@
       terraform
       opentofu
       claude-code
-      claude-code-router
     ]);
 
   midugh.nvim.enable = true;
