@@ -15,6 +15,7 @@ let
   menu = "${rofi} -show drun";
   emoji = "${rofi} -theme ${./config/emoji-theme.rasi} -show emoji -emoji-format '{emoji} {group}'";
   power-menu = "${rofi} -theme ${./config/power-menu-theme.rasi} -show power-menu -modi power-menu:'rofi-power-menu --no-text'";
+  winKey = "Mod4";
 
   increase-backlight = pkgs.writeShellScriptBin "increase-backlight" ''
     ${getExe pkgs.acpilight} +${toString cfg.brightnessStep}
@@ -171,7 +172,7 @@ in
         enable = true;
         config = rec {
           terminal = lib.getExe terminalPkg;
-          modifier = "Mod4";
+          modifier = "Mod1";
           gaps.outer = 5;
           gaps.inner = 10;
           fonts = {
@@ -216,7 +217,7 @@ in
 
               "${modifier}+d" = ''exec "${menu}"'';
               "${modifier}+r" = "mode resize";
-              "${modifier}+Tab" = ''exec "${lib.getExe cfg.swaylockPackage}"'';
+              "${winKey}+l" = ''exec "${lib.getExe cfg.swaylockPackage}"'';
               "${modifier}+Shift+r" = "reload";
               "${modifier}+slash" = ''exec "${emoji}"'';
               "${modifier}+p" = ''exec "${power-menu}"'';
@@ -225,6 +226,7 @@ in
               if cfg.screenshot.enable then
                 {
                   "Print" = ''exec "${cfg.screenshot.command}"'';
+                  "${winKey}+Shift+s" = ''exec "${cfg.screenshot.command}"'';
                 }
               else
                 { }
