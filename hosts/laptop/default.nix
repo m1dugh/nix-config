@@ -308,12 +308,12 @@
 
   services.displayManager = {
     enable = true;
-    sddm = {
-      enable = true;
-      wayland.enable = true;
-    };
+    # sddm = {
+    #   enable = true;
+    #   wayland.enable = true;
+    # };
     # TODO: move to gdm when fixed
-    # gdm.enable = true;
+    gdm.enable = true;
     defaultSession = "sway";
   };
 
