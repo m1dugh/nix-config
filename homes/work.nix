@@ -32,6 +32,7 @@
       stern
 
       scaleway-cli
+      azure-cli
       argocd
       grafanactl
       postgresql_17
