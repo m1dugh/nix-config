@@ -297,7 +297,7 @@ keybindings:
   # Move the focused window's parent workspace to a monitor in a given
   # direction.
   - commands: ["move-workspace --direction left"]
-    bindings: ["ctrl+alt+shift+left", "ctrl+alt+shift+j"]
+    bindings: ["ctrl+alt+shift+left", "ctrl+alt+shift+h"]
   - commands: ["move-workspace --direction right"]
     bindings: ["ctrl+alt+shift+right", "ctrl+alt+shift+l"]
   - commands: ["move-workspace --direction up"]
