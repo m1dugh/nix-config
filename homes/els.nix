@@ -1,0 +1,97 @@
+{
+  pkgs,
+  pkgs-unstable,
+  lib,
+  stateVersion,
+  ...
+}:
+{
+  home.username = "ext-rlemiere";
+  home.homeDirectory = "/home/ext-rlemiere";
+  home.stateVersion = stateVersion;
+
+  home.packages =
+    with pkgs;
+    [
+      kubectl
+      kubernetes-helm
+      dig
+      sops
+      yq-go
+      jq
+      awscli2
+      gcc
+      cargo
+      nodejs
+      uv
+
+      python312
+      python312Packages.debugpy
+      kubectx
+      fzf
+      stern
+
+      scaleway-cli
+      azure-cli
+      argocd
+      grafanactl
+      postgresql_17
+
+      # fonts
+      fira-code
+      nerd-fonts.fira-code
+    ]
+    ++ (with pkgs-unstable; [
+      terraform
+      opentofu
+      github-copilot-cli
+      terraform-mcp-server
+    ]);
+
+  midugh.nvim.enable = true;
+
+  midugh.tmux.enable = true;
+
+  programs.zsh.shellAliases = {
+    poweroff = "powershell.exe -Command 'shutdown /s /t 0'";
+  };
+
+  midugh.zsh = {
+    enable = true;
+    viMode = true;
+    useLsd = true;
+    extraScripts = [
+      ''
+        aws_profile_file="''${HOME}/.aws/awsctx"
+
+        if [ -f "$aws_profile_file" ]; then
+            export AWS_PROFILE="$(cat "$aws_profile_file")"
+        fi
+
+        awsctx() { 
+            profiles="$(${lib.getExe pkgs.awscli2} configure list-profiles)"
+            if [ -n "$AWS_PROFILE" ] && echo "$profiles" | grep -q "$AWS_PROFILE"; then
+                profiles=$(echo "$profiles" | sed "s/$AWS_PROFILE/$(echo -ne "\033[0;32m$AWS_PROFILE\033[0m")/g")
+            fi
+            result="$(echo "$profiles" | ${lib.getExe pkgs.fzf} --ansi)"
+            if [ -n "$result" ]; then
+                export AWS_PROFILE="$result"
+                echo "$result" > $aws_profile_file
+                echo "Switched to profile $AWS_PROFILE."
+            fi
+        }
+      ''
+    ];
+  };
+
+  programs.home-manager.enable = true;
+  fonts.fontconfig.enable = true;
+
+  nix = {
+    package = pkgs.nix;
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
+}

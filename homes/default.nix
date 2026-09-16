@@ -47,4 +47,14 @@ in
     ]
     ++ modules;
   };
+  "midugh-els" = home-manager.lib.homeManagerConfiguration {
+    inherit pkgs;
+    extraSpecialArgs = {
+      inherit pkgs-unstable stateVersion;
+    };
+    modules = [
+      ./els.nix
+    ]
+    ++ modules;
+  };
 }
