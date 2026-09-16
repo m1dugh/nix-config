@@ -14,6 +14,8 @@
     with pkgs;
     [
       kubectl
+      kubelogin
+      kubelogin-oidc
       kubernetes-helm
       dig
       sops
