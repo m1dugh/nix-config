@@ -26,6 +26,7 @@
       cargo
       nodejs
       uv
+      unzip
 
       python312
       python312Packages.debugpy
@@ -33,7 +34,6 @@
       fzf
       stern
 
-      scaleway-cli
       azure-cli
       argocd
       grafanactl
