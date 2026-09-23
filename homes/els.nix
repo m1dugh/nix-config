@@ -46,7 +46,7 @@
     ++ (with pkgs-unstable; [
       terraform
       opentofu
-      github-copilot-cli
+      claude-code
       terraform-mcp-server
     ]);
 
