@@ -48,6 +48,7 @@
       opentofu
       claude-code
       terraform-mcp-server
+      rtk
     ]);
 
   midugh.nvim.enable = true;
