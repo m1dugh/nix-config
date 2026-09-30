@@ -42,6 +42,7 @@
       # fonts
       fira-code
       nerd-fonts.fira-code
+      ansible
     ]
     ++ (with pkgs-unstable; [
       terraform
