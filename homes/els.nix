@@ -3,6 +3,7 @@
   pkgs-unstable,
   lib,
   stateVersion,
+  inputs,
   ...
 }:
 {
@@ -43,6 +44,7 @@
       fira-code
       nerd-fonts.fira-code
       ansible
+      vault
     ]
     ++ (with pkgs-unstable; [
       terraform
@@ -93,6 +95,9 @@
 
   nix = {
     package = pkgs.nix;
+    registry.nixpkgs.flake = inputs.nixpkgs;
+    nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+
     settings.experimental-features = [
       "nix-command"
       "flakes"

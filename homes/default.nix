@@ -16,7 +16,7 @@ in
     inherit pkgs;
     extraSpecialArgs = {
       username = "romain.le-miere";
-      inherit pkgs-local stateVersion;
+      inherit pkgs-local stateVersion inputs;
     };
 
     modules = [
@@ -29,7 +29,7 @@ in
     inherit pkgs;
     extraSpecialArgs = {
       username = "romain.le-miere";
-      inherit pkgs-local stateVersion;
+      inherit pkgs-local stateVersion inputs;
     };
 
     modules = [
@@ -50,7 +50,7 @@ in
   "midugh-els" = home-manager.lib.homeManagerConfiguration {
     inherit pkgs;
     extraSpecialArgs = {
-      inherit pkgs-unstable stateVersion;
+      inherit pkgs-unstable stateVersion inputs;
     };
     modules = [
       ./els.nix
