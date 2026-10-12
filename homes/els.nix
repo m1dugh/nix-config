@@ -86,6 +86,8 @@
                 echo "Switched to profile $AWS_PROFILE."
             fi
         }
+
+        export http_proxy="http://localhost:3128" https_proxy="http://localhost:3128"
       ''
     ];
   };

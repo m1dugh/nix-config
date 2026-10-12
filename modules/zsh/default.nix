@@ -104,12 +104,14 @@ in
             ++ (builtins.filter (val: val != null) [
               (strings.optionalString cfg.withLoadenv ''
                 function loadenv () {
-                    if [ $# -le 0 ]; then
-                        echo "Usage: loadenv <files> ..." >&2
-                        return 1
+                    if [ $# -eq 0 ]; then
+                        files=".env"
+                    else
+                        files="$@"
                     fi
                     set -o allexport
-                    for file in "$@"; do
+                    for file in $files; do
+                        echo loading env from "$file"
                         source "$file"
                     done
                     set +o allexport
