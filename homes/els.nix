@@ -14,37 +14,34 @@
   home.packages =
     with pkgs;
     [
+      ansible
+      argocd
+      awscli2
+      azure-cli
+      cargo
+      dig
+      fira-code
+      fzf
+      gcc
+      grafanactl
+      jq
       kubectl
+      kubectx
       kubelogin
       kubelogin-oidc
       kubernetes-helm
-      dig
-      sops
-      yq-go
-      jq
-      awscli2
-      gcc
-      cargo
+      nerd-fonts.fira-code
       nodejs
-      uv
-      unzip
-
+      openssh
+      postgresql_17
       python312
       python312Packages.debugpy
-      kubectx
-      fzf
+      sops
       stern
-
-      azure-cli
-      argocd
-      grafanactl
-      postgresql_17
-
-      # fonts
-      fira-code
-      nerd-fonts.fira-code
-      ansible
+      unzip
+      uv
       vault
+      yq-go
     ]
     ++ (with pkgs-unstable; [
       terraform
