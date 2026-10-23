@@ -296,6 +296,8 @@
       lua-language-server
       nixd
       nixfmt
+
+      rtk
     ])
     ++ (with pkgs-lanzaboote; [
       lzbt
