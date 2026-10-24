@@ -215,6 +215,7 @@
       zip
 
       kubernetes
+      talosctl
       krew
       docker-compose
       kubectx
