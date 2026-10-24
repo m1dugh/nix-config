@@ -10,6 +10,9 @@
   midugh.zsh = {
     enable = true;
     useLsd = true;
+    completions.talosctl.command = ''
+      source <(talosctl completion zsh)
+    '';
     extraScripts = [
       ''
         function awsctx() { 
